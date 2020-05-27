@@ -1,13 +1,13 @@
 import React from 'react'
 import {render} from 'react-dom'
-import {Markdown} from "y-markdown";
 import './index.scss';
-import 'y-markdown/lib/index.css';
+import CodeView from "./component/CodeView";
 
 const App = ()=>{
-    return <Markdown>
-    {require('./doc/测试文档.md').default}
-</Markdown>;
+    return <div>
+        <CodeView theme='dark'
+                  source={require('./doc/测试文档.md').default}/>
+    </div>
 };
 
 render(<App/>, document.querySelector('#app'));

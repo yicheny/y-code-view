@@ -41,7 +41,7 @@ module.exports = {
     },
     plugins: [
         new HtmlWebpackPlugin({
-            title: "y-md-work",
+            title: "y-code-view",
             template: './entry/index.html'
         }),
     ]
