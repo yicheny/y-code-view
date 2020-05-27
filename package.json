@@ -41,6 +41,6 @@
     "clsx": "^1.1.0",
     "codemirror": "^5.54.0",
     "lodash": "^4.17.15",
-    "y-markdown": "0.0.1"
+    "y-markdown": "0.0.5"
   }
 }

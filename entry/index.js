@@ -2,6 +2,7 @@ import React from 'react'
 import {render} from 'react-dom'
 import {Markdown} from "y-markdown";
 import './index.scss';
+import 'y-markdown/lib/index.css';
 
 const App = ()=>{
     return <Markdown>
