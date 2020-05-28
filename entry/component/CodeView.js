@@ -1,12 +1,13 @@
 import {useEffect,useRef,useState,useReducer,useMemo} from 'react';
 import clsx from "clsx";
+import copy from 'copy-to-clipboard';
 import 'codemirror/mode/javascript/javascript';
 import 'codemirror/mode/jsx/jsx';
 import 'codemirror/addon/runmode/runmode';
 import {Markdown} from "y-markdown";
 import 'y-markdown/lib/index.css';
 import CodeEditor from "./CodeEditor";
-import {Obj, parseHTML} from "./commonFun";
+import {parseHTML} from "./commonFun";
 
 //通过import引入evel代码时会报错
 const React = require('react');
@@ -14,12 +15,13 @@ const ReactDOM = require('react-dom');
 
 function CodeView(props) {
     const {source,className,theme,babelTransformOptions, dependencies,delay} = props;
+    const [code,setCode] = useState(parseHTML(source).code);
     const [showCode,setShowCode] = useState(props.showCode);
     const [error,setError] = useState(null);
     const [,forceUpdate] = useReducer(x=>x+1,0);
     const initialExample = useRef();
 
-    const { code,beforeHTML, afterHTML } = useMemo(()=>Obj(parseHTML(source)),[source]);
+    const {beforeHTML, afterHTML } = useMemo(()=>parseHTML(source),[source]);
 
     useEffect(()=>{
         const timeId = setTimeout(()=>{
@@ -40,13 +42,13 @@ function CodeView(props) {
                 </div>
                 <div className="toolbar">
                     <span className='btn text' onClick={()=>setShowCode(x=>!x)}>{showCode ? '收缩' : '展开'}</span>
-                    <span className='btn text'>copy</span>
+                    <span className='btn text' onClick={handleCopy}>copy</span>
                 </div>
                 <CodeEditor
                     lineNumbers
                     key="jsx"
                     className={clsx('code-editor',{showCode})}
-                    onChange={executeCode}
+                    onChange={setCode}
                     theme={`base16-${theme}`}
                     code={code}
                 />
@@ -78,6 +80,16 @@ function CodeView(props) {
         } finally {
             ReactDOM.render = originalRender;
             if (!error) forceUpdate();
+        }
+    }
+
+    function handleCopy(){
+        try{
+            copy(code);
+            alert('复制成功！')
+        }catch (e) {
+            alert('复制失败！');
+            console.error('handleCopy执行失败',e);
         }
     }
 }

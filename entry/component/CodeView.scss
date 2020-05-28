@@ -15,7 +15,9 @@
     border-radius: 4px;
     transition: background-color .2s ease-out,border .2s ease-out;
     .code-view-wrap{
-
+      .code-view-error{
+        color:red;
+      }
     }
     .toolbar{
       display: flex;
