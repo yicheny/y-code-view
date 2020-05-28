@@ -35,6 +35,13 @@
   }
 
   .btn {
+    &.text{
+      &:hover,&:focus{
+        color: #40a9ff;
+        background-color: #fff;
+        border-color: #40a9ff;
+      }
+    }
     &.primary {
       color: #fff;
       background-color: #1890ff;

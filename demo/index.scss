@@ -1,4 +1,4 @@
-html,body{
+body{
   margin:0;
   display: flex;
   justify-content: center;
@@ -6,4 +6,8 @@ html,body{
 
 #app{
   width:1200px;
+}
+
+p{
+  margin:6px 0;
 }

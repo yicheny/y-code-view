@@ -31,25 +31,28 @@ function CodeView(props) {
 
     return <div className={clsx('y-code-view',className)}>
         <Markdown>{beforeHTML}</Markdown>
-        <div className="box">
-            <div className="code-view-wrap">
-                <Preview error={error}>
-                    <div>{initialExample.current || <div>Loading...</div>}</div>
-                </Preview>
+        {
+            code && <div className="box">
+                <div className="code-view-wrap">
+                    <Preview error={error}>
+                        <div>{initialExample.current || <div>Loading...</div>}</div>
+                    </Preview>
+                </div>
+                <div className="toolbar">
+                    <span className='btn text' onClick={()=>setShowCode(x=>!x)}>{showCode ? '收缩' : '展开'}</span>
+                    <span className='btn text'>copy</span>
+                </div>
+                <CodeEditor
+                    lineNumbers
+                    key="jsx"
+                    className={clsx('code-editor',{showCode})}
+                    onChange={executeCode}
+                    theme={`base16-${theme}`}
+                    code={code}
+                />
             </div>
-            <div className="toolbar">
-                <span className='btn primary' onClick={()=>setShowCode(x=>!x)}>{showCode ? '收缩' : '展开'}</span>
-            </div>
-            <CodeEditor
-                lineNumbers
-                key="jsx"
-                className={clsx('code-editor',{showCode})}
-                onChange={executeCode}
-                theme={`base16-${theme}`}
-                code={code}
-            />
-        </div>
-        <Markdown>{afterHTML}</Markdown>
+        }
+        {afterHTML && <Markdown>{afterHTML}</Markdown>}
     </div>;
 
     function executeCode(nextCode) {
