@@ -38,9 +38,7 @@ function CodeEditor(props) {
     },[readOnly]);
 
     return <div className='code show'>
-        <textarea ref={textareaRef}
-                  style={{display:'block'}}
-                  defaultValue={_.trim(code)} />
+        <textarea ref={textareaRef} defaultValue={_.trim(code)} />
     </div>
 }
 CodeEditor.defaultProps = {
