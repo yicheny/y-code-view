@@ -2,9 +2,9 @@
   "name": "y-code-view",
   "version": "0.0.1",
   "description": "react code show",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
-    "build": "babel entry --out-dir lib ",
+    "build": "babel entry --out-dir lib && npx node-sass -r entry -o lib --output-style compressed",
     "webpack": "webpack",
     "dev": "webpack-dev-server"
   },
