@@ -9,8 +9,9 @@ function CodeEditor(props) {
     const textareaRef = useRef();
 
     useEffect(()=>{
+        let e = null;
         if (CodeMirror !== undefined) {
-            const e = CodeMirror.fromTextArea(textareaRef.current, {
+            e = CodeMirror.fromTextArea(textareaRef.current, {
                 mode: 'jsx',
                 lineNumbers,
                 lineWrapping,

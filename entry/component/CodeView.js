@@ -37,6 +37,7 @@ function CodeView(props) {
             <CodeEditor
                 lineNumbers
                 key="jsx"
+                onChange={executeCode}
                 theme={`base16-${theme}`}
                 code={code}
             />
@@ -62,7 +63,7 @@ function CodeView(props) {
 
             eval(`${statement} ${code}`);
         } catch (err) {
-            setError(err);
+            setError('y-code-view executeCode出错！');
             console.error('y-code-view executeCode出错！',err);
         } finally {
             ReactDOM.render = originalRender;
