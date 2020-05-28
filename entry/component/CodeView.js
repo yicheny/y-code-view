@@ -7,6 +7,7 @@ import 'codemirror/addon/runmode/runmode';
 import {Markdown} from "y-markdown";
 import 'y-markdown/lib/index.css';
 import CodeEditor from "./CodeEditor";
+import message from './Message';
 import {parseHTML} from "./commonFun";
 
 //通过import引入evel代码时会报错
@@ -86,9 +87,9 @@ function CodeView(props) {
     function handleCopy(){
         try{
             copy(code);
-            alert('复制成功！')
+            message.show({info:'复制成功！',icon:'success'})
         }catch (e) {
-            alert('复制失败！');
+            message.show({info:'复制失败！',icon:'error'});
             console.error('handleCopy执行失败',e);
         }
     }
