@@ -2,22 +2,16 @@ import _ from "lodash";
 
 export function parseHTML(source) {
     if(!_.isString(source)) return;
-    // const findCode = source.match(/<!-+\ ?start-code\ ?-+>([\s\S]+)<!-+\ ?end-code\ ?-+>/gi);
-    const reg = new RegExp(/(```)([\s\S]+)(```)/);
-    const findCode = reg.exec(source)[2];
+    const reg = new RegExp(/([\s\S]+)(```js)([\s\S]+)(```)([\s\S]+)/gi);
+    const reg_res = reg.exec(source);
+    const findCode = reg_res[3];
     if (!findCode) return {beforeHTML: source};
 
     return {
         code:findCode,
-        beforeHTML:source.match(/([\s\S]+)<!-+\ ?start-code\ ?-+>/gi).join(''),
-        afterHTML:source.match(/<!-+\ ?end-code\ ?-+>([\s\S]+)/gi).join(''),
+        beforeHTML:reg_res[1],
+        afterHTML:reg_res[5]
     };
-
-    function addParentDom(x) {
-        const elem = document.createElement('div');
-        elem.innerHTML = x;
-        return elem;
-    }
 }
 
 export function Obj(x,defaultValue={}) {

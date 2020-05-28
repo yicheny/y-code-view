@@ -14,6 +14,7 @@ const ReactDOM = require('react-dom');
 
 function CodeView(props) {
     const {source,className,theme,babelTransformOptions, dependencies,delay} = props;
+    const [showCode,setShowCode] = useState(props.showCode);
     const [error,setError] = useState(null);
     const [,forceUpdate] = useReducer(x=>x+1,0);
     const initialExample = useRef();
@@ -30,13 +31,19 @@ function CodeView(props) {
 
     return <div className={clsx('y-code-view',className)}>
         <Markdown>{beforeHTML}</Markdown>
-        <div className="y-code-view-box">
-            <Preview error={error}>
-                <div>{initialExample.current || <div>Loading...</div>}</div>
-            </Preview>
+        <div className="box">
+            <div className="code-view-wrap">
+                <Preview error={error}>
+                    <div>{initialExample.current || <div>Loading...</div>}</div>
+                </Preview>
+            </div>
+            <div className="toolbar">
+                <span className='btn primary' onClick={()=>setShowCode(x=>!x)}>{showCode ? '收缩' : '展开'}</span>
+            </div>
             <CodeEditor
                 lineNumbers
                 key="jsx"
+                className={clsx('code-editor',{showCode})}
                 onChange={executeCode}
                 theme={`base16-${theme}`}
                 code={code}
@@ -74,6 +81,7 @@ function CodeView(props) {
 CodeView.defaultProps = {
     theme:'light',
     delay:0,
+    showCode:false,
     babelTransformOptions: {
         presets: ['stage-0', 'react', 'es2015']
     }

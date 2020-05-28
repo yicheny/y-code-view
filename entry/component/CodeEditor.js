@@ -3,7 +3,7 @@ import _ from 'lodash';
 import CodeMirror from 'codemirror';
 
 function CodeEditor(props) {
-    const { code,onChange,lineNumbers, lineWrapping, matchBrackets, tabSize, readOnly, theme } = props;
+    const { code,onChange,className,lineNumbers, lineWrapping, matchBrackets, tabSize, readOnly, theme } = props;
     const [editor,setEditor] = useState();
 
     const textareaRef = useRef();
@@ -20,9 +20,7 @@ function CodeEditor(props) {
                 readOnly,
                 theme
             });
-
             setEditor(e);
-
             e.on('change', handleChange);
         }
 
@@ -37,7 +35,7 @@ function CodeEditor(props) {
         if(readOnly) editor.setValue()
     },[readOnly]);
 
-    return <div className='code show'>
+    return <div className={className}>
         <textarea ref={textareaRef} defaultValue={_.trim(code)} />
     </div>
 }

@@ -5,7 +5,7 @@ import CodeView from "./component/CodeView";
 
 const App = ()=>{
     return <div>
-        <CodeView theme='dark'
+        <CodeView theme='dark' showCode
                   source={require('./doc/测试文档.md').default}/>
     </div>
 };
