@@ -1,5 +1,4 @@
-import React,{useEffect,useRef,useState,useReducer,useMemo} from 'react';
-import ReactDOM from 'react-dom';
+import {useEffect,useRef,useState,useReducer,useMemo} from 'react';
 import clsx from "clsx";
 import 'codemirror/mode/javascript/javascript';
 import 'codemirror/mode/jsx/jsx';
@@ -8,6 +7,10 @@ import {Markdown} from "y-markdown";
 import 'y-markdown/lib/index.css';
 import CodeEditor from "./CodeEditor";
 import {Obj, parseHTML} from "./commonFun";
+
+//通过import引入evel代码时会报错
+const React = require('react');
+const ReactDOM = require('react-dom');
 
 function CodeView(props) {
     const {source,className,theme,babelTransformOptions, dependencies,delay} = props;
@@ -28,7 +31,7 @@ function CodeView(props) {
     return <div className={clsx('y-code-view',className)}>
         <Markdown>{beforeHTML}</Markdown>
         <div className="y-code-view-box">
-            <Preview hasError={!error} errorMessage={error}>
+            <Preview error={error}>
                 <div>{initialExample.current || <div>Loading...</div>}</div>
             </Preview>
             <CodeEditor
@@ -78,8 +81,8 @@ CodeView.defaultProps = {
 export default CodeView;
 
 function Preview(props) {
-    const {children,hasError,errorMessage} = props;
+    const {children,error} = props;
 
-    if (hasError) return <pre className="code-view-error">{errorMessage}</pre>;
+    if (error) return <pre className="code-view-error">{error}</pre>;
     return <div className="code-view">{children}</div>;
 }
