@@ -19,6 +19,7 @@ function CodeView(props) {
     const [code,setCode] = useState(parseHTML(source).code);
     const [showCode,setShowCode] = useState(props.showCode);
     const [error,setError] = useState(null);
+    const [editorKey,setEditorKey] = useState(0);
     const [,forceUpdate] = useReducer(x=>x+1,0);
     const initialExample = useRef();
 
@@ -42,12 +43,13 @@ function CodeView(props) {
                     </Preview>
                 </div>
                 <div className="toolbar">
-                    <span className='btn text' onClick={()=>setShowCode(x=>!x)}>{showCode ? '收缩' : '展开'}</span>
+                    <span className='btn text' onClick={()=>setShowCode(x=>!x)}>expand</span>
                     <span className='btn text' onClick={handleCopy}>copy</span>
+                    <span className='btn text' onClick={handleReset}>reset</span>
                 </div>
                 <CodeEditor
                     lineNumbers
-                    key="jsx"
+                    key={editorKey}
                     className={clsx('code-editor',{showCode})}
                     onChange={setCode}
                     theme={`base16-${theme}`}
@@ -92,6 +94,11 @@ function CodeView(props) {
             message.show({info:'复制失败！',icon:'error'});
             console.error('handleCopy执行失败',e);
         }
+    }
+
+    function handleReset(){
+        setEditorKey(x=>++x);
+        setCode(parseHTML(props.source).code)
     }
 }
 CodeView.defaultProps = {

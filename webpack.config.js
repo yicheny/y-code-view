@@ -39,7 +39,7 @@ module.exports = {
         contentBase:"./dist",
         // host:'127.0.0.1',
         host:'0.0.0.0',
-        port:3031,
+        port:3032,
     },
     plugins: [
         new HtmlWebpackPlugin({

@@ -32,7 +32,7 @@ function CodeEditor(props) {
     },[]);
 
     useEffect(()=>{
-        if(readOnly) editor.setValue()
+        if(readOnly) editor.setValue();
     },[readOnly]);
 
     return <div className={className}>
