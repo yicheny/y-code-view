@@ -2,12 +2,12 @@ import _ from "lodash";
 
 export function parseHTML(source) {
     if(!_.isString(source)) return {};
-    const findCode = _.get(new RegExp(/(```js)([\s\S]+)(```)/gi).exec(source),'2');
-    if (!findCode) return {beforeHTML: source,};
+    const code  = _.get(new RegExp(/<!--start-code-->\s*(```js)([\s\S]+)(```)\s*<!--end-code-->/gi).exec(source),'2');
+    if (!code) return {beforeHTML: source,};
 
     return {
-        code:findCode,
-        beforeHTML:_.get(new RegExp(/([\s\S]+)(```js)([\s\S]+)(```)/gi).exec(source),'1',''),
-        afterHTML:_.get(new RegExp(/(```js)([\s\S]+)(```)([\s\S]+)/gi).exec(source),'4','')
+        code,
+        beforeHTML:_.get(new RegExp(/([\s\S]+)<!--start-code-->\s*(```js)([\s\S]+)(```)\s*<!--end-code-->/gi).exec(source),'1',''),
+        afterHTML:_.get(new RegExp(/<!--start-code-->\s*(```js)([\s\S]+)(```)\s*<!--end-code-->([\s\S]+)/gi).exec(source),'4','')
     };
 }
