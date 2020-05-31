@@ -1,4 +1,4 @@
-import {useEffect,useRef,useState,useReducer,useMemo} from 'react';
+import {useEffect, useRef, useState, useReducer, useMemo, Fragment} from 'react';
 import clsx from "clsx";
 import copy from 'copy-to-clipboard';
 import 'codemirror/mode/javascript/javascript';
@@ -61,8 +61,8 @@ function CodeView(props) {
     </div>;
 
     function executeCode(nextCode) {
-        const originalRender = ReactDOM.render;
         setError(null);
+        const originalRender = ReactDOM.render;
         ReactDOM.render = element => {
             initialExample.current = element;
         };
@@ -77,12 +77,11 @@ function CodeView(props) {
             }
 
             eval(`${statement} ${code}`);
+            ReactDOM.render = originalRender;
+            forceUpdate();
         } catch (err) {
             setError('y-code-view executeCode出错！');
             console.error('y-code-view executeCode出错！',err);
-        } finally {
-            ReactDOM.render = originalRender;
-            if (!error) forceUpdate();
         }
     }
 
