@@ -97,6 +97,7 @@ function CodeView(props) {
     }
 
     function handleReset(){
+        if(_.isEqual(code, parseHTML(props.source).code)) return;
         setEditorKey(x=>++x);
         setCode(parseHTML(props.source).code)
     }
