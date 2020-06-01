@@ -77,18 +77,19 @@ function CodeView(props) {
             }
 
             eval(`${statement} ${code}`);
-            ReactDOM.render = originalRender;
             forceUpdate();
         } catch (err) {
             setError('y-code-view executeCode出错！');
             console.error('y-code-view executeCode出错！',err);
+        } finally {
+            ReactDOM.render = originalRender;
         }
     }
 
     function handleCopy(){
         try{
             copy(code);
-            message.show({info:'复制成功！',icon:'success'})
+            message.show({info:'复制成功！',icon:'success'});
         }catch (e) {
             message.show({info:'复制失败！',icon:'error'});
             console.error('handleCopy执行失败',e);
