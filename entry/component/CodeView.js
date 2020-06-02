@@ -14,8 +14,18 @@ import {parseHTML} from "./commonFun";
 const React = require('react');
 const ReactDOM = require('react-dom');
 
+function typeFor(value) {
+    let dataType = Object.prototype.toString.call(value);
+    dataType = dataType.slice(8, dataType.length - 1);
+    return dataType;
+}
+
 function CodeView(props) {
-    const {source,className,theme,babelTransformOptions, dependencies,delay} = props;
+    const {className,theme,babelTransformOptions, dependencies,delay} = props;
+    const source = useMemo(()=>{
+        const res = props.source || props.children;
+        return _.get(res,'default',res);
+    },[props.source,props.children]);
     const [code,setCode] = useState(parseHTML(source).code);
     const [showCode,setShowCode] = useState(props.showCode);
     const [error,setError] = useState(null);
@@ -97,9 +107,9 @@ function CodeView(props) {
     }
 
     function handleReset(){
-        if(_.isEqual(code, parseHTML(props.source).code)) return;
+        if(_.isEqual(code, parseHTML(source).code)) return;
         setEditorKey(x=>++x);
-        setCode(parseHTML(props.source).code)
+        setCode(parseHTML(source).code)
     }
 }
 CodeView.defaultProps = {
