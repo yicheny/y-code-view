@@ -46,13 +46,13 @@ function CodeView(props) {
     return <div className={clsx('y-code-view',className)}>
         <Markdown>{beforeHTML}</Markdown>
         {
-            code && <div className="box">
-                <div className="code-view-wrap">
+            code && <div className="y-code-view-box">
+                <div className="y-code-view-wrap">
                     <Preview error={error}>
                         <div>{initialExample.current || <div>Loading...</div>}</div>
                     </Preview>
                 </div>
-                <div className="toolbar">
+                <div className="y-code-view-toolbar">
                     <span className='btn text' onClick={()=>setShowCode(x=>!x)}>expand</span>
                     <span className='btn text' onClick={handleCopy}>copy</span>
                     <span className='btn text' onClick={handleReset}>reset</span>
