@@ -27,12 +27,8 @@
       transition: background-color .2s ease-out,border .2s ease-out;
     }
     .code-editor {
-      height: 0;
       overflow: hidden;
-
-      &.showCode {
-        height: auto;
-      }
+      transition: height 0.35s ease;
     }
   }
 

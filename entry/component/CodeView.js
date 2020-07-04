@@ -1,4 +1,4 @@
-import {useEffect, useRef, useState, useReducer, useMemo, Fragment} from 'react';
+import {useEffect, useRef, useState, useReducer, useMemo} from 'react';
 import clsx from "clsx";
 import copy from 'copy-to-clipboard';
 import 'codemirror/mode/javascript/javascript';
@@ -13,12 +13,6 @@ import {parseHTML} from "./commonFun";
 //通过import引入evel代码时会报错
 const React = require('react');
 const ReactDOM = require('react-dom');
-
-function typeFor(value) {
-    let dataType = Object.prototype.toString.call(value);
-    dataType = dataType.slice(8, dataType.length - 1);
-    return dataType;
-}
 
 function CodeView(props) {
     const {className,theme,babelTransformOptions, dependencies,delay} = props;
@@ -60,7 +54,8 @@ function CodeView(props) {
                 <CodeEditor
                     lineNumbers
                     key={editorKey}
-                    className={clsx('code-editor',{showCode})}
+                    className={'code-editor'}
+                    expanded={showCode}
                     onChange={setCode}
                     theme={`base16-${theme}`}
                     code={code}

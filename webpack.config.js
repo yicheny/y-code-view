@@ -1,5 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin  = require("html-webpack-plugin");
+const {CleanWebpackPlugin} = require("clean-webpack-plugin");
 
 const { NODE_ENV } = process.env;
 
@@ -46,5 +47,6 @@ module.exports = {
             title: "y-code-view",
             template: './demo/index.html'
         }),
+        new CleanWebpackPlugin()
     ]
 };
