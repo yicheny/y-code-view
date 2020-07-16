@@ -10,21 +10,22 @@
     z-index:100;
     background: transparent;
   }
-  margin:6px 0;
+  width: fit-content;
+  margin:7px 0;
 
   .notice{
     display: flex;
     align-items: center;
-    font-size: 16px;
-    padding:8px 12px;
+    font-size: 14px;
+    padding:8px 16px;
     background: #fff;
     border-radius: 4px;
-    box-shadow: 0 0 4px 0 gray;
+    box-shadow: 0 4px 16px 0 rgba(0,0,0,0.16);
     transform: translateY(0%);
-    opacity: 0;
     user-select: none;
     .iconfont{
-      padding:0 8px;
+      padding-right:8px;
+      margin-bottom:-2px;
       &.icon-success{
         color:#52c41a;
       }
