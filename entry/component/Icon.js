@@ -11,7 +11,7 @@ function Icon(props) {
 }
 Icon.defaultProps={
     name:'',
-    size:20,
+    size:16,
     style:{},
     className:'',
 };

@@ -41,10 +41,12 @@
     "y-ui0": "0.0.9"
   },
   "dependencies": {
+    "@popperjs/core": "^2.4.4",
     "clsx": "^1.1.0",
     "codemirror": "^5.54.0",
     "copy-to-clipboard": "^3.3.1",
     "lodash": "^4.17.15",
-    "y-markdown": "0.0.10"
+    "y-markdown": "0.0.10",
+    "react-popper": "^2.2.3"
   }
 }

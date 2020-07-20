@@ -10,6 +10,7 @@ import CodeEditor from "./CodeEditor";
 import message from './Message';
 import {parseHTML} from "./commonFun";
 import Icon from "./Icon";
+import Tooltip from "./Tooltip";
 
 //通过import引入evel代码时会报错
 const React = require('react');
@@ -49,15 +50,17 @@ function CodeView(props) {
                 </div>
 
                 <div className="y-code-view-toolbar">
-                    <span className='btn text' onClick={()=>setShowCode(x=>!x)}>
+                    <Tooltip onClick={()=>setShowCode(x=>!x)}  title={showCode ? '收起代码' : '显示代码'}>
                         <Icon name='crossUnfold'/>
-                    </span>
-                    <span className='btn text' onClick={handleCopy}>
+                    </Tooltip>
+
+                    <Tooltip onClick={handleCopy}  title='复制代码'>
                         <Icon name='copy'/>
-                    </span>
-                    <span className='btn text' onClick={handleReset}>
+                    </Tooltip>
+
+                    <Tooltip onClick={handleReset}  title='重置代码'>
                         <Icon name='revoke'/>
-                    </span>
+                    </Tooltip>
                 </div>
 
                 <CodeEditor

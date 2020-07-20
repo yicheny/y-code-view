@@ -1,0 +1,57 @@
+.y-tooltip-wrapper{
+  cursor: pointer;
+}
+
+.y-tooltip {
+  &[data-popper-placement^='top'] {
+    .y-tooltip-arrow {
+      bottom: -3px;
+    }
+  }
+
+  &[data-popper-placement^='right'] {
+    .y-tooltip-arrow {
+      left: -3px;
+    }
+  }
+
+  &[data-popper-placement^='bottom'] {
+    .y-tooltip-arrow {
+      top: -3px;
+    }
+  }
+
+  &[data-popper-placement^='left'] {
+    .y-tooltip-arrow {
+      right: -3px;
+    }
+  }
+
+
+  background-color: rgba(0,0,0,.75);
+  padding: 6px 8px;
+  border-radius: 2px;
+  z-index: 100;
+  max-width: 800px;
+  min-width: 20px;
+  min-height: 10px;
+  box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.45);
+  color:#fff;
+  font-size: 14px;
+
+  &-arrow {
+    &:before {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      content: '';
+      transform: rotate(45deg);
+      background-color: rgba(0,0,0,.75);
+    }
+
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    z-index: -1;
+  }
+}
