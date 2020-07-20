@@ -7,6 +7,7 @@ import 'y-ui0/lib/style.css';
 import '../entry/index.scss';
 import './index.scss';
 
+// CodeView.GLOBAL_ERROR_EVENT_FLAG = true;
 const App = ()=>{
     return <div>
         <Card title='原生代码演示'>

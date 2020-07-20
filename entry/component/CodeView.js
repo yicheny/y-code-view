@@ -17,7 +17,7 @@ const React = require('react');
 const ReactDOM = require('react-dom');
 
 function CodeView(props) {
-    const {className,theme,babelTransformOptions, dependencies,delay} = props;
+    const {className,theme,babelTransformOptions,dependencies,delay} = props;
     const source = useMemo(()=>{
         const res = props.source || props.children;
         return _.get(res,'default',res);
@@ -38,6 +38,25 @@ function CodeView(props) {
 
         return ()=>clearTimeout(timeId);
     },[code,delay]);
+
+    useEffect(()=>{
+        if(!CodeView.GLOBAL_ERROR_EVENT_FLAG){
+            window.addEventListener('error',alertError)
+            CodeView.GLOBAL_ERROR_EVENT_FLAG = true;
+        }
+
+        return ()=>{
+            window.removeEventListener('error',alertError)
+        }
+
+        function alertError(e) {
+            // console.log(e);
+            const errorInfo = ''.concat(e.filename,'\nLine ',e.lineno,'\n',e.message);
+            const prompt = '请注意不要编写含语法错误的代码，会导致页面崩溃，try-catch无法捕获全局性的语法错误，提示之后会立刻reload页面'
+            alert(errorInfo.concat('\n',prompt));
+            window.location.reload();
+        }
+    },[])
 
     return <div className={clsx('y-code-view',className)}>
         <Markdown>{beforeHTML}</Markdown>
@@ -86,7 +105,6 @@ function CodeView(props) {
         try {
             let code = window.Babel.transform(nextCode, babelTransformOptions).code;
             let statement = '';
-
             if (dependencies) {
                 Object.keys(dependencies).forEach(key => {
                     statement += `var ${key}= dependencies.${key};\n `;
@@ -129,6 +147,7 @@ CodeView.defaultProps = {
         presets: ['stage-0', 'react', 'es2015']
     }
 };
+CodeView.GLOBAL_ERROR_EVENT_FLAG = false;
 
 export default CodeView;
 
