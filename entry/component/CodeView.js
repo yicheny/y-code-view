@@ -9,6 +9,7 @@ import 'y-markdown/lib/index.css';
 import CodeEditor from "./CodeEditor";
 import message from './Message';
 import {parseHTML} from "./commonFun";
+import Icon from "./Icon";
 
 //通过import引入evel代码时会报错
 const React = require('react');
@@ -46,11 +47,19 @@ function CodeView(props) {
                         <div>{initialExample.current || <div>Loading...</div>}</div>
                     </Preview>
                 </div>
+
                 <div className="y-code-view-toolbar">
-                    <span className='btn text' onClick={()=>setShowCode(x=>!x)}>expand</span>
-                    <span className='btn text' onClick={handleCopy}>copy</span>
-                    <span className='btn text' onClick={handleReset}>reset</span>
+                    <span className='btn text' onClick={()=>setShowCode(x=>!x)}>
+                        <Icon name='crossUnfold'/>
+                    </span>
+                    <span className='btn text' onClick={handleCopy}>
+                        <Icon name='copy'/>
+                    </span>
+                    <span className='btn text' onClick={handleReset}>
+                        <Icon name='revoke'/>
+                    </span>
                 </div>
+
                 <CodeEditor
                     lineNumbers
                     key={editorKey}
@@ -102,9 +111,11 @@ function CodeView(props) {
     }
 
     function handleReset(){
-        if(_.isEqual(code, parseHTML(source).code)) return;
+        let sourceCode = parseHTML(source).code;
+        if(sourceCode===code) sourceCode = sourceCode.concat(' ');//
+        setCode(sourceCode)
         setEditorKey(x=>++x);
-        setCode(parseHTML(source).code)
+        message.show({info:'已将代码重置会初始状态',icon:'success'})
     }
 }
 CodeView.defaultProps = {
