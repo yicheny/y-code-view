@@ -8,7 +8,7 @@ import {Markdown} from "y-markdown";
 import 'y-markdown/lib/index.css';
 import CodeEditor from "./CodeEditor";
 import message from './Message';
-import {parseHTML} from "./commonFun";
+import parseHTML from "../utils/parseHTML";
 import Icon from "./Icon";
 import Tooltip from "./Tooltip";
 
@@ -141,7 +141,7 @@ function CodeView(props) {
 }
 CodeView.defaultProps = {
     theme:'light',
-    delay:0,
+    delay:300,
     showCode:false,
     babelTransformOptions: {
         presets: ['stage-0', 'react', 'es2015']
