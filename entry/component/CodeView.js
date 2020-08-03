@@ -1,4 +1,4 @@
-import {useEffect, useRef, useState, useReducer, useMemo} from 'react';
+import {useEffect, useMemo, useReducer, useRef, useState} from 'react';
 import clsx from "clsx";
 import copy from 'copy-to-clipboard';
 import 'codemirror/mode/javascript/javascript';
@@ -11,6 +11,7 @@ import message from './Message';
 import parseHTML from "../utils/parseHTML";
 import Icon from "./Icon";
 import Tooltip from "./Tooltip";
+import WithErrorBoundary from "./ErrorBoundary";
 
 //通过import引入evel代码时会报错
 const React = require('react');
@@ -24,12 +25,12 @@ function CodeView(props) {
     },[props.source,props.children]);
     const [code,setCode] = useState(parseHTML(source).code);
     const [showCode,setShowCode] = useState(props.showCode);
-    const [error,setError] = useState(null);
+    const [error,setError] = useState(error);
     const [editorKey,setEditorKey] = useState(0);
     const [,forceUpdate] = useReducer(x=>x+1,0);
     const initialExample = useRef();
 
-    const {beforeHTML, afterHTML } = useMemo(()=>parseHTML(source),[source]);
+    const { beforeHTML, afterHTML } = useMemo(()=>parseHTML(source),[source]);
 
     useEffect(()=>{
         const timeId = setTimeout(()=>{
@@ -38,25 +39,6 @@ function CodeView(props) {
 
         return ()=>clearTimeout(timeId);
     },[code,delay]);
-
-    useEffect(()=>{
-        if(!CodeView.GLOBAL_ERROR_EVENT_FLAG){
-            window.addEventListener('error',alertError)
-            CodeView.GLOBAL_ERROR_EVENT_FLAG = true;
-        }
-
-        return ()=>{
-            window.removeEventListener('error',alertError)
-        }
-
-        function alertError(e) {
-            // console.log(e);
-            const errorInfo = ''.concat(e.filename,'\nLine ',e.lineno,'\n',e.message);
-            const prompt = '请注意不要编写含语法错误的代码，会导致页面崩溃，try-catch无法捕获全局性的语法错误，提示之后会立刻reload页面'
-            alert(errorInfo.concat('\n',prompt));
-            window.location.reload();
-        }
-    },[])
 
     return <div className={clsx('y-code-view',className)}>
         <Markdown>{beforeHTML}</Markdown>
@@ -104,7 +86,7 @@ function CodeView(props) {
         };
         try {
             let code = window.Babel.transform(nextCode, babelTransformOptions).code;
-            let statement = '';
+            let statement = ``;
             if (dependencies) {
                 Object.keys(dependencies).forEach(key => {
                     statement += `var ${key}= dependencies.${key};\n `;
@@ -133,23 +115,22 @@ function CodeView(props) {
 
     function handleReset(){
         let sourceCode = parseHTML(source).code;
-        if(sourceCode===code) sourceCode = sourceCode.concat(' ');//
+        if(sourceCode===code) sourceCode = sourceCode.concat(' ');
         setCode(sourceCode)
         setEditorKey(x=>++x);
-        message.show({info:'已将代码重置会初始状态',icon:'success'})
+        message.show({info:'已将代码重置回初始状态',icon:'success'})
     }
 }
 CodeView.defaultProps = {
     theme:'light',
-    delay:300,
+    delay:600,
     showCode:false,
     babelTransformOptions: {
         presets: ['stage-0', 'react', 'es2015']
     }
 };
-CodeView.GLOBAL_ERROR_EVENT_FLAG = false;
 
-export default CodeView;
+export default WithErrorBoundary(CodeView);
 
 function Preview(props) {
     const {children,error} = props;

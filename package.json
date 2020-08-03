@@ -1,6 +1,6 @@
 {
   "name": "y-code-view",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "react code show",
   "main": "lib/index.js",
   "scripts": {
@@ -46,7 +46,7 @@
     "codemirror": "^5.54.0",
     "copy-to-clipboard": "^3.3.1",
     "lodash": "^4.17.15",
-    "y-markdown": "0.0.10",
-    "react-popper": "^2.2.3"
+    "react-popper": "^2.2.3",
+    "y-markdown": "0.0.10"
   }
 }

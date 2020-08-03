@@ -7,14 +7,13 @@ import 'y-ui0/lib/style.css';
 import '../entry/index.scss';
 import './index.scss';
 
-// CodeView.GLOBAL_ERROR_EVENT_FLAG = true;
 const App = ()=>{
     return <div>
         <Card title='原生代码演示'>
             <CodeView theme='dark' showCode  dependencies={{useState}}>{require('./原生演示文档.md')}</CodeView>
         </Card>
         <Card title='Modal-弹出框'>
-            <CodeView source={require('./y-ui0演示文档.md').default} dependencies={{Button,Modal,React,useState}}/>
+            <CodeView source={require('./y-ui0演示文档.md').default} dependencies={{Button,Modal,useState}}/>
         </Card>
     </div>
 };

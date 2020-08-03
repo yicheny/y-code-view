@@ -38,8 +38,7 @@ module.exports = {
     },
     devServer:{
         contentBase:"./dist",
-        // host:'127.0.0.1',
-        host:'0.0.0.0',
+        host:getIPAddress(),
         port:3032,
     },
     plugins: [
@@ -47,6 +46,20 @@ module.exports = {
             title: "y-code-view",
             template: './demo/index.html'
         }),
-        new CleanWebpackPlugin()
+        new CleanWebpackPlugin(),
     ]
 };
+
+//
+function getIPAddress(){
+    const interfaces = require('os').networkInterfaces();
+    for(const devName in interfaces){
+        const iface = interfaces[devName];
+        for(let i=0;i<iface.length;i++){
+            const alias = iface[i];
+            if(alias.family === 'IPv4' && alias.address !== '127.0.0.1' && !alias.internal){
+                return alias.address;
+            }
+        }
+    }
+}
