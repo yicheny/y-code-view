@@ -24,7 +24,7 @@ iframeDoc.src = 'data:text/html;charset=utf-8,' + encodeURI(`<script>${code}</sc
 > 注：不使用`iframe`，直接注入`document`也是可行的，不过一般不这么做 <br/>
 > 这个方案是很多在线编译器例如CodePen、JsBin、JsFiddle……的选择，除了注入js脚本，也方便注入html、css
 ```js
-const iframeDoc = document.querySelector(`${iframe.id}`);
+const iframeDoc = document.querySelector(`#${iframe.id}`);
 const idocument = iframeDoc.contentDocument;
 const el = idocument.createElement('script');
 el.text = code;

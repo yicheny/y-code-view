@@ -24,3 +24,10 @@ function WithErrorBoundary(WrapComponent){
     }
 }
 export default WithErrorBoundary;
+
+// function Preview(props) {
+//     const {children,error} = props;
+//
+//     if (error) return <pre className="code-view-error">{error}</pre>;
+//     return <div className="code-view">{children}</div>;
+// }

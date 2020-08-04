@@ -32,22 +32,18 @@ function CodeView(props) {
 
     const { beforeHTML, afterHTML } = useMemo(()=>parseHTML(source),[source]);
 
-    useEffect(()=>{
-        const timeId = setTimeout(()=>{
-            executeCode(code)
-        },delay);
-
-        return ()=>clearTimeout(timeId);
-    },[code,delay]);
-
     return <div className={clsx('y-code-view',className)}>
         <Markdown>{beforeHTML}</Markdown>
         {
             code && <div className="y-code-view-box">
                 <div className="y-code-view-wrap">
-                    <Preview error={error}>
-                        <div>{initialExample.current || <div>Loading...</div>}</div>
-                    </Preview>
+                    <ExecutorCode {...props}
+                                  error={error}
+                                  forceUpdate={forceUpdate}
+                                  code={code}
+                                  setCode={setCode}
+                                  setError={setError}
+                                  initialExample={initialExample}/>
                 </div>
 
                 <div className="y-code-view-toolbar">
@@ -76,32 +72,7 @@ function CodeView(props) {
             </div>
         }
         {afterHTML && <Markdown>{afterHTML}</Markdown>}
-    </div>;
-
-    function executeCode(nextCode) {
-        setError(null);
-        const originalRender = ReactDOM.render;
-        ReactDOM.render = element => {
-            initialExample.current = element;
-        };
-        try {
-            let code = window.Babel.transform(nextCode, babelTransformOptions).code;
-            let statement = ``;
-            if (dependencies) {
-                Object.keys(dependencies).forEach(key => {
-                    statement += `var ${key}= dependencies.${key};\n `;
-                });
-            }
-
-            eval(`${statement} ${code}`);
-            forceUpdate();
-        } catch (err) {
-            setError('y-code-view executeCode出错！');
-            console.error('y-code-view executeCode出错！',err);
-        } finally {
-            ReactDOM.render = originalRender;
-        }
-    }
+    </div>
 
     function handleCopy(){
         try{
@@ -132,9 +103,43 @@ CodeView.defaultProps = {
 
 export default WithErrorBoundary(CodeView);
 
-function Preview(props) {
-    const {children,error} = props;
+function ExecutorCode(props){
+    const {setError,initialExample,babelTransformOptions,code,delay,dependencies,forceUpdate,error} = props;
+
+    useEffect(()=>{
+        const timeId = setTimeout(()=>{
+            executeCode(code)
+        },delay);
+
+        return ()=>clearTimeout(timeId);
+    },[code,delay]);
+
 
     if (error) return <pre className="code-view-error">{error}</pre>;
-    return <div className="code-view">{children}</div>;
+    return <div className="code-view">{initialExample.current || <div>Loading...</div>}</div>
+
+    function executeCode(nextCode) {
+        setError(null);
+        const originalRender = ReactDOM.render;
+        ReactDOM.render = element => {
+            initialExample.current = element;
+        };
+        try {
+            let code = window.Babel.transform(nextCode, babelTransformOptions).code;
+            let statement = ``;
+            if (dependencies) {
+                Object.keys(dependencies).forEach(key => {
+                    statement += `var ${key}= dependencies.${key};\n `;
+                });
+            }
+
+            eval(`${statement} ${code}`);
+            forceUpdate();
+        } catch (err) {
+            setError(_.toString(err));
+            // console.error('y-code-view executeCode出错！',err);
+        } finally {
+            ReactDOM.render = originalRender;
+        }
+    }
 }
