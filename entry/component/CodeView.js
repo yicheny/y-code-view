@@ -66,7 +66,7 @@ function CodeView(props) {
                     className={'code-editor'}
                     expanded={showCode}
                     onChange={setCode}
-                    theme={`base16-${theme}`}
+                    theme={theme}
                     code={code}
                 />
             </div>
@@ -89,11 +89,11 @@ function CodeView(props) {
         if(sourceCode===code) sourceCode = sourceCode.concat(' ');
         setCode(sourceCode)
         setEditorKey(x=>++x);
-        message.show({info:'已将代码重置回初始状态',icon:'success'})
+        message.show({info:`已将代码重置回初始状态`,icon:'success'})
     }
 }
 CodeView.defaultProps = {
-    theme:'light',
+    theme:'panda-syntax',
     delay:600,
     showCode:false,
     babelTransformOptions: {

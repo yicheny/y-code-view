@@ -18,3 +18,9 @@ TOC
 - `<CodeView source={require('./doc')/>`
 - `<CodeView>require('./doc').default</CodeView>`
 - `<CodeView>require('./doc')</CodeView>`
+
+# 可以使用的主题
+- `lucario`
+- `neo`
+- `panda-syntax`
+- `ttcn`

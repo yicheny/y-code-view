@@ -69,7 +69,6 @@ function CodeEditor(props) {
 CodeEditor.defaultProps = {
     matchBrackets: true,
     tabSize: 2,
-    theme: 'default',
     expanded:false
 };
 
