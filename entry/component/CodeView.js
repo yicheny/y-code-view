@@ -29,36 +29,39 @@ function CodeView(props) {
     const [editorKey, setEditorKey] = useState(0);
     const [, forceUpdate] = useReducer(x => x + 1, 0);
 
-    const { beforeHTML, afterHTML } = useMemo(() => parseHTML(source), [source]);
+    const { beforeHTML, afterHTML, code: sourceCode } = useMemo(() => parseHTML(source), [source]);
+
 
     return <div className={ clsx('y-code-view', className) }>
         <Markdown>{ beforeHTML }</Markdown>
-        <div className="y-code-view-box">
-            <ExecutorCode { ...props }
-                          error={ error }
-                          forceUpdate={ forceUpdate }
-                          code={ code }
-                          setCode={ setCode }
-                          setError={ setError }/>
+        {
+            sourceCode && <div className="y-code-view-box">
+                <ExecutorCode { ...props }
+                              error={ error }
+                              forceUpdate={ forceUpdate }
+                              code={ code }
+                              setCode={ setCode }
+                              setError={ setError }/>
 
-            <CodeViewToolbar
-                code={ code }
-                source={ source }
-                setCode={ setCode }
-                setEditorKey={ setEditorKey }
-                showCode={ showCode }
-                setShowCode={ setShowCode }/>
+                <CodeViewToolbar
+                    code={ code }
+                    source={ source }
+                    setCode={ setCode }
+                    setEditorKey={ setEditorKey }
+                    showCode={ showCode }
+                    setShowCode={ setShowCode }/>
 
-            <CodeEditor
-                lineNumbers
-                key={ editorKey }
-                className={ 'code-editor' }
-                expanded={ showCode }
-                onChange={ setCode }
-                theme={ theme }
-                code={ code }
-            />
-        </div>
+                <CodeEditor
+                    lineNumbers
+                    key={ editorKey }
+                    className={ 'code-editor' }
+                    expanded={ showCode }
+                    onChange={ setCode }
+                    theme={ theme }
+                    code={ code }
+                />
+            </div>
+        }
         { afterHTML && <Markdown>{ afterHTML }</Markdown> }
     </div>
 }
