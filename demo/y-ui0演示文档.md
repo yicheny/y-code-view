@@ -2,7 +2,7 @@
 
 <!--start-code-->
 
-```js
+```jsx
 function ModalView(props) {
     const [show,setShow] = useState(false);
     const [move,setMove] = useState(false);

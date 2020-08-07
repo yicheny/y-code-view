@@ -18,7 +18,7 @@ const React = require('react');
 const ReactDOM = require('react-dom');
 
 function CodeView(props) {
-    const {className,theme,babelTransformOptions,dependencies,delay} = props;
+    const {className,theme} = props;
     const source = useMemo(()=>{
         const res = props.source || props.children;
         return _.get(res,'default',res);
@@ -28,7 +28,6 @@ function CodeView(props) {
     const [error,setError] = useState(error);
     const [editorKey,setEditorKey] = useState(0);
     const [,forceUpdate] = useReducer(x=>x+1,0);
-    const initialExample = useRef();
 
     const { beforeHTML, afterHTML } = useMemo(()=>parseHTML(source),[source]);
 
@@ -42,8 +41,7 @@ function CodeView(props) {
                                   forceUpdate={forceUpdate}
                                   code={code}
                                   setCode={setCode}
-                                  setError={setError}
-                                  initialExample={initialExample}/>
+                                  setError={setError}/>
                 </div>
 
                 <div className="y-code-view-toolbar">
@@ -104,7 +102,8 @@ CodeView.defaultProps = {
 export default WithErrorBoundary(CodeView);
 
 function ExecutorCode(props){
-    const {setError,initialExample,babelTransformOptions,code,delay,dependencies,forceUpdate,error} = props;
+    const {setError,babelTransformOptions,code,delay,dependencies,forceUpdate,error} = props;
+    const initialExample = useRef();
 
     useEffect(()=>{
         const timeId = setTimeout(()=>{
@@ -137,7 +136,6 @@ function ExecutorCode(props){
             forceUpdate();
         } catch (err) {
             setError(_.toString(err));
-            // console.error('y-code-view executeCode出错！',err);
         } finally {
             ReactDOM.render = originalRender;
         }

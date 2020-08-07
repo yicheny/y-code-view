@@ -11,7 +11,7 @@ function WithErrorBoundary(WrapComponent){
         }
 
         static getDerivedStateFromError(error) {
-            alert('报错信息：'.concat(error))
+            alert('报错信息：'.concat(error));
         }
 
         // componentDidCatch(error, errorInfo) {
@@ -24,10 +24,3 @@ function WithErrorBoundary(WrapComponent){
     }
 }
 export default WithErrorBoundary;
-
-// function Preview(props) {
-//     const {children,error} = props;
-//
-//     if (error) return <pre className="code-view-error">{error}</pre>;
-//     return <div className="code-view">{children}</div>;
-// }

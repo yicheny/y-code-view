@@ -2,7 +2,7 @@ import _ from "lodash";
 
 export default function parseHTML(source) {
     if(!_.isString(source)) return {};
-    const code  = _.get(new RegExp(/<!--start-code-->\s*(```js)([\s\S]+)(```)\s*<!--end-code-->/gi).exec(source),'2');
+    const code  = _.get(new RegExp(/<!--start-code-->\s*(```jsx?)([\s\S]+)(```)\s*<!--end-code-->/gi).exec(source),'2');
     if (!code) return {beforeHTML: source,};
 
     return {
