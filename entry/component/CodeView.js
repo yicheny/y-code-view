@@ -33,62 +33,34 @@ function CodeView(props) {
 
     return <div className={clsx('y-code-view',className)}>
         <Markdown>{beforeHTML}</Markdown>
-        {
-            code && <div className="y-code-view-box">
-                <div className="y-code-view-wrap">
-                    <ExecutorCode {...props}
-                                  error={error}
-                                  forceUpdate={forceUpdate}
-                                  code={code}
-                                  setCode={setCode}
-                                  setError={setError}/>
-                </div>
+        <div className="y-code-view-box">
+            <ExecutorCode {...props}
+                          error={error}
+                          forceUpdate={forceUpdate}
+                          code={code}
+                          setCode={setCode}
+                          setError={setError}/>
 
-                <div className="y-code-view-toolbar">
-                    <Tooltip onClick={()=>setShowCode(x=>!x)}  title={showCode ? '收起代码' : '显示代码'}>
-                        <Icon name='crossUnfold'/>
-                    </Tooltip>
+            <CodeViewToolbar
+                code={code}
+                source={source}
+                setCode={setCode}
+                setEditorKey={setEditorKey}
+                showCode={showCode}
+                setShowCode={setShowCode}/>
 
-                    <Tooltip onClick={handleCopy}  title='复制代码'>
-                        <Icon name='copy'/>
-                    </Tooltip>
-
-                    <Tooltip onClick={handleReset}  title='重置代码'>
-                        <Icon name='revoke'/>
-                    </Tooltip>
-                </div>
-
-                <CodeEditor
-                    lineNumbers
-                    key={editorKey}
-                    className={'code-editor'}
-                    expanded={showCode}
-                    onChange={setCode}
-                    theme={theme}
-                    code={code}
-                />
-            </div>
-        }
+            <CodeEditor
+                lineNumbers
+                key={editorKey}
+                className={'code-editor'}
+                expanded={showCode}
+                onChange={setCode}
+                theme={theme}
+                code={code}
+            />
+        </div>
         {afterHTML && <Markdown>{afterHTML}</Markdown>}
     </div>
-
-    function handleCopy(){
-        try{
-            copy(code);
-            message.show({info:'复制成功！',icon:'success'});
-        }catch (e) {
-            message.show({info:'复制失败！',icon:'error'});
-            console.error('handleCopy执行失败',e);
-        }
-    }
-
-    function handleReset(){
-        let sourceCode = parseHTML(source).code;
-        if(sourceCode===code) sourceCode = sourceCode.concat(' ');
-        setCode(sourceCode)
-        setEditorKey(x=>++x);
-        message.show({info:`已将代码重置回初始状态`,icon:'success'})
-    }
 }
 CodeView.defaultProps = {
     theme:'panda-syntax',
@@ -114,8 +86,12 @@ function ExecutorCode(props){
     },[code,delay]);
 
 
-    if (error) return <pre className="code-view-error">{error}</pre>;
-    return <div className="code-view">{initialExample.current || <div>Loading...</div>}</div>
+    return <div className="y-code-view-wrap">
+        {
+            error ? <pre className="code-view-error">{error}</pre>
+                : <div className="code-view">{initialExample.current || <div>Loading...</div>}</div>
+        }
+    </div>
 
     function executeCode(nextCode) {
         setError(null);
@@ -139,5 +115,41 @@ function ExecutorCode(props){
         } finally {
             ReactDOM.render = originalRender;
         }
+    }
+}
+
+function CodeViewToolbar(props){
+    const {showCode,setShowCode,code,setCode,setEditorKey,source} = props;
+
+    return <div className="y-code-view-toolbar">
+        <Tooltip onClick={()=>setShowCode(x=>!x)}  title={showCode ? '收起代码' : '显示代码'}>
+            <Icon name='crossUnfold'/>
+        </Tooltip>
+
+        <Tooltip onClick={handleCopy}  title='复制代码'>
+            <Icon name='copy'/>
+        </Tooltip>
+
+        <Tooltip onClick={handleReset}  title='重置代码'>
+            <Icon name='revoke'/>
+        </Tooltip>
+    </div>
+
+    function handleCopy(){
+        try{
+            copy(code);
+            message.show({info:'复制成功！',icon:'success'});
+        }catch (e) {
+            message.show({info:'复制失败！',icon:'error'});
+            console.error('handleCopy执行失败',e);
+        }
+    }
+
+    function handleReset(){
+        let sourceCode = parseHTML(source).code;
+        if(sourceCode===code) sourceCode = sourceCode.concat(' ');
+        setCode(sourceCode)
+        setEditorKey(x=>++x);
+        message.show({info:`已将代码重置回初始状态`,icon:'success'})
     }
 }
