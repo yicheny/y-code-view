@@ -10,10 +10,10 @@ import './index.scss';
 const App = ()=>{
     return <div>
         <Card title='原生代码演示'>
-            <CodeView theme='neo' showCode  dependencies={{useState}}>{require('./原生演示文档.md')}</CodeView>
+            <CodeView theme='neo' showCode dependencies={{useState}}>{require('./原生演示文档.md')}</CodeView>
         </Card>
         <Card title='Modal-弹出框'>
-            <CodeView source={require('./y-ui0演示文档.md').default} dependencies={{Button,Modal,useState}}/>
+            <CodeView showCode source={require('./y-ui0演示文档.md').default} dependencies={{Button,Modal,useState}}/>
         </Card>
         <Card title='错误捕捉踩坑记录-弹出框'>
             <CodeView source={require('../doc/错误捕捉踩坑记录.md')}/>
