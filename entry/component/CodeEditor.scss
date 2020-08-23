@@ -63,10 +63,15 @@
 //@import '~codemirror/theme/yonce.css';//0
 //@import '~codemirror/theme/zenburn.css';
 
+.code-editor {
+  margin-top:12px;
+  overflow: auto;
+  transition: height 0.35s ease;
+}
 
 .CodeMirror {
   padding: 10px;
-  margin: 12px 0;
+  //margin: 12px 0;
   height: auto;
 
   pre {

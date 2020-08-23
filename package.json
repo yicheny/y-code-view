@@ -1,6 +1,6 @@
 {
   "name": "y-code-view",
-  "version": "0.0.10",
+  "version": "0.0.12",
   "description": "react code show",
   "main": "lib/index.js",
   "scripts": {
@@ -38,7 +38,7 @@
     "style-loader": "^0.13.2",
     "webpack": "2.2.1",
     "webpack-dev-server": "^2.3.0",
-    "y-ui0": "0.0.9"
+    "y-ui0": "0.0.13"
   },
   "dependencies": {
     "@popperjs/core": "^2.4.4",
