@@ -1,26 +1,29 @@
 import React,{PureComponent} from 'react';
 
-function WithErrorBoundary(WrapComponent){
-    return class ErrorBoundary extends PureComponent{
-        constructor(props) {
-            super(props);
-            this.state = {
-                // errorInfo: null,
-                // error:null
-            };
-        }
+class ErrorBoundary extends PureComponent {
+    constructor(props) {
+        super(props);
+        this.state = {
+            // errorInfo: null,
+            // error:null
+        };
+    }
 
-        static getDerivedStateFromError(error) {
-            alert('报错信息：'.concat(error));
-        }
+    // static getDerivedStateFromError(error) {
+    //     alert('报错信息：'.concat(error));
+    // }
 
-        // componentDidCatch(error, errorInfo) {
-        //     this.setState({error, errorInfo});
-        // }
+    componentDidCatch(error, errorInfo) {
+        // this.setState({error, errorInfo});
+        const {setError} = this.props;
+        // console.error('DidCatch',error,errorInfo.componentStack);
+        setError && setError(error.toString())
+    }
 
-        render(){
-            return <WrapComponent {...this.props}/>;
-        }
+    render() {
+        const {error,children} = this.props;
+        if(error) return <pre className="code-view-error">{ error }</pre>;
+        return children;
     }
 }
-export default WithErrorBoundary;
+export default ErrorBoundary;

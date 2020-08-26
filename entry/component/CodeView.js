@@ -11,7 +11,7 @@ import message from './Message';
 import parseHTML from "../utils/parseHTML";
 import Icon from "./Icon";
 import Tooltip from "./Tooltip";
-import WithErrorBoundary from "./ErrorBoundary";
+import ErrorBoundary from "./ErrorBoundary";
 
 //通过import引入evel代码时会报错
 const React = require('react');
@@ -30,7 +30,6 @@ function CodeView(props) {
     const [, forceUpdate] = useReducer(x => x + 1, 0);
 
     const { beforeHTML, afterHTML, code: sourceCode } = useMemo(() => parseHTML(source), [source]);
-
 
     return <div className={ clsx('y-code-view', className) }>
         <Markdown>{ beforeHTML }</Markdown>
@@ -68,14 +67,14 @@ function CodeView(props) {
 
 CodeView.defaultProps = {
     theme: 'panda-syntax',
-    delay: 600,
+    delay: 200,
     showCode: false,
     babelTransformOptions: {
         presets: ['stage-0', 'react', 'es2015']
     }
 };
 
-export default WithErrorBoundary(CodeView);
+export default CodeView;
 
 function ExecutorCode(props) {
     const { setError, babelTransformOptions, code, delay, dependencies, forceUpdate, error } = props;
@@ -89,13 +88,9 @@ function ExecutorCode(props) {
         return () => clearTimeout(timeId);
     }, [code, delay]);
 
-
-    return <div className="y-code-view-wrap">
-        {
-            error ? <pre className="code-view-error">{ error }</pre>
-                : <div className="code-view">{ initialExample.current || <div>Loading...</div> }</div>
-        }
-    </div>
+    return <ErrorBoundary setError={setError} error={error}>
+        <div className="code-view">{ initialExample.current || <div>Loading...</div> }</div>
+    </ErrorBoundary>
 
     function executeCode(nextCode) {
         setError(null);
