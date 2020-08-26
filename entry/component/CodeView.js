@@ -18,7 +18,7 @@ const React = require('react');
 const ReactDOM = require('react-dom');
 
 function CodeView(props) {
-    const { className, theme } = props;
+    const { className, theme, delay, babelTransformOptions,dependencies } = props;
     const source = useMemo(() => {
         const res = props.source || props.children;
         return _.get(res, 'default', res);
@@ -28,6 +28,15 @@ function CodeView(props) {
     const [error, setError] = useState(error);
     const [editorKey, setEditorKey] = useState(0);
     const [, forceUpdate] = useReducer(x => x + 1, 0);
+    const initialExample = useRef();
+
+    useEffect(() => {
+        const timeId = setTimeout(() => {
+            executeCode(code)
+        }, delay);
+
+        return () => clearTimeout(timeId);
+    }, [code, delay]);
 
     const { beforeHTML, afterHTML, code: sourceCode } = useMemo(() => parseHTML(source), [source]);
 
@@ -35,12 +44,9 @@ function CodeView(props) {
         <Markdown>{ beforeHTML }</Markdown>
         {
             sourceCode && <div className="y-code-view-box">
-                <ExecutorCode { ...props }
-                              error={ error }
-                              forceUpdate={ forceUpdate }
-                              code={ code }
-                              setCode={ setCode }
-                              setError={ setError }/>
+                <ErrorBoundary setError={setError} error={error}>
+                    <div className="code-view">{ initialExample.current || <div>Loading...</div> }</div>
+                </ErrorBoundary>
 
                 <CodeViewToolbar
                     code={ code }
@@ -63,34 +69,6 @@ function CodeView(props) {
         }
         { afterHTML && <Markdown>{ afterHTML }</Markdown> }
     </div>
-}
-
-CodeView.defaultProps = {
-    theme: 'panda-syntax',
-    delay: 200,
-    showCode: false,
-    babelTransformOptions: {
-        presets: ['stage-0', 'react', 'es2015']
-    }
-};
-
-export default CodeView;
-
-function ExecutorCode(props) {
-    const { setError, babelTransformOptions, code, delay, dependencies, forceUpdate, error } = props;
-    const initialExample = useRef();
-
-    useEffect(() => {
-        const timeId = setTimeout(() => {
-            executeCode(code)
-        }, delay);
-
-        return () => clearTimeout(timeId);
-    }, [code, delay]);
-
-    return <ErrorBoundary setError={setError} error={error}>
-        <div className="code-view">{ initialExample.current || <div>Loading...</div> }</div>
-    </ErrorBoundary>
 
     function executeCode(nextCode) {
         setError(null);
@@ -119,6 +97,17 @@ function ExecutorCode(props) {
         }
     }
 }
+
+CodeView.defaultProps = {
+    theme: 'panda-syntax',
+    delay: 600,
+    showCode: false,
+    babelTransformOptions: {
+        presets: ['stage-0', 'react', 'es2015']
+    }
+};
+
+export default CodeView;
 
 function CodeViewToolbar(props) {
     const { showCode, setShowCode, code, setCode, setEditorKey, source } = props;
