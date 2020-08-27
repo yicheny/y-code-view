@@ -26,13 +26,20 @@
   }
 
   &-toolbar{
-    .y-tooltip-wrapper{
+    .cv-tooltip-wrapper{
       margin: 0 8px;
       color:rgba(0,0,0,0.54);
       transition: all 350ms ease;
       &:hover{
         transform: scale(1.12);
         color:rgba(0,0,0,1);
+      }
+
+      .iconfont-start{
+        &.disabled{
+          cursor: not-allowed;
+          pointer-events: none;
+        }
       }
     }
   }

@@ -12,6 +12,7 @@ import parseHTML from "../utils/parseHTML";
 import Icon from "../component/Icon";
 import Tooltip from "../component/Tooltip";
 import ErrorBoundary from "./ErrorBoundary";
+import Checkbox from "../component/Checkbox";
 
 //通过import引入evel代码时会报错
 const React = require('react');
@@ -29,9 +30,11 @@ function CodeView(props) {
     const [editorKey, setEditorKey] = useState(0);
     const [, forceUpdate] = useReducer(x => x + 1, 0);
     const initialExample = useRef();
+    const [autoExe,setAutoExe] = useState(props.autoExe);
 
     useEffect(() => {
         const timeId = setTimeout(() => {
+            if(!autoExe) return null;
             executeCode(code)
         }, delay);
 
@@ -49,6 +52,8 @@ function CodeView(props) {
                 </ErrorBoundary>
 
                 <CodeViewToolbar
+                    autoExe={autoExe}
+                    setAutoExe={setAutoExe}
                     code={ code }
                     source={ source }
                     setCode={ setCode }
@@ -104,13 +109,14 @@ CodeView.defaultProps = {
     showCode: false,
     babelTransformOptions: {
         presets: ['stage-0', 'react', 'es2015']
-    }
+    },
+    autoExe:true,
 };
 
 export default CodeView;
 
 function CodeViewToolbar(props) {
-    const { showCode, setShowCode, code, setCode, setEditorKey, source } = props;
+    const { showCode, setShowCode, code, setCode, setEditorKey, source,autoExe,setAutoExe } = props;
 
     return <div className="y-code-view-toolbar">
         <Tooltip onClick={ () => setShowCode(x => !x) } title={ showCode ? '收起代码' : '显示代码' }>
@@ -123,6 +129,14 @@ function CodeViewToolbar(props) {
 
         <Tooltip onClick={ handleReset } title='重置代码'>
             <Icon name='revoke'/>
+        </Tooltip>
+
+        <Tooltip title='手动执行'>
+            <Icon name='start' className={autoExe && 'disabled'}/>
+        </Tooltip>
+
+        <Tooltip title={autoExe ? '关闭自动执行' : '开启自动执行'}>
+            <Checkbox defaultChecked={autoExe} onChange={setAutoExe}/>
         </Tooltip>
     </div>
 

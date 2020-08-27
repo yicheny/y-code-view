@@ -41,7 +41,7 @@ function Tooltip(props) {
     }, [])
 
     return (<Fragment>
-        <span className="y-tooltip-wrapper" ref={wrapperRef} onClick={onClick}>
+        <span className="cv-tooltip-wrapper" ref={wrapperRef} onClick={onClick}>
             {children}
         </span>
         {show && <div className={clsx("y-tooltip", props.className)} style={{...props.style, ...styles.popper}}

@@ -1,8 +1,9 @@
-@import "core/CodeEditor.scss";
-@import "core/CodeView.scss";
-@import "component/Message";
-@import "component/Icon";
-@import "component/Tooltip";
+@import "./core/CodeEditor.scss";
+@import "./core/CodeView.scss";
+@import "./component/Message.scss";
+@import "./component/Icon.scss";
+@import "./component/Tooltip.scss";
+@import "./component/Checkbox.scss";
 
 /*控制整个滚动条*/
 ::-webkit-scrollbar {
