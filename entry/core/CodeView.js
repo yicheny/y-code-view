@@ -54,6 +54,7 @@ function CodeView(props) {
                 <CodeViewToolbar
                     autoExe={autoExe}
                     setAutoExe={setAutoExe}
+                    executeCode={executeCode}
                     code={ code }
                     source={ source }
                     setCode={ setCode }
@@ -116,7 +117,7 @@ CodeView.defaultProps = {
 export default CodeView;
 
 function CodeViewToolbar(props) {
-    const { showCode, setShowCode, code, setCode, setEditorKey, source,autoExe,setAutoExe } = props;
+    const { showCode, setShowCode, code, setCode, setEditorKey, source,autoExe,setAutoExe,executeCode } = props;
 
     return <div className="y-code-view-toolbar">
         <Tooltip onClick={ () => setShowCode(x => !x) } title={ showCode ? '收起代码' : '显示代码' }>
@@ -131,8 +132,8 @@ function CodeViewToolbar(props) {
             <Icon name='revoke'/>
         </Tooltip>
 
-        <Tooltip title='手动执行'>
-            <Icon name='start' className={autoExe && 'disabled'}/>
+        <Tooltip title='手动执行' targetClassName={autoExe && 'disabled'} onClick={()=>executeCode(code)}>
+            <Icon name='start'/>
         </Tooltip>
 
         <Tooltip title={autoExe ? '关闭自动执行' : '开启自动执行'}>
@@ -155,6 +156,7 @@ function CodeViewToolbar(props) {
         if (sourceCode === code) sourceCode = sourceCode.concat(' ');
         setCode(sourceCode)
         setEditorKey(x => ++x);
+        executeCode(sourceCode);//确保自动保存关闭时也可以正常执行代码
         message.show({ info: `已将代码重置回初始状态`, icon: 'success' })
     }
 }

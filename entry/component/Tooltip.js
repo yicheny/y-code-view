@@ -18,7 +18,7 @@ function getPopperOption(placement) {
 }
 
 function Tooltip(props) {
-    const {children, title, arrow,placement,onClick} = props;
+    const {children, title, arrow,placement,onClick,targetClassName} = props;
     const [popper, setPopper] = useState(null);
     const wrapperRef = useRef(null);
     const {styles, attributes} = usePopper(wrapperRef.current, popper, getPopperOption(placement));
@@ -41,7 +41,7 @@ function Tooltip(props) {
     }, [])
 
     return (<Fragment>
-        <span className="cv-tooltip-wrapper" ref={wrapperRef} onClick={onClick}>
+        <span className={clsx("cv-tooltip-wrapper",targetClassName)} ref={wrapperRef} onClick={onClick}>
             {children}
         </span>
         {show && <div className={clsx("y-tooltip", props.className)} style={{...props.style, ...styles.popper}}
