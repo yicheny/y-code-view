@@ -7,10 +7,10 @@ import 'codemirror/addon/runmode/runmode';
 import { Markdown } from "y-markdown";
 import 'y-markdown/lib/index.css';
 import CodeEditor from "./CodeEditor";
-import message from './Message';
+import message from '../component/Message';
 import parseHTML from "../utils/parseHTML";
-import Icon from "./Icon";
-import Tooltip from "./Tooltip";
+import Icon from "../component/Icon";
+import Tooltip from "../component/Tooltip";
 import ErrorBoundary from "./ErrorBoundary";
 
 //通过import引入evel代码时会报错

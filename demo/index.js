@@ -1,6 +1,6 @@
 import React,{useState} from 'react'
 import {render} from 'react-dom'
-import CodeView from "../entry/component/CodeView";
+import CodeView from "../entry/core/CodeView";
 import {Card,Button,Modal} from 'y-ui0';
 
 import 'y-ui0/lib/style.css';
