@@ -1,6 +1,12 @@
 import React,{useEffect,useRef,useState,useLayoutEffect} from 'react';
 import _ from 'lodash';
 import CodeMirror from 'codemirror';
+// import 'codemirror/addon/hint/show-hint.js'
+// import 'codemirror/addon/hint/show-hint.css'
+// import 'codemirror/addon/hint/javascript-hint.js'
+import 'codemirror/addon/fold/foldgutter.css';
+import 'codemirror/addon/fold/foldgutter.js';
+import 'codemirror/addon/fold/brace-fold.js';
 
 function CodeEditor(props) {
     const { code,onChange,className,lineNumbers, lineWrapping, matchBrackets, tabSize, readOnly, theme, expanded } = props;
@@ -43,7 +49,12 @@ function CodeEditor(props) {
                 matchBrackets,
                 tabSize,
                 readOnly,
-                theme
+                theme,
+                extraKeys: {
+                    // "Tab": "autocomplete"
+                },
+                foldGutter: true,
+                gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter'],
             });
             setEditor(e);
             e.on('change', handleChange);
@@ -67,9 +78,9 @@ function CodeEditor(props) {
     </div>
 }
 CodeEditor.defaultProps = {
-    matchBrackets: true,
+    matchBrackets: true,//匹配括号
     tabSize: 2,
-    expanded:false
+    expanded:false,
 };
 
 export default CodeEditor;

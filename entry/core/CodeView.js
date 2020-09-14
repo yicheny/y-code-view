@@ -14,7 +14,6 @@ import Tooltip from "../component/Tooltip";
 import ErrorBoundary from "./ErrorBoundary";
 import Checkbox from "../component/Checkbox";
 
-//通过import引入evel代码时会报错
 const React = require('react');
 const ReactDOM = require('react-dom');
 
