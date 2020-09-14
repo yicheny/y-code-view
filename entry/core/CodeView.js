@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useReducer, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useReducer, useRef, useState } from 'react';
 import clsx from "clsx";
 import copy from 'copy-to-clipboard';
 import 'codemirror/mode/javascript/javascript';
@@ -31,6 +31,38 @@ function CodeView(props) {
     const initialExample = useRef();
     const [autoExe,setAutoExe] = useState(props.autoExe);
 
+    const executeCode = useCallback((nextCode)=>{
+        setError(null);
+        const originalRender = ReactDOM.render;
+        ReactDOM.render = element => {
+            initialExample.current = element;
+        };
+
+        try{
+            eval(getEvelCode());
+            forceUpdate();
+        }catch ( err ){
+            setError(_.toString(err))
+        }finally {
+            ReactDOM.render = originalRender;
+        }
+
+        function getEvelCode(){
+            let code = window.Babel.transform(nextCode, babelTransformOptions).code;
+            if (!dependencies) return code;
+            let statement = ``;
+            Object.keys(dependencies).forEach(key => {
+                statement += `var ${ key }= dependencies.${ key };\n `;
+            });
+            return `${ statement } ${ code }`
+        }
+    },[dependencies,babelTransformOptions])
+
+    const hotKeyExe = useCallback((nextCode)=>{
+        console.log(autoExe);//存在bug
+        if(!autoExe) executeCode(nextCode);
+    },[executeCode,autoExe])
+
     useEffect(() => {
         const timeId = setTimeout(() => {
             if(!autoExe) return null;
@@ -38,7 +70,7 @@ function CodeView(props) {
         }, delay);
 
         return () => clearTimeout(timeId);
-    }, [code, delay]);
+    }, [code,delay,autoExe,executeCode]);
 
     const { beforeHTML, afterHTML, code: sourceCode } = useMemo(() => parseHTML(source), [source]);
 
@@ -69,38 +101,12 @@ function CodeView(props) {
                     onChange={ setCode }
                     theme={ theme }
                     code={ code }
+                    hotKeyExe={hotKeyExe}
                 />
             </div>
         }
         { afterHTML && <Markdown>{ afterHTML }</Markdown> }
     </div>
-
-    function executeCode(nextCode) {
-        setError(null);
-        const originalRender = ReactDOM.render;
-        ReactDOM.render = element => {
-            initialExample.current = element;
-        };
-
-        try{
-            eval(getEvelCode());
-            forceUpdate();
-        }catch ( err ){
-            setError(_.toString(err))
-        }finally {
-            ReactDOM.render = originalRender;
-        }
-
-        function getEvelCode(){
-            let code = window.Babel.transform(nextCode, babelTransformOptions).code;
-            if (!dependencies) return code;
-            let statement = ``;
-            Object.keys(dependencies).forEach(key => {
-                statement += `var ${ key }= dependencies.${ key };\n `;
-            });
-            return `${ statement } ${ code }`
-        }
-    }
 }
 
 CodeView.defaultProps = {

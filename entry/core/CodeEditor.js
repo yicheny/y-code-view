@@ -9,7 +9,7 @@ import 'codemirror/addon/fold/foldgutter.js';
 import 'codemirror/addon/fold/brace-fold.js';
 
 function CodeEditor(props) {
-    const { code,onChange,className,lineNumbers, lineWrapping, matchBrackets, tabSize, readOnly, theme, expanded } = props;
+    const { code,onChange,className,lineNumbers, lineWrapping, matchBrackets, tabSize, readOnly, theme, expanded,hotKeyExe } = props;
     const [editor,setEditor] = useState();
 
     const textareaRef = useRef();
@@ -58,11 +58,20 @@ function CodeEditor(props) {
             });
             setEditor(e);
             e.on('change', handleChange);
+            e.on('keydown',handleHotKeyExe)
         }
 
         function handleChange() {
             if(!readOnly && _.isFunction(onChange)){
                 onChange(e.getValue());
+            }
+        }
+
+        function handleHotKeyExe(e,nativeE){
+            if(nativeE.ctrlKey && nativeE.keyCode===83){
+                nativeE.preventDefault();
+                nativeE.stopPropagation();
+                hotKeyExe(e.getValue());
             }
         }
     },[]);
