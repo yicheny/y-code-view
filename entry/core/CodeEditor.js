@@ -87,11 +87,15 @@ function CodeEditor(props) {
         if(readOnly) editor.setValue();
     },[readOnly]);
 
-    return <div className={className} ref={sub}>
+    return <div className={className} ref={sub} onTransitionEnd={transitionEnd}>
         <div ref={container}>
             <textarea ref={textareaRef} defaultValue={_.trim(code)}/>
         </div>
     </div>
+
+    function transitionEnd() {
+        if(expanded) sub.current.style.height = 'auto';//设置为`auto`的原因是需要保证子级菜单展开时，父级菜单的高度响应变化
+    }
 }
 CodeEditor.defaultProps = {
     matchBrackets: true,//匹配括号
