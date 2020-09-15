@@ -59,7 +59,6 @@ function CodeView(props) {
     },[dependencies,babelTransformOptions])
 
     const hotKeyExe = useCallback((nextCode)=>{
-        console.log(autoExe);//存在bug
         if(!autoExe) executeCode(nextCode);
     },[executeCode,autoExe])
 
@@ -137,7 +136,7 @@ function CodeViewToolbar(props) {
             <Icon name='revoke'/>
         </Tooltip>
 
-        <Tooltip title='手动执行' targetClassName={autoExe && 'disabled'} onClick={()=>executeCode(code)}>
+        <Tooltip title='手动执行(Ctrl+S)' targetClassName={autoExe && 'disabled'} onClick={()=>executeCode(code)}>
             <Icon name='start'/>
         </Tooltip>
 

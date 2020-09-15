@@ -1,4 +1,4 @@
-import React,{useEffect,useRef,useState,useLayoutEffect} from 'react';
+import React, { useEffect, useRef, useState, useLayoutEffect, useMemo, useCallback } from 'react';
 import _ from 'lodash';
 import CodeMirror from 'codemirror';
 // import 'codemirror/addon/hint/show-hint.js'
@@ -11,8 +11,10 @@ import 'codemirror/addon/fold/brace-fold.js';
 function CodeEditor(props) {
     const { code,onChange,className,lineNumbers, lineWrapping, matchBrackets, tabSize, readOnly, theme, expanded,hotKeyExe } = props;
     const [editor,setEditor] = useState();
-
-    const textareaRef = useRef();
+    const [textareaContent,setTextareaContent] = useState(null);
+    const textareaRef = useCallback((e)=>{
+        setTextareaContent(e)
+    },[]);
     const sub = useRef();
     const container = useRef();
 
@@ -38,35 +40,40 @@ function CodeEditor(props) {
         }
     }, [expanded]);
 
+    const e = useMemo(()=>{
+        if(_.isNil(textareaContent)) return null;
+        if(!CodeMirror) return null;
+        return CodeMirror.fromTextArea(textareaContent, {
+            mode: 'jsx',
+            lineNumbers,
+            lineWrapping,
+            matchBrackets,
+            tabSize,
+            readOnly,
+            theme,
+            extraKeys: {
+                // "Tab": "autocomplete"
+            },
+            foldGutter: true,
+            gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter'],
+        });
+    },[textareaContent])
+
     useEffect(()=>{
-        if(_.isNil(textareaRef.current)) return ()=>{};
-        let e = null;
-        if (CodeMirror !== undefined) {
-            e = CodeMirror.fromTextArea(textareaRef.current, {
-                mode: 'jsx',
-                lineNumbers,
-                lineWrapping,
-                matchBrackets,
-                tabSize,
-                readOnly,
-                theme,
-                extraKeys: {
-                    // "Tab": "autocomplete"
-                },
-                foldGutter: true,
-                gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter'],
-            });
-            setEditor(e);
-            e.on('change', handleChange);
-            e.on('keydown',handleHotKeyExe)
-        }
+        if(!e) return ;
+        setEditor(e);
+        e.on('change', handleChange);
 
         function handleChange() {
             if(!readOnly && _.isFunction(onChange)){
                 onChange(e.getValue());
             }
         }
+    },[e]);
 
+    useEffect(()=>{
+        if(!e) return ;
+        e.on('keydown',handleHotKeyExe);
         function handleHotKeyExe(e,nativeE){
             if(nativeE.ctrlKey && nativeE.keyCode===83){
                 nativeE.preventDefault();
@@ -74,7 +81,7 @@ function CodeEditor(props) {
                 hotKeyExe(e.getValue());
             }
         }
-    },[]);
+    },[hotKeyExe,e])
 
     useEffect(()=>{
         if(readOnly) editor.setValue();
