@@ -12,7 +12,7 @@ import parseHTML from "../utils/parseHTML";
 import Icon from "../component/Icon";
 import Tooltip from "../component/Tooltip";
 import ErrorBoundary from "./ErrorBoundary";
-import Checkbox from "../component/Checkbox";
+import Switch from "../component/Switch";
 
 const React = require('react');
 const ReactDOM = require('react-dom');
@@ -141,7 +141,7 @@ function CodeViewToolbar(props) {
         </Tooltip>
 
         <Tooltip title={autoExe ? '关闭自动执行' : '开启自动执行'}>
-            <Checkbox defaultChecked={autoExe} onChange={setAutoExe}/>
+            <Switch defaultChecked={autoExe} onChange={setAutoExe} checkedChildren='开' unCheckedChildren='关'/>
         </Tooltip>
     </div>
 

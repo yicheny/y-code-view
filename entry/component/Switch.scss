@@ -1,0 +1,42 @@
+.cv-switch{
+  &.checked{
+    background-color: #1890ff;
+    box-shadow: 0 0 0 2px rgba(24,144,255,.2);
+    .cv-switch-dot{
+      left: calc(100% - 20px);
+    }
+    .cv-switch-inner{
+      margin-left:6px;
+      margin-right:24px;
+    }
+  }
+  position:relative;
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+  min-width: 44px;
+  height: 22px;
+  line-height: 22px;
+  background-color: rgba(0,0,0,.25);
+  border-radius: 100px;
+  cursor: pointer;
+  transition: all .2s;
+  user-select: none;
+  .cv-switch-dot{
+    display: inline-block;
+    position:absolute;
+    top:2px;
+    left:2px;
+    width:18px;
+    height:18px;
+    border-radius: 9px;
+    background-color: #fff;
+    transition: all .2s ease-in-out;
+  }
+  .cv-switch-inner{
+    margin-left:24px;
+    margin-right:6px;
+    font-size: 14px;
+    color:#fff;
+  }
+}
