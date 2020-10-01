@@ -93,9 +93,7 @@ function CodeView(props) {
                     setShowCode={ setShowCode }/>
 
                 <CodeEditor
-                    lineNumbers
                     key={ editorKey }
-                    className={ 'code-editor' }
                     expanded={ showCode }
                     onChange={ setCode }
                     theme={ theme }
@@ -140,7 +138,7 @@ function CodeViewToolbar(props) {
             <Icon name='start'/>
         </Tooltip>
 
-        <Tooltip title={autoExe ? '关闭自动执行' : '开启自动执行'}>
+        <Tooltip title={autoExe ? '自动执行开启中' : '自动执行已关闭'}>
             <Switch defaultChecked={autoExe} onChange={setAutoExe} checkedChildren='开' unCheckedChildren='关'/>
         </Tooltip>
     </div>

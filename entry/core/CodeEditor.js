@@ -7,6 +7,7 @@ import CodeMirror from 'codemirror';
 import 'codemirror/addon/fold/foldgutter.css';
 import 'codemirror/addon/fold/foldgutter.js';
 import 'codemirror/addon/fold/brace-fold.js';
+import clsx from "clsx";
 
 function CodeEditor(props) {
     const { code,onChange,className,lineNumbers, lineWrapping, matchBrackets, tabSize, readOnly, theme, expanded,hotKeyExe } = props;
@@ -78,7 +79,7 @@ function CodeEditor(props) {
             if(nativeE.ctrlKey && nativeE.keyCode===83){
                 nativeE.preventDefault();
                 nativeE.stopPropagation();
-                hotKeyExe(e.getValue());
+                if(hotKeyExe) hotKeyExe(e.getValue());
             }
         }
     },[hotKeyExe,e])
@@ -87,7 +88,7 @@ function CodeEditor(props) {
         if(readOnly) editor.setValue();
     },[readOnly]);
 
-    return <div className={className} ref={sub} onTransitionEnd={transitionEnd}>
+    return <div className={clsx('code-editor',className)} ref={sub} onTransitionEnd={transitionEnd}>
         <div ref={container}>
             <textarea ref={textareaRef} defaultValue={_.trim(code)}/>
         </div>
@@ -101,6 +102,7 @@ CodeEditor.defaultProps = {
     matchBrackets: true,//匹配括号
     tabSize: 2,
     expanded:false,
+    lineNumbers:true
 };
 
 export default CodeEditor;

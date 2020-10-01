@@ -1,6 +1,7 @@
 import React,{useState} from 'react'
 import {render} from 'react-dom'
 import CodeView from "../entry/core/CodeView";
+import ConsoleView from "../entry/core/ConsoleView";
 import {Card,Button,Modal} from 'y-ui0';
 
 import 'y-ui0/lib/style.css';
@@ -9,11 +10,14 @@ import './index.scss';
 
 const App = ()=>{
     return <div>
+        <Card title='ConsoleView测试'>
+            <ConsoleView source={require('./doc/ConsoleView测试.md')}/>
+        </Card>
         <Card title='原生代码演示'>
-            <CodeView theme='neo' showCode={false} dependencies={{useState}}>{require('./原生演示文档.md')}</CodeView>
+            <CodeView theme='neo' showCode={false} dependencies={{useState}}>{require('./doc/原生演示文档.md')}</CodeView>
         </Card>
         <Card title='Modal-弹出框'>
-            <CodeView showCode source={require('./y-ui0演示文档.md').default} dependencies={{Button,Modal,useState}}/>
+            <CodeView showCode source={require('./doc/y-ui0演示文档.md').default} dependencies={{Button,Modal,useState}}/>
         </Card>
         <Card title='错误捕捉踩坑记录-弹出框'>
             <CodeView source={require('../doc/错误捕捉踩坑记录.md')}/>
