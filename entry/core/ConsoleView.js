@@ -66,7 +66,7 @@ export default ConsoleView;
 function getPrintStr(GlobData){
     return `
         let __count = 0;
-        function __print(params){
+        function __print(...params){
             GlobData[__count] = params;
             __count++;
         }
@@ -84,19 +84,36 @@ function getRunTimeCode(code,GlobData){
     }
 }
 
-function getConsoleView(source,isBlock){
-    return source.map((x,i)=>{
-        if(_.isBoolean(x)) return <ViewCol key={i} className='boolean'>{String(x)}</ViewCol>
-        if(_.isNumber(x)) return <ViewCol key={i} className='number'>{x}</ViewCol>
-        if(_.isPlainObject(x)) return <ViewCol key={i}>{JSON.stringify(x)}</ViewCol>
-        if(_.isArray(x)) return <ViewCol key={i}>{JSON.stringify(x)}</ViewCol>
-        return <ViewCol key={i}>{String(x)}</ViewCol>
-    });
+function getConsoleView(source){
+    return source.map((x,i)=><ViewCol key={i} data={x}/>);
 }
 
 function ViewCol(props){
-    const {className,children} = props;
-    return <div className={clsx('v-col',className)}>
-        <Icon name='arrowDown' size={12}/>{children}
+    const {data} = props;
+    const infos = useMemo(()=>getViewColInfo(data),[data]);
+    return <div className={clsx('v-col')}>
+        <Icon name='arrowDown' size={12}/>
+        {
+            infos.map((x,i)=><ViewColValue key={i} data={x}/>)
+        }
     </div>
+}
+
+function ViewColValue(props){
+    const {data:{value,className}} = props;
+    return <span className={clsx("col-value",className)}>
+        {value}
+    </span>
+}
+
+function getViewColInfo(data){
+    return _.map(data,getColInfoCore)
+}
+
+function getColInfoCore(value){
+    if(_.isBoolean(value)) return {className:'boolean',value:String(value)}
+    if(_.isNumber(value)) return {className:'number', value}
+    if(_.isPlainObject(value)) return {value:JSON.stringify(value)}
+    if(_.isArray(value)) return {value:JSON.stringify(value)}
+    return {value:String(value)}
 }

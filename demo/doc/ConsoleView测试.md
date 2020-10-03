@@ -16,6 +16,10 @@ console.log({
 })
 console.log([1,2,3,4])
 
+//一次输出多个值
+console.log(1,2,3,4);
+console.log(1,'abc',true,[1,2]);
+
 //变量测试
 console.log(new Date());
 const a = 1;

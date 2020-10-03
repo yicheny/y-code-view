@@ -17,11 +17,14 @@
         display: inline-block;//行内元素设置rotate无效
         transform: rotate(-90deg);
       }
-      &.number{
-        color:blue;
-      }
-      &.boolean{
-        color:blueviolet;
+      .col-value{
+        margin:0 6px;
+        &.number{
+          color:blue;
+        }
+        &.boolean{
+          color:blueviolet;
+        }
       }
     }
   }
