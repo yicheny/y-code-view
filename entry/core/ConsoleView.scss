@@ -1,0 +1,28 @@
+.y-console-view{
+  display: flex;
+  flex-direction: column;
+  .y-console-view-box{
+    border:1px solid rgba(0,0,0,0.32);
+    flex:1;
+    padding:12px 24px;
+    //background: #292A2B;
+    background: #fff;
+    font-size: 14px;
+    >.v-col{
+      display: flex;
+      align-items: center;
+      padding:2px 4px;
+      >.icon-arrowDown{
+        margin-right:8px;
+        display: inline-block;//行内元素设置rotate无效
+        transform: rotate(-90deg);
+      }
+      &.number{
+        color:blue;
+      }
+      &.boolean{
+        color:blueviolet;
+      }
+    }
+  }
+}
