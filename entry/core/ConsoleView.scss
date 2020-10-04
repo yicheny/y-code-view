@@ -1,21 +1,37 @@
 .y-console-view{
-  display: flex;
-  flex-direction: column;
+  &-code-box{
+    &.across{
+      .code-editor{
+        margin-top:0;
+      }
+    }
+    &.vertical{
+      flex-direction: column;
+    }
+    display: flex;
+    >div{
+      flex:1;
+    }
+  }
   .y-console-view-box{
     border:1px solid rgba(0,0,0,0.32);
     flex:1;
-    padding:12px 24px;
+    padding:12px 20px;
     //background: #292A2B;
     background: #fff;
     font-size: 14px;
     >.v-col{
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       padding:2px 4px;
+      line-height: 21px;
       >.icon-arrowDown{
-        margin-right:8px;
+        min-width:16px;
         display: inline-block;//行内元素设置rotate无效
         transform: rotate(-90deg);
+      }
+      >.content{
+        margin-left:12px;
       }
       .col-value{
         margin:0 3px;

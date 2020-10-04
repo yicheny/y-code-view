@@ -1,13 +1,6 @@
 这里是初始介绍部分：这里是基础介绍...
 
-
 <!--RunCode-->
-
-```js
-
-```
-
-<!--/RunCode-->
 
 ```js
 //直接值测试
@@ -49,3 +42,5 @@ console.log(a);
 console.log(b);
 console.log(a+b+c);
 ```
+
+<!--/RunCode-->

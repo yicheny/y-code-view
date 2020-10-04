@@ -4,12 +4,11 @@ import clsx from 'clsx';
 import {Markdown} from "y-markdown";
 import CodeEditor from "./CodeEditor";
 import parseHTML_RunCode from "../utils/parseHTML_RunCode";
-import ErrorBoundary from "./ErrorBoundary";
 import './ConsoleView.scss';
 import Icon from "../component/Icon";
 
 function ConsoleView(props) {
-    const { theme, delay, babelTransformOptions, dependencies } = props;
+    const { theme, delay, direction } = props;
     const source = useMemo(() =>{
         const res = props.source || props.children;
         return _.get(res, 'default',res);
@@ -40,31 +39,31 @@ function ConsoleView(props) {
         }
     },[code,delay])
 
-    const { beforeHTML, afterHTML } = useMemo(() => parseHTML_RunCode(source,true), [source]);
+    const { beforeHTML, afterHTML } = useMemo(() => parseHTML_RunCode(source), [source]);
 
     const view = useMemo(()=>getConsoleView(consoleView),[consoleView])
-    return <div className="y-console-view">
+    return <div className={"y-console-view"}>
         <Markdown>{ beforeHTML }</Markdown>
-        <CodeEditor
-            expanded
-            onChange={ setCode }
-            theme={ theme }
-            code={ code }
-        />
-        <ErrorBoundary setError={setError} error={error}>
+        <div className={clsx('y-console-view-code-box',direction)}>
+            <CodeEditor
+                expanded
+                onChange={ setCode }
+                theme={ theme }
+                code={ code }
+            />
             <div className="y-console-view-box">{view}</div>
-        </ErrorBoundary>
+        </div>
         { afterHTML && <Markdown>{ afterHTML }</Markdown> }
     </div>
 }
 ConsoleView.defaultProps = {
     theme: 'panda-syntax',
     delay: 600,
-    showCode: true,
     babelTransformOptions: {
         presets: ['stage-0', 'react', 'es2015']
     },
     autoExe:true,
+    direction: 'across', //可选'across'、'vertical'
 }
 
 export default ConsoleView;
@@ -99,9 +98,11 @@ function ViewCol(props){
     const {data} = props;
     return <div className={clsx('v-col')}>
         <Icon name='arrowDown' size={12}/>
-        {
-            _.map(data,(x,i)=><ViewColValue key={i} data={x}/>)
-        }
+        <div className="content">
+            {
+                _.map(data,(x,i)=><ViewColValue key={i} data={x}/>)
+            }
+        </div>
     </div>
 }
 

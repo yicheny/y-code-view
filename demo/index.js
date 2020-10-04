@@ -10,8 +10,11 @@ import './index.scss';
 
 const App = ()=>{
     return <div>
-        <Card title='ConsoleView测试'>
+        <Card title='ConsoleView测试-across（默认）'>
             <ConsoleView source={require('./doc/ConsoleView测试.md')}/>
+        </Card>
+        <Card title='ConsoleView测试-vertical'>
+            <ConsoleView direction='vertical' source={require('./doc/ConsoleView测试.md')}/>
         </Card>
         <Card title='原生代码演示'>
             <CodeView theme='neo' showCode={false} dependencies={{useState}}>{require('./doc/原生演示文档.md')}</CodeView>
