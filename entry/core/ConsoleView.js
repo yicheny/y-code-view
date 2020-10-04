@@ -110,22 +110,28 @@ function ViewColValue(props){
     const {data} = props;
     const {value,className} = useMemo(()=>getColInfo(data),[data]);
     return <span className={clsx("col-value",className,props.className)}>
-        {value}
+       {value}
     </span>
 }
 
 function getColInfo(value){
-    if(_.isNil(value)) return {className: 'nil',value:String(value)};
-    if(_.isBoolean(value)) return {className:'boolean',value:String(value)};
-    if(_.isNumber(value)) return {className:'number', value};
+    const {fillEmpty} = getColInfo;
+
+    if(_.isNil(value)) return {className: 'nil',value:fillEmpty(String(value))};
+    if(_.isBoolean(value)) return {className:'boolean',value:fillEmpty(String(value))};
+    if(_.isNumber(value)) return {className:'number', value:fillEmpty(String(value))};
     if(_.isPlainObject(value)) return getColInfo.getObjectColInfo(value);
     if(_.isArray(value)) return getColInfo.getArrayColInfo(value);
-    return {value:String(value)}
+    return {value:fillEmpty(String(value))}
+}
+
+getColInfo.fillEmpty = function(x){
+    return ` ${x} `
 }
 
 getColInfo.getArrayColInfo = function (source) {
-    const prefix = <span className="prefix" key={0}>[</span>
-    const suffix = <span className="suffix" key={source.length+1}>]</span>
+    const prefix = <span className="prefix" key={0}> [ </span>
+    const suffix = <span className="suffix" key={source.length+1}> ] </span>
     const value = source.reduce((acc,x,i)=>{
         acc.push(<ViewColValue key={i+1} data={x}/>);
         const isLast = i === source.length-1;
@@ -140,8 +146,8 @@ getColInfo.getObjectColInfo = function (source){
 
     source = _.entries(source);
     const maxLen = source.length;
-    const prefix = <span className="prefix" key={0}>{String('{')}</span>
-    const suffix = <span className="suffix" key={maxLen*2+1}>{String('}')}</span>
+    const prefix = <span className="prefix" key={0}>{String(' { ')}</span>
+    const suffix = <span className="suffix" key={maxLen*2+1}>{String(' } ')}</span>
 
     const value = source.reduce((acc,x,i)=>{
         const [key,value] = x;
