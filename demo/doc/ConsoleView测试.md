@@ -10,6 +10,7 @@ console.log(true);
 console.log(false);
 console.log(null);
 console.log(undefined);
+console.log({})
 console.log({
     a:0,
     b:'abc',
@@ -18,10 +19,12 @@ console.log({
     e:{
       firstName:'王',
       lastName:'小明'
-    }
+    },
+    f:[1,2,3]
 })
+console.log([]);
 console.log([1,2,3,4]);
-console.log([1,'abc',true,[2,3],null])
+console.log([1,'abc',true,[2,3],null,{a:1}])
 
 //一次输出多个值
 console.log(1,2,3,4);

@@ -122,8 +122,9 @@ getColInfo.getArrayColInfo = function (source) {
     const value = source.reduce((acc,x,i)=>{
         acc.push(<ViewColValue key={i+1} data={x}/>);
         const isLast = i === source.length-1;
-        return isLast ? acc.concat([suffix]) : acc.concat(',');
+        return isLast ? acc : acc.concat(',');
     },[prefix]);
+    value.push(suffix)
     return {value,className:'array'}
 }
 
@@ -141,9 +142,10 @@ getColInfo.getObjectColInfo = function (source){
             <ViewColValue key={i+1+maxLen} data={value}/>,
         );
         const isLast = i === source.length-1;
-        return isLast ? acc.concat([suffix]) : acc.concat(',');
+        return isLast ? acc : acc.concat(',');
     },[prefix])
-
+    value.push([suffix]);
+    
     return {
         className:'object',
         value
