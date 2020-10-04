@@ -42,9 +42,10 @@ function ConsoleView(props) {
 
     const { beforeHTML, afterHTML } = useMemo(() => parseHTML_RunCode(source), [source]);
 
-    const view = useMemo(()=>getConsoleView(consoleView),[consoleView])
     const left_code = <CodeEditor expanded onChange={ setCode } theme={ theme } code={ code }/>;
-    const right_view = <div className="y-console-view-box">{view}</div>
+    const right_view = <div className="y-console-view-box">
+        {consoleView.map((x,i)=><ViewCol key={i} data={x}/>)}
+    </div>
     return <div className={"y-console-view"}>
         <Markdown>{ beforeHTML }</Markdown>
         <div className={clsx('y-console-view-code-box',direction)}>
@@ -89,10 +90,6 @@ function getRunTimeCode(code,GlobData){
         if(typeof code !== 'string') return null;
         return code.replace(/console.log/g,'__print');
     }
-}
-
-function getConsoleView(source){
-    return source.map((x,i)=><ViewCol key={i} data={x}/>);
 }
 
 function ViewCol(props){
