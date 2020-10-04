@@ -41,6 +41,8 @@ const c = a + b;
 console.log(a);
 console.log(b);
 console.log(a+b+c);
+const add = (a,b)=>(a+b);
+console.log(add(10,21));
 ```
 
 <!--/RunCode-->

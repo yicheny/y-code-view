@@ -9,7 +9,7 @@ import Icon from "../component/Icon";
 import RLResize from "../component/RLResize";
 
 function ConsoleView(props) {
-    const { theme, delay, direction } = props;
+    const { theme, delay, direction,dependencies } = props;
     const source = useMemo(() =>{
         const res = props.source || props.children;
         return _.get(res, 'default',res);
@@ -29,7 +29,7 @@ function ConsoleView(props) {
         function executeCode(code){
             const GlobData = [];
             try{
-                eval(getRunTimeCode(code,GlobData));
+                eval(getRunTimeCode(code,GlobData,dependencies));
             }catch(e){
                 GlobData.push([{
                     __type:'error',
@@ -38,7 +38,7 @@ function ConsoleView(props) {
             }
             setConsoleView(GlobData);
         }
-    },[code,delay])
+    },[code,delay,dependencies])
 
     const { beforeHTML, afterHTML } = useMemo(() => parseHTML_RunCode(source), [source]);
 
@@ -60,18 +60,30 @@ function ConsoleView(props) {
 ConsoleView.defaultProps = {
     theme: 'panda-syntax',
     delay: 600,
-    babelTransformOptions: {
-        presets: ['stage-0', 'react', 'es2015']
-    },
     autoExe:true,
     direction: 'across', //可选'across'、'vertical',
-    resizeOps:{}
+    resizeOps:{},
+    dependencies:null
 }
 
 export default ConsoleView;
 
 //
-function getPrintStr(GlobData){
+function getRunTimeCode(code,GlobData,dependencies){
+    const {addPrint,addDependencies,getPrintStr } = getRunTimeCode;
+    code = addDependencies(dependencies).concat(getPrintStr(GlobData),code)
+    return addPrint(code);
+}
+getRunTimeCode.addPrint = function (code) {
+    if(typeof code !== 'string') return null;
+    return code.replace(/console.log/g,'__print');
+}
+getRunTimeCode.addDependencies = function (dependencies) {
+    return _.reduce(_.entries(dependencies),(acc,x)=>{
+        return acc.concat(`var ${x[0]} = ${x[1]}`);
+    },'')
+}
+getRunTimeCode.getPrintStr = function (GlobData){
     return `
         let __count = 0;
         function __print(...params){
@@ -80,16 +92,6 @@ function getPrintStr(GlobData){
         }
         \n
     `
-}
-
-function getRunTimeCode(code,GlobData){
-    code = getPrintStr(GlobData).concat(code)
-    return addPrint(code);
-
-    function addPrint(code){
-        if(typeof code !== 'string') return null;
-        return code.replace(/console.log/g,'__print');
-    }
 }
 
 function ViewCol(props){
