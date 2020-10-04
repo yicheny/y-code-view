@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState, useLayoutEffect, useMemo, useCallback } from 'react';
 import _ from 'lodash';
+import clsx from "clsx";
 import CodeMirror from 'codemirror';
 // import 'codemirror/addon/hint/show-hint.js'
 // import 'codemirror/addon/hint/show-hint.css'
@@ -7,7 +8,6 @@ import CodeMirror from 'codemirror';
 import 'codemirror/addon/fold/foldgutter.css';
 import 'codemirror/addon/fold/foldgutter.js';
 import 'codemirror/addon/fold/brace-fold.js';
-import clsx from "clsx";
 
 function CodeEditor(props) {
     const { code,onChange,className,lineNumbers, lineWrapping, matchBrackets, tabSize, readOnly, theme, expanded,hotKeyExe } = props;

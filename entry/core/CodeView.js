@@ -5,7 +5,6 @@ import 'codemirror/mode/javascript/javascript';
 import 'codemirror/mode/jsx/jsx';
 import 'codemirror/addon/runmode/runmode';
 import { Markdown } from "y-markdown";
-import 'y-markdown/lib/index.css';
 import CodeEditor from "./CodeEditor";
 import message from '../component/Message';
 import parseHTML from "../utils/parseHTML";
@@ -13,6 +12,7 @@ import Icon from "../component/Icon";
 import Tooltip from "../component/Tooltip";
 import ErrorBoundary from "./ErrorBoundary";
 import Switch from "../component/Switch";
+import 'y-markdown/lib/index.css';
 
 const React = require('react');
 const ReactDOM = require('react-dom');

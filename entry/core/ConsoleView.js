@@ -43,12 +43,12 @@ function ConsoleView(props) {
     const { beforeHTML, afterHTML } = useMemo(() => parseHTML_RunCode(source), [source]);
 
     const left_code = <CodeEditor expanded onChange={ setCode } theme={ theme } code={ code }/>;
-    const right_view = <div className="y-console-view-box">
+    const right_view = <div className="cv-console-view-box">
         {consoleView.map((x,i)=><ViewCol key={i} data={x}/>)}
     </div>
-    return <div className={"y-console-view"}>
+    return <div className={"cv-console-view"}>
         <Markdown>{ beforeHTML }</Markdown>
-        <div className={clsx('y-console-view-code-box',direction)}>
+        <div className={clsx('cv-console-view-code-box',direction)}>
             {
                 direction === 'across' ? <RLResize left={left_code} right={right_view} {...props.resizeOps}/>
                 : <Fragment>{left_code} {right_view}</Fragment>
