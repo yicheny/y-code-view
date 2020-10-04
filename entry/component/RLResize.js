@@ -3,7 +3,7 @@ import clsx from "clsx";
 import './RLResize.scss'
 
 function RLResize(props) {
-    const {maxWidth,height,itemMinWidth} = props;
+    const {maxWidth,height,itemMinWidth,disabled} = props;
     const [move,setMove] = useState(false);
     const [leftWidth,setLeftWidth] = useState(parseInt(maxWidth/2));
     const prevXRef = useRef(null);
@@ -16,8 +16,7 @@ function RLResize(props) {
         <div className="cv-RLResize-item" style={{width:leftWidth,height,minWidth:itemMinWidth}}>
             {props.left}
         </div>
-        <div className={clsx("cv-RLResize-line",{resize:move})}
-             onMouseDown={()=>setMove(true)}/>
+        <div className={clsx("cv-RLResize-line",{resize:move})} onMouseDown={()=>setMove(true)}/>
         <div className="cv-RLResize-item" style={{width:maxWidth - leftWidth,height,minWidth:itemMinWidth}}>
             {props.right}
         </div>
@@ -39,7 +38,7 @@ RLResize.defaultProps = {
     height:540,
     itemMinWidth:120,
     left:'left',
-    right:'right'
+    right:'right',
 }
 
 export default RLResize;

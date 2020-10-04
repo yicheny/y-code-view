@@ -1,4 +1,4 @@
-import React,{useEffect, useMemo, useState} from "react";
+import React, {Fragment, useEffect, useMemo, useState} from "react";
 import _ from 'lodash';
 import clsx from 'clsx';
 import {Markdown} from "y-markdown";
@@ -43,16 +43,15 @@ function ConsoleView(props) {
     const { beforeHTML, afterHTML } = useMemo(() => parseHTML_RunCode(source), [source]);
 
     const view = useMemo(()=>getConsoleView(consoleView),[consoleView])
+    const left_code = <CodeEditor expanded onChange={ setCode } theme={ theme } code={ code }/>;
+    const right_view = <div className="y-console-view-box">{view}</div>
     return <div className={"y-console-view"}>
         <Markdown>{ beforeHTML }</Markdown>
         <div className={clsx('y-console-view-code-box',direction)}>
-            <CodeEditor
-                expanded
-                onChange={ setCode }
-                theme={ theme }
-                code={ code }
-            />
-            <div className="y-console-view-box">{view}</div>
+            {
+                direction === 'across' ? <RLResize left={left_code} right={right_view} {...props.resizeOps}/>
+                : <Fragment>{left_code} {right_view}</Fragment>
+            }
         </div>
         { afterHTML && <Markdown>{ afterHTML }</Markdown> }
     </div>
@@ -64,7 +63,8 @@ ConsoleView.defaultProps = {
         presets: ['stage-0', 'react', 'es2015']
     },
     autoExe:true,
-    direction: 'across', //可选'across'、'vertical'
+    direction: 'across', //可选'across'、'vertical',
+    resizeOps:{}
 }
 
 export default ConsoleView;

@@ -35,4 +35,4 @@ function Demo(){
     </div>
 }
 
-render(<Demo/>, document.querySelector('#app'));
+render(<App/>, document.querySelector('#app'));
