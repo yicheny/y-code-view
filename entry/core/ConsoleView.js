@@ -90,30 +90,39 @@ function getConsoleView(source){
 
 function ViewCol(props){
     const {data} = props;
-    const infos = useMemo(()=>getViewColInfo(data),[data]);
+    // const infos = useMemo(()=>_.map(data,getColInfo),[data]);
     return <div className={clsx('v-col')}>
         <Icon name='arrowDown' size={12}/>
         {
-            infos.map((x,i)=><ViewColValue key={i} data={x}/>)
+            _.map(data,(x,i)=><ViewColValue key={i} data={x}/>)
         }
     </div>
 }
 
 function ViewColValue(props){
-    const {data:{value,className}} = props;
+    const {data} = props;
+    const {value,className} = useMemo(()=>getColInfo(data),[data]);
+    console.log(data,value);
     return <span className={clsx("col-value",className)}>
         {value}
     </span>
 }
 
-function getViewColInfo(data){
-    return _.map(data,getColInfoCore)
-}
-
-function getColInfoCore(value){
+function getColInfo(value){
     if(_.isBoolean(value)) return {className:'boolean',value:String(value)}
     if(_.isNumber(value)) return {className:'number', value}
     if(_.isPlainObject(value)) return {value:JSON.stringify(value)}
-    if(_.isArray(value)) return {value:JSON.stringify(value)}
+    // if(_.isArray(value)) return {value:JSON.stringify(value)}
+    if(_.isArray(value)) return getColInfo.getArrayColInfo(value);
     return {value:String(value)}
+}
+getColInfo.getArrayColInfo = function (source) {
+    const prefix = <span className="prefix">[</span>
+    const suffix = <span className="suffix">]</span>
+    const value = source.reduce((acc,x,i)=>{
+        acc.push(<ViewColValue key={i} data={x}/>);
+        const isLast = i === source.length-1;
+        return isLast ? acc.concat([suffix]) : acc.concat(',');
+    },[prefix]);
+    return {value,className:'array'}
 }

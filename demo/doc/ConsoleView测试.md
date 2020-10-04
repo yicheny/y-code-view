@@ -2,7 +2,7 @@
 
 <!--RunCode-->
 
-```jsx
+```js
 //直接值测试
 console.log(1234);
 console.log('abc');
@@ -14,7 +14,8 @@ console.log({
     name:0,
     age:1,
 })
-console.log([1,2,3,4])
+console.log([1,2,3,4]);
+console.log([1,'abc',true,[2,3]])
 
 //一次输出多个值
 console.log(1,2,3,4);

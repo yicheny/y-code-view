@@ -18,12 +18,17 @@
         transform: rotate(-90deg);
       }
       .col-value{
-        margin:0 6px;
+        margin:0 3px;
         &.number{
           color:blue;
         }
         &.boolean{
           color:blueviolet;
+        }
+        &.array{
+          .prefix,.suffix{
+            font-size: 16px;
+          }
         }
       }
     }
