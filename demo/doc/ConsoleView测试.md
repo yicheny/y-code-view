@@ -4,6 +4,13 @@
 <!--RunCode-->
 
 ```js
+
+```
+
+<!--/RunCode-->
+
+```js
+//直接值测试
 console.log(1234);
 console.log('abc');
 console.log(true);
@@ -29,34 +36,9 @@ console.log([1,'abc',true,[2,3],null,{a:1}])
 //一次输出多个值
 console.log(1,2,3,4);
 console.log(1,'abc',true,[1,2]);
-```
 
-<!--/RunCode-->
-
-```js
-//直接值测试
-console.log(1234);
-console.log('abc');
-console.log(true);
-console.log(false);
-console.log(null);
-console.log(undefined);
-console.log({
-    a:0,
-    b:'abc',
-    c:true,
-    d:null,
-    e:{
-      firstName:'王',
-      lastName:'小明'
-    }
-})
-console.log([1,2,3,4]);
-console.log([1,'abc',true,[2,3],null])
-
-//一次输出多个值
-console.log(1,2,3,4);
-console.log(1,'abc',true,[1,2]);
+//错误显示测试
+// console.log('aaa',a);
 
 //变量测试
 console.log(new Date());

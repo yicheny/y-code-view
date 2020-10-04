@@ -28,7 +28,14 @@ function ConsoleView(props) {
 
         function executeCode(code){
             const GlobData = [];
-            eval(getRunTimeCode(code,GlobData));
+            try{
+                eval(getRunTimeCode(code,GlobData));
+            }catch(e){
+                GlobData.push([{
+                    __type:'error',
+                    value:String(e)
+                }])
+            }
             setConsoleView(GlobData);
         }
     },[code,delay])
@@ -115,7 +122,6 @@ function getColInfo(value){
     return {value:String(value)}
 }
 
-//缺少空数组测试
 getColInfo.getArrayColInfo = function (source) {
     const prefix = <span className="prefix" key={0}>[</span>
     const suffix = <span className="suffix" key={source.length+1}>]</span>
@@ -129,6 +135,8 @@ getColInfo.getArrayColInfo = function (source) {
 }
 
 getColInfo.getObjectColInfo = function (source){
+    if(source.__type==='error') return {value:source.value,className:'error'}
+
     source = _.entries(source);
     const maxLen = source.length;
     const prefix = <span className="prefix" key={0}>{String('{')}</span>
@@ -145,7 +153,7 @@ getColInfo.getObjectColInfo = function (source){
         return isLast ? acc : acc.concat(',');
     },[prefix])
     value.push([suffix]);
-    
+
     return {
         className:'object',
         value
