@@ -1,6 +1,5 @@
 import React, { useRef, useState } from 'react';
 import clsx from "clsx";
-import './RLResize.scss'
 
 function RLResize(props) {
     const {maxWidth,height,itemMinWidth,disabled} = props;

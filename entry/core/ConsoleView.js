@@ -4,7 +4,6 @@ import clsx from 'clsx';
 import {Markdown} from "y-markdown";
 import CodeEditor from "./CodeEditor";
 import parseHTML_RunCode from "../utils/parseHTML_RunCode";
-import './ConsoleView.scss';
 import Icon from "../component/Icon";
 import RLResize from "../component/RLResize";
 
@@ -40,7 +39,7 @@ function ConsoleView(props) {
         }
     },[code,delay,dependencies])
 
-    const { beforeHTML, afterHTML } = useMemo(() => parseHTML_RunCode(source), [source]);
+    const { beforeHTML, afterHTML, code:sourceCode } = useMemo(() => parseHTML_RunCode(source), [source]);
 
     const left_code = <CodeEditor expanded onChange={ setCode } theme={ theme } code={ code }/>;
     const right_view = <div className="cv-console-view-box">
@@ -48,12 +47,14 @@ function ConsoleView(props) {
     </div>
     return <div className={"cv-console-view"}>
         <Markdown>{ beforeHTML }</Markdown>
-        <div className={clsx('cv-console-view-code-box',direction)}>
-            {
-                direction === 'across' ? <RLResize left={left_code} right={right_view} {...props.resizeOps}/>
-                : <Fragment>{left_code} {right_view}</Fragment>
-            }
-        </div>
+        {
+            sourceCode && <div className={clsx('cv-console-view-code-box',direction)}>
+                {
+                    direction === 'across' ? <RLResize left={left_code} right={right_view} {...props.resizeOps}/>
+                        : <Fragment>{left_code} {right_view}</Fragment>
+                }
+            </div>
+        }
         { afterHTML && <Markdown>{ afterHTML }</Markdown> }
     </div>
 }
