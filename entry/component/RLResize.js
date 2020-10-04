@@ -13,12 +13,12 @@ function RLResize(props) {
                  onMouseMove={handleMove}
                  onMouseLeave={()=>setMove(false)}
                  onMouseUp={()=>setMove(false)}>
-        <div className="item html" style={{width:leftWidth,height,minWidth:itemMinWidth}}>
+        <div className="cv-RLResize-item" style={{width:leftWidth,height,minWidth:itemMinWidth}}>
             {props.left}
         </div>
-        <div className={clsx("line",{resize:move})}
+        <div className={clsx("cv-RLResize-line",{resize:move})}
              onMouseDown={()=>setMove(true)}/>
-        <div className="item view" style={{width:maxWidth - leftWidth,height,minWidth:itemMinWidth}}>
+        <div className="cv-RLResize-item" style={{width:maxWidth - leftWidth,height,minWidth:itemMinWidth}}>
             {props.right}
         </div>
     </div>);

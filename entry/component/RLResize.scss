@@ -1,4 +1,4 @@
-.cv-RLResize.cv-RLResize.cv-RLResize{
+.cv-RLResize{
   &.resize{
     cursor: col-resize;
   }
@@ -8,12 +8,12 @@
   background: #39464e;
   //color:#f5eea2;
   border-radius: 2px;
-  .item{
+  &-item{
     box-sizing: border-box;
     padding:12px 16px;
   }
 
-  .line{
+  &-line{
     &::before{
       display: block;
       content:'';
