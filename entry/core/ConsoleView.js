@@ -90,7 +90,6 @@ function getConsoleView(source){
 
 function ViewCol(props){
     const {data} = props;
-    // const infos = useMemo(()=>_.map(data,getColInfo),[data]);
     return <div className={clsx('v-col')}>
         <Icon name='arrowDown' size={12}/>
         {
@@ -102,27 +101,51 @@ function ViewCol(props){
 function ViewColValue(props){
     const {data} = props;
     const {value,className} = useMemo(()=>getColInfo(data),[data]);
-    console.log(data,value);
-    return <span className={clsx("col-value",className)}>
+    return <span className={clsx("col-value",className,props.className)}>
         {value}
     </span>
 }
 
 function getColInfo(value){
-    if(_.isBoolean(value)) return {className:'boolean',value:String(value)}
-    if(_.isNumber(value)) return {className:'number', value}
-    if(_.isPlainObject(value)) return {value:JSON.stringify(value)}
-    // if(_.isArray(value)) return {value:JSON.stringify(value)}
+    if(_.isNil(value)) return {className: 'nil',value:String(value)};
+    if(_.isBoolean(value)) return {className:'boolean',value:String(value)};
+    if(_.isNumber(value)) return {className:'number', value};
+    if(_.isPlainObject(value)) return getColInfo.getObjectColInfo(value);
     if(_.isArray(value)) return getColInfo.getArrayColInfo(value);
     return {value:String(value)}
 }
+
+//缺少空数组测试
 getColInfo.getArrayColInfo = function (source) {
-    const prefix = <span className="prefix">[</span>
-    const suffix = <span className="suffix">]</span>
+    const prefix = <span className="prefix" key={0}>[</span>
+    const suffix = <span className="suffix" key={source.length+1}>]</span>
     const value = source.reduce((acc,x,i)=>{
-        acc.push(<ViewColValue key={i} data={x}/>);
+        acc.push(<ViewColValue key={i+1} data={x}/>);
         const isLast = i === source.length-1;
         return isLast ? acc.concat([suffix]) : acc.concat(',');
     },[prefix]);
     return {value,className:'array'}
+}
+
+getColInfo.getObjectColInfo = function (source){
+    source = _.entries(source);
+    const maxLen = source.length;
+    const prefix = <span className="prefix" key={0}>{String('{')}</span>
+    const suffix = <span className="suffix" key={maxLen*2+1}>{String('}')}</span>
+
+    const value = source.reduce((acc,x,i)=>{
+        const [key,value] = x;
+        acc.push(
+            <ViewColValue key={i+1} data={key} className='object-name'/>,
+            ':',
+            <ViewColValue key={i+1+maxLen} data={value}/>,
+        );
+        const isLast = i === source.length-1;
+        return isLast ? acc.concat([suffix]) : acc.concat(',');
+    },[prefix])
+
+    return {
+        className:'object',
+        value
+    }
 }

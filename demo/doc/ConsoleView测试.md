@@ -1,6 +1,34 @@
 这里是初始介绍部分：这里是基础介绍...
 
+
 <!--RunCode-->
+
+```js
+console.log(1234);
+console.log('abc');
+console.log(true);
+console.log(false);
+console.log(null);
+console.log(undefined);
+console.log({
+    a:0,
+    b:'abc',
+    c:true,
+    d:null,
+    e:{
+      firstName:'王',
+      lastName:'小明'
+    }
+})
+console.log([1,2,3,4]);
+console.log([1,'abc',true,[2,3],null])
+
+//一次输出多个值
+console.log(1,2,3,4);
+console.log(1,'abc',true,[1,2]);
+```
+
+<!--/RunCode-->
 
 ```js
 //直接值测试
@@ -11,11 +39,17 @@ console.log(false);
 console.log(null);
 console.log(undefined);
 console.log({
-    name:0,
-    age:1,
+    a:0,
+    b:'abc',
+    c:true,
+    d:null,
+    e:{
+      firstName:'王',
+      lastName:'小明'
+    }
 })
 console.log([1,2,3,4]);
-console.log([1,'abc',true,[2,3]])
+console.log([1,'abc',true,[2,3],null])
 
 //一次输出多个值
 console.log(1,2,3,4);
@@ -30,5 +64,3 @@ console.log(a);
 console.log(b);
 console.log(a+b+c);
 ```
-
-<!--/RunCode-->

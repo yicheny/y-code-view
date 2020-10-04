@@ -19,13 +19,24 @@
       }
       .col-value{
         margin:0 3px;
+        &.nil{
+          color:rgba(0,0,0,0.42);
+        }
         &.number{
           color:blue;
         }
         &.boolean{
-          color:blueviolet;
+          color:#005cc5;
         }
         &.array{
+          .prefix,.suffix{
+            font-size: 16px;
+          }
+        }
+        &.object{
+          .object-name{
+            color:#6f42c1;
+          }
           .prefix,.suffix{
             font-size: 16px;
           }
