@@ -6,6 +6,7 @@ import CodeEditor from "./CodeEditor";
 import parseHTML_RunCode from "../utils/parseHTML_RunCode";
 import './ConsoleView.scss';
 import Icon from "../component/Icon";
+import RLResize from "../component/RLResize";
 
 function ConsoleView(props) {
     const { theme, delay, direction } = props;

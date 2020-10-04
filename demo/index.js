@@ -7,6 +7,7 @@ import {Card,Button,Modal} from 'y-ui0';
 import 'y-ui0/lib/style.css';
 import '../entry/index.scss';
 import './index.scss';
+import RLResize from "../entry/component/RLResize";
 
 const App = ()=>{
     return <div>
@@ -28,4 +29,10 @@ const App = ()=>{
     </div>
 };
 
-render(<App/>, document.querySelector('#app'));
+function Demo(){
+    return <div>
+        <RLResize/>
+    </div>
+}
+
+render(<Demo/>, document.querySelector('#app'));
