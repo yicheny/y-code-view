@@ -7,6 +7,8 @@ import parseHTML_RunCode from "../utils/parseHTML_RunCode";
 import Icon from "../component/Icon";
 import RLResize from "../component/RLResize";
 
+const vm = require('vm');
+
 function ConsoleView(props) {
     const { theme, delay, direction,dependencies } = props;
     const source = useMemo(() =>{
@@ -27,7 +29,8 @@ function ConsoleView(props) {
         function executeCode(code){
             const GlobData = [];
             try{
-                eval(getRunTimeCode(code,dependencies));
+                const runTime = vm.runInThisContext(getRunTimeCode(code,dependencies));
+                runTime(GlobData,dependencies);
             }catch(e){
                 GlobData.push([{
                     __type:'error',
@@ -70,9 +73,9 @@ export default ConsoleView;
 
 //
 function getRunTimeCode(code,dependencies){
-    const {addPrint,addDependencies,getPrintStr } = getRunTimeCode;
+    const {addPrint,addDependencies,getPrintStr,wrapperFunStr } = getRunTimeCode;
     code = addDependencies(dependencies).concat(getPrintStr(),code)
-    return addPrint(code);
+    return wrapperFunStr(addPrint(code));
 }
 getRunTimeCode.addPrint = function (code) {
     if(typeof code !== 'string') return null;
@@ -92,6 +95,9 @@ getRunTimeCode.getPrintStr = function (){
         }
         \n
     `
+}
+getRunTimeCode.wrapperFunStr = function (content){
+    return `(function (GlobData,dependencies){${content}})`
 }
 
 function ViewCol(props){
@@ -128,7 +134,6 @@ function getColInfo(value){
 getColInfo.fillEmpty = function(x){
     return ` ${x} `
 }
-
 getColInfo.getArrayColInfo = function (source) {
     const prefix = <span className="prefix" key={0}> [ </span>
     const suffix = <span className="suffix" key={source.length+1}> ] </span>
@@ -140,7 +145,6 @@ getColInfo.getArrayColInfo = function (source) {
     value.push(suffix)
     return {value,className:'array'}
 }
-
 getColInfo.getObjectColInfo = function (source){
     if(source.__type==='error') return {value:source.value,className:'error'}
 
