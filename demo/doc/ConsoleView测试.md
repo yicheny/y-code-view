@@ -45,7 +45,7 @@ const add = (a,b)=>(a+b);
 console.log(add(10,21));
 
 //传入依赖测试
-console.dir(toDate.timestampToDate(1));
+// console.dir(toDate.timestampToDate(1));
 ```
 
 <!--/RunCode-->

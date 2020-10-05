@@ -1,22 +1,37 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState,useEffect } from 'react';
 import clsx from "clsx";
 
 function RLResize(props) {
-    const {maxWidth,height,itemMinWidth,disabled} = props;
+    const {height,itemMinWidth} = props;
     const [move,setMove] = useState(false);
-    const [leftWidth,setLeftWidth] = useState(parseInt(maxWidth/2));
+    const [leftWidth,setLeftWidth] = useState(0);
     const prevXRef = useRef(null);
+    const containerRef = useRef(null);
+
+    useEffect(()=>{
+        const containerWidth = _.get(containerRef.current,'clientWidth');
+        setLeftWidth(parseInt(containerWidth/2));
+        // document.addEventListener('resize',setContainerWidth);
+        // return ()=>document.removeEventListener('resize',setContainerWidth);
+        //
+        // function setContainerWidth(){
+        //     console.log(containerRef.current);
+        // }
+    },[]);
+
+    const maxWidth = _.get(containerRef.current,'clientWidth');
 
     return (<div className={clsx('cv-RLResize',{resize:move})}
-                 style={{width:maxWidth,height}}
+                 style={{height}}
+                 ref={containerRef}
                  onMouseMove={handleMove}
                  onMouseLeave={()=>setMove(false)}
                  onMouseUp={()=>setMove(false)}>
-        <div className="cv-RLResize-item" style={{width:leftWidth,height,minWidth:itemMinWidth}}>
+        <div className="cv-RLResize-item" style={{width:`${(leftWidth/maxWidth)*100}%`,height,minWidth:itemMinWidth}}>
             {props.left}
         </div>
         <div className={clsx("cv-RLResize-line",{resize:move})} onMouseDown={()=>setMove(true)}/>
-        <div className="cv-RLResize-item" style={{width:maxWidth - leftWidth,height,minWidth:itemMinWidth}}>
+        <div className="cv-RLResize-item" style={{width:`${(1-(leftWidth/maxWidth))*100}%`,height,minWidth:itemMinWidth}}>
             {props.right}
         </div>
     </div>);
@@ -33,7 +48,6 @@ function RLResize(props) {
     }
 }
 RLResize.defaultProps = {
-    maxWidth:900,
     height:540,
     itemMinWidth:120,
     left:'left',
