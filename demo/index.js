@@ -3,6 +3,7 @@ import {render} from 'react-dom'
 import CodeView from "../entry/core/CodeView";
 import ConsoleView from "../entry/core/ConsoleView";
 import {Card,Button,Modal} from 'y-ui0';
+import toDate from './utils/toDate';
 
 import 'y-ui0/lib/style.css';
 import '../entry/index.scss';
@@ -12,7 +13,7 @@ import RLResize from "../entry/component/RLResize";
 const App = ()=>{
     return <div>
         <Card title='ConsoleView测试-across（默认）'>
-            <ConsoleView source={require('./doc/ConsoleView测试.md')}/>
+            <ConsoleView source={require('./doc/ConsoleView测试.md')} dependencies={{toDate}}/>
         </Card>
         <Card title='ConsoleView测试-vertical'>
             <ConsoleView direction='vertical' source={require('./doc/ConsoleView测试.md')}/>
