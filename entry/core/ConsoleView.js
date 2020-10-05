@@ -8,7 +8,7 @@ import Icon from "../component/Icon";
 import RLResize from "../component/RLResize";
 
 function ConsoleView(props) {
-    const { theme, delay, direction,dependencies,babelTransformOptions } = props;
+    const { theme, delay, direction,dependencies } = props;
     const source = useMemo(() =>{
         const res = props.source || props.children;
         return _.get(res, 'default',res);
@@ -24,11 +24,10 @@ function ConsoleView(props) {
 
         return ()=>clearTimeout(timeId);
 
-        function executeCode(nextCode){
+        function executeCode(code){
             const GlobData = [];
-            const code = window.Babel.transform(nextCode, babelTransformOptions).code;
             try{
-                eval(getRunTimeCode(code,GlobData,dependencies));
+                eval(getRunTimeCode(code,dependencies));
             }catch(e){
                 GlobData.push([{
                     __type:'error',
@@ -65,17 +64,14 @@ ConsoleView.defaultProps = {
     direction: 'across', //可选'across'、'vertical',
     resizeOps:{},
     dependencies:null,
-    babelTransformOptions: {
-        presets: ['stage-0', 'es2015']
-    },
 }
 
 export default ConsoleView;
 
 //
-function getRunTimeCode(code,GlobData,dependencies){
+function getRunTimeCode(code,dependencies){
     const {addPrint,addDependencies,getPrintStr } = getRunTimeCode;
-    code = addDependencies(dependencies).concat(getPrintStr(GlobData),code)
+    code = addDependencies(dependencies).concat(getPrintStr(),code)
     return addPrint(code);
 }
 getRunTimeCode.addPrint = function (code) {
@@ -87,7 +83,7 @@ getRunTimeCode.addDependencies = function (dependencies) {
         return acc.concat(`var ${x} = dependencies.${x};\n`);//注意这一行的写法
     },'')
 }
-getRunTimeCode.getPrintStr = function (GlobData){
+getRunTimeCode.getPrintStr = function (){
     return `
         let __count = 0;
         function __print(...params){
