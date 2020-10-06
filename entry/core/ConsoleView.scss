@@ -31,6 +31,7 @@
         min-width:16px;
         display: inline-block;//行内元素设置rotate无效
         transform: rotate(-90deg);
+        margin-top:-2px;
       }
       >.content{
         margin-left:12px;
