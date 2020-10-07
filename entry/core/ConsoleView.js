@@ -63,7 +63,6 @@ function ConsoleView(props) {
 ConsoleView.defaultProps = {
     theme: 'panda-syntax',
     delay: 600,
-    autoExe:true,
     direction: 'across', //可选'across'、'vertical',
     resizeOps:{},
     dependencies:null,

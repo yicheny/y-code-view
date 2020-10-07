@@ -12,6 +12,9 @@ import RLResize from "../entry/component/RLResize";
 
 const App = ()=>{
     return <div>
+        <Card title='ConsoleView测试-二期'>
+            <ConsoleView source={require('./doc/ConsoleView测试-二期.md')} dependencies={{toDate}}/>
+        </Card>
         <Card title='ConsoleView测试-across（默认）'>
             <ConsoleView source={require('./doc/ConsoleView测试.md')} dependencies={{toDate}}/>
         </Card>

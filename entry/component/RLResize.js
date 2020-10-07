@@ -2,7 +2,7 @@ import React, { useRef, useState,useEffect } from 'react';
 import clsx from "clsx";
 
 function RLResize(props) {
-    const {height,itemMinWidth} = props;
+    const {itemOps} = props;
     const [move,setMove] = useState(false);
     const [leftWidth,setLeftWidth] = useState(0);
     const prevXRef = useRef(null);
@@ -22,16 +22,15 @@ function RLResize(props) {
     const maxWidth = _.get(containerRef.current,'clientWidth');
 
     return (<div className={clsx('cv-RLResize',{resize:move})}
-                 style={{height}}
                  ref={containerRef}
                  onMouseMove={handleMove}
                  onMouseLeave={()=>setMove(false)}
                  onMouseUp={()=>setMove(false)}>
-        <div className="cv-RLResize-item" style={{width:`${(leftWidth/maxWidth)*100}%`,height,minWidth:itemMinWidth}}>
+        <div className="cv-RLResize-item" style={{width:`${(leftWidth/maxWidth)*100}%`,...itemOps}}>
             {props.left}
         </div>
         <div className={clsx("cv-RLResize-line",{resize:move})} onMouseDown={()=>setMove(true)}/>
-        <div className="cv-RLResize-item" style={{width:`${(1-(leftWidth/maxWidth))*100}%`,height,minWidth:itemMinWidth}}>
+        <div className="cv-RLResize-item" style={{width:`${(1-(leftWidth/maxWidth))*100}%`,...itemOps}}>
             {props.right}
         </div>
     </div>);
@@ -48,10 +47,13 @@ function RLResize(props) {
     }
 }
 RLResize.defaultProps = {
-    height:540,
-    itemMinWidth:120,
-    left:'left',
-    right:'right',
+    itemOps:{
+        height:'auto',
+        maxHeight:540,
+        minWidth:120,
+    },
+    left:null,
+    right:null,
 }
 
 export default RLResize;
