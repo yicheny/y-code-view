@@ -10,7 +10,7 @@ import RLResize from "../component/RLResize";
 const vm = require('vm');
 
 function ConsoleView(props) {
-    const { theme, delay, direction,dependencies } = props;
+    const { theme, delay, direction,dependencies,openConsole } = props;
     const source = useMemo(() =>{
         const res = props.source || props.children;
         return _.get(res, 'default',res);
@@ -30,7 +30,7 @@ function ConsoleView(props) {
             const GlobData = [];
             try{
                 const runTime = vm.runInThisContext(getRunTimeCode(code,dependencies));
-                runTime(GlobData,dependencies);
+                runTime(GlobData,dependencies,openConsole);
             }catch(e){
                 GlobData.push([{
                     __type:'error',
@@ -39,7 +39,7 @@ function ConsoleView(props) {
             }
             setConsoleView(GlobData);
         }
-    },[code,delay,dependencies])
+    },[code,delay,dependencies,openConsole])
 
     const { beforeHTML, afterHTML, code:sourceCode } = useMemo(() => parseHTML_RunCode(source), [source]);
 
@@ -67,6 +67,7 @@ ConsoleView.defaultProps = {
     direction: 'across', //可选'across'、'vertical',
     resizeOps:{},
     dependencies:null,
+    openConsole:false
 }
 
 export default ConsoleView;
@@ -74,8 +75,8 @@ export default ConsoleView;
 //
 function getRunTimeCode(code,dependencies){
     const {addPrint,addDependencies,getPrintStr,wrapperFunStr } = getRunTimeCode;
-    code = addDependencies(dependencies).concat(getPrintStr(),code)
-    return wrapperFunStr(addPrint(code));
+    code = addDependencies(dependencies).concat(getPrintStr(),addPrint(code))
+    return wrapperFunStr(code);
 }
 getRunTimeCode.addPrint = function (code) {
     if(typeof code !== 'string') return null;
@@ -92,12 +93,13 @@ getRunTimeCode.getPrintStr = function (){
         function __print(...params){
             GlobData[__count] = params;
             __count++;
+            if(openConsole) console.log(...params);
         }
         \n
     `
 }
 getRunTimeCode.wrapperFunStr = function (content){
-    return `(function (GlobData,dependencies){${content}})`
+    return `(function (GlobData,dependencies,openConsole){${content}})`
 }
 
 function ViewCol(props){
