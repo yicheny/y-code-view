@@ -156,13 +156,16 @@ getColInfo.getObjectColInfo = function (source){
 
     const value = source.reduce((acc,x,i)=>{
         const [key,value] = x;
-        acc.push(
-            <ViewColValue key={i+1} data={key} className='object-name'/>,
-            ':',
-            <ViewColValue key={i+1+maxLen} data={value}/>,
-        );
         const isLast = i === source.length-1;
-        return isLast ? acc : acc.concat(',');
+
+        acc.push(
+            <div className="line" key={i+1}>
+                <ViewColValue data={key} className='object-name'/>
+                :
+                <ViewColValue data={value}/> { isLast ? null : ','}
+            </div>
+        );
+        return acc;
     },[prefix])
     value.push([suffix]);
 

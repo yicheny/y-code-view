@@ -22,6 +22,7 @@
     background: #fff;
     font-size: 14px;
     overflow: auto;
+    //font-family: 'Operator Mono', 'Source Code Pro', Menlo, Monaco, Consolas, Courier New, monospace;;
     >.v-col{
       display: flex;
       align-items: flex-start;
@@ -53,6 +54,9 @@
           }
         }
         &.object{
+          .line{
+            margin-left:18px;
+          }
           .object-name{
             color:#6f42c1;
           }
