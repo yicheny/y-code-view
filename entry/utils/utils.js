@@ -13,3 +13,8 @@ export const checkType = _.curry(function (types,value){
     if(Array.isArray(types)) return types.includes(typeFor(value));
     throw new Error('checkType参数类型异常')
 })
+
+let count = 0;
+export const getUniqkey = function (){
+    return `u-${(new Date()).getTime()}-${count++}`
+}

@@ -6,6 +6,7 @@ import CodeEditor from "./CodeEditor";
 import parseHTML_RunCode from "../utils/parseHTML_RunCode";
 import Icon from "../component/Icon";
 import RLResize from "../component/RLResize";
+import { getUniqkey } from "../utils/utils";
 
 const vm = require('vm');
 
@@ -115,8 +116,9 @@ function ViewCol(props){
 
 function ViewColValue(props){
     const {data} = props;
-    const {value,className} = useMemo(()=>getColInfo(data),[data]);
-    return <span className={clsx("col-value",className,props.className)}>
+    const {value,className,onClick,style} = useMemo(()=>getColInfo(data),[data]);
+    return <span className={clsx("col-value",className,props.className)}
+                 onClick={onClick} style={style}>
        {value}
     </span>
 }
@@ -147,30 +149,63 @@ getColInfo.getArrayColInfo = function (source) {
     return {value,className:'array'}
 }
 getColInfo.getObjectColInfo = function (source){
-    if(source.__type==='error') return {value:source.value,className:'error'}
+    if(source.__type==='error') return {value:source.value,className:'error'};
 
     source = _.entries(source);
-    const maxLen = source.length;
-    const prefix = <span className="prefix" key={0}>{String(' { ')}</span>
-    const suffix = <span className="suffix" key={maxLen*2+1}>{String(' } ')}</span>
+    const prefix = <span className="prefix" key={0}>{String(' {')}</span>
+    const suffix = <span className="suffix" key={2}>{String('} ')}</span>
+    const value = [prefix,suffix];
 
-    const value = source.reduce((acc,x,i)=>{
+    const lines =  source.reduce((acc,x,i)=>{
         const [key,value] = x;
         const isLast = i === source.length-1;
 
         acc.push(
-            <div className="line" key={i+1}>
+            <span className="line" key={i}>
                 <ViewColValue data={key} className='object-name'/>
                 :
                 <ViewColValue data={value}/> { isLast ? null : ','}
-            </div>
+            </span>
         );
         return acc;
-    },[prefix])
-    value.push([suffix]);
+    },[]);
+
+    let {uniqKey,status} = getColInfo.getObjectColInfo.getThisData();
+    const content = <span key={1} className={clsx('object-content',uniqKey)}>
+        <span className="content-normal">{lines}</span>
+        <span className="content-omit" style={{display:'none'}}>...</span>
+    </span>
+
+    value.splice(1,0,content);
 
     return {
         className:'object',
-        value
+        value,
+        onClick:handleClick,
+        style:{cursor:_.isEmpty(lines) ? null : 'pointer'}
+    }
+
+    //
+    function handleClick(e){
+        e.stopPropagation();
+        e.preventDefault();
+        if(_.isEmpty(lines)) return null;
+        const item = document.querySelector(`.${uniqKey}`);
+        const nextStatus = isClose() ? 'block' : 'none';
+        // item.style.display = status;
+        const [normal,omit] = item.children;
+        normal.style.display = nextStatus;
+        omit.style.display = isClose() ? 'none' : 'inline-block';
+        status = nextStatus;
+    }
+
+    function isClose(){
+        return status === 'none';
+    }
+}
+getColInfo.getObjectColInfo.getThisData = function(){
+    return {
+        uniqKey:getUniqkey(),
+        status:'block'
     }
 }
