@@ -33,6 +33,7 @@ function ConsoleView(props) {
                 const runTime = vm.runInThisContext(getRunTimeCode(code,dependencies));
                 runTime(GlobData,dependencies,openConsole);
             }catch(e){
+                // console.error(e);
                 GlobData.push([{
                     __type:'error',
                     value:String(e)
@@ -99,7 +100,7 @@ getRunTimeCode.getPrintStr = function (){
     `
 }
 getRunTimeCode.wrapperFunStr = function (content){
-    return `(function (GlobData,dependencies,openConsole){${content}})`
+    return `(function (GlobData,dependencies,openConsole){\n${content}\n});`
 }
 
 function ViewCol(props){
@@ -162,7 +163,7 @@ getColInfo.getObjectColInfo = function (source){
 
         acc.push(
             <span className="line" key={i}>
-                <ViewColValue data={key} className='object-name'/>
+                <ViewColValue data={key} className='object-key'/>
                 :
                 <ViewColValue data={value}/> { isLast ? null : ','}
             </span>
@@ -192,7 +193,6 @@ getColInfo.getObjectColInfo = function (source){
         if(_.isEmpty(lines)) return null;
         const item = document.querySelector(`.${uniqKey}`);
         const nextStatus = isClose() ? 'block' : 'none';
-        // item.style.display = status;
         const [normal,omit] = item.children;
         normal.style.display = nextStatus;
         omit.style.display = isClose() ? 'none' : 'inline-block';

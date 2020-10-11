@@ -54,11 +54,14 @@
           }
         }
         &.object{
+          .content-omit{
+            font-size: 12px;
+          }
           .line{
             display: block;
             margin-left:18px;
           }
-          .object-name{
+          .object-key{
             color:#6f42c1;
           }
           .prefix,.suffix{
