@@ -49,13 +49,16 @@
           color:#005cc5;
         }
         &.array{
-          .prefix,.suffix{
-            font-size: 16px;
-          }
+
         }
         &.object{
           .content-omit{
             font-size: 12px;
+          }
+        }
+        &.array,&.object{
+          .prefix,.suffix{
+            font-size: 16px;
           }
           .line{
             display: block;
@@ -63,9 +66,6 @@
           }
           .object-key{
             color:#6f42c1;
-          }
-          .prefix,.suffix{
-            font-size: 16px;
           }
         }
         &.error{
