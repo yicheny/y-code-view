@@ -24,7 +24,7 @@ console.log({
 })
 console.log([]);
 console.log([1,2,3,4]);
-console.log([1,'abc',true,[2,3],null,{a:1}])
+console.log([1,'abc',true,[2,3],null,{a:1},[]])
 
 //一次输出多个值
 console.log(1,2,3,4);
