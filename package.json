@@ -36,8 +36,8 @@
     "react-hot-loader": "^3.0.0-beta.6",
     "sass-loader": "^7.3.1",
     "style-loader": "^0.13.2",
-    "webpack": "2.2.1",
-    "webpack-dev-server": "^2.3.0",
+    "webpack": "^2.2.1",
+    "webpack-dev-server": "^2.11.5",
     "y-ui0": "0.0.13"
   },
   "dependencies": {
