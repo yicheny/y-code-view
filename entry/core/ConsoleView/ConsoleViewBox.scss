@@ -1,0 +1,64 @@
+.cv-console-view-box{
+  border:1px solid rgba(0,0,0,0.32);
+  flex:1;
+  padding:12px 20px;
+  //background: #292A2B;
+  background: #fff;
+  font-size: 14px;
+  overflow: auto;
+  font-family: 'Operator Mono', 'Source Code Pro', Menlo, Monaco, Consolas, Courier New, monospace;;
+
+  >.v-col{
+    display: flex;
+    align-items: flex-start;
+    padding:2px 4px;
+    line-height: 21px;
+
+    >.icon-arrowDown{
+      min-width:16px;
+      display: inline-block;//行内元素设置rotate无效
+      transform: rotate(-90deg);
+      margin-top:-2px;
+    }
+
+    >.content{
+      margin-left:12px;
+    }
+
+    .col-value{
+      //margin:0 3px;
+      &.nil{
+        color:rgba(0,0,0,0.42);
+      }
+      &.number{
+        color:blue;
+      }
+      &.boolean{
+        color:#005cc5;
+      }
+      &.array{
+
+      }
+      &.object{
+        .content-shrink{
+          font-size: 12px;
+        }
+      }
+      &.array,&.object{
+        .prefix,.suffix{
+          font-size: 16px;
+        }
+        .line{
+          display: block;
+          margin-left:18px;
+        }
+        .object-key{
+          color:#6f42c1;
+        }
+      }
+      &.error{
+        color:red;
+      }
+    }
+  }
+}

@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import clsx from "clsx";
 import Icon from "../../component/Icon";
 import _ from "lodash";
-import ViewColValue from "./ViewColValue";
+import './ConsoleViewBox.scss';
+import getColInfo from "./getColInfo";
 
 export default function ConsoleViewBox({ data }) {
     return <div className="cv-console-view-box">
@@ -22,4 +23,13 @@ function ViewCol(props){
             }
         </div>
     </div>
+}
+
+export function ViewColValue(props){
+    const {data,source} = props;
+    const {value,className,onClick,style} = useMemo(()=>getColInfo(data,source),[data,source]);
+    return <span className={clsx("col-value",className,props.className)}
+                 onClick={onClick} style={style}>
+       {value}
+    </span>
 }

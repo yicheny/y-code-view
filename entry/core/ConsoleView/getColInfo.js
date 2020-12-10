@@ -2,7 +2,7 @@ import _ from "lodash";
 import clsx from "clsx";
 import { getUniqkey } from "../../utils/utils";
 import React from "react";
-import ViewColValue from "./ViewColValue";
+import { ViewColValue } from "./ConsoleViewBox";
 
 export default function getColInfo(value,source){
     if(_.isNil(value)) return {className: 'nil',value:fillEmpty(String(value))};
