@@ -1,31 +1,10 @@
-import clsx from "clsx";
-import Icon from "../../component/Icon";
 import _ from "lodash";
-import React, { useMemo } from "react";
+import clsx from "clsx";
 import { getUniqkey } from "../../utils/utils";
+import React from "react";
+import ViewColValue from "./ViewColValue";
 
-export default function ViewCol(props){
-    const {data} = props;
-    return <div className={clsx('v-col')}>
-        <Icon name='arrowDown' size={12}/>
-        <div className="content">
-            {
-                _.map(data,(x,i)=><ViewColValue key={i} data={x}/>)
-            }
-        </div>
-    </div>
-}
-
-function ViewColValue(props){
-    const {data,source} = props;
-    const {value,className,onClick,style} = useMemo(()=>getColInfo(data,source),[data,source]);
-    return <span className={clsx("col-value",className,props.className)}
-                 onClick={onClick} style={style}>
-       {value}
-    </span>
-}
-
-function getColInfo(value,source){
+export default function getColInfo(value,source){
     if(_.isNil(value)) return {className: 'nil',value:fillEmpty(String(value))};
     if(_.isBoolean(value)) return {className:'boolean',value:fillEmpty(String(value))};
     if(_.isNumber(value)) return {className:'number', value:fillEmpty(String(value))};
