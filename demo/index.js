@@ -1,7 +1,7 @@
 import React,{useState} from 'react'
 import {render} from 'react-dom'
 import CodeView from "../entry/core/CodeView";
-import ConsoleView from "../entry/core/ConsoleView";
+import ConsoleView from "../entry/core/ConsoleView/ConsoleView";
 import {Card,Button,Modal} from 'y-ui0';
 import toDate from './utils/toDate';
 
