@@ -62,7 +62,7 @@ export default class ColInfo{
         const [prefix,suffix] = this._wrap;
         return {
             className,
-            value:[prefix,this._content,suffix],
+            children:[prefix,this._content,suffix],
             onClick:this._getHandleClick(),
             style:{cursor:!this._canClick ? 'default' : 'pointer'}
         }

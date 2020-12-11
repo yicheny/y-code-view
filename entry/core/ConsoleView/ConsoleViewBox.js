@@ -27,9 +27,9 @@ function ViewCol(props){
 
 export function ViewColValue(props){
     const {data,source} = props;
-    const {value,className,onClick,style} = useMemo(()=>createColInfo(data,source),[data,source]);
+    const {children,className,onClick,style} = useMemo(()=>createColInfo(data,source),[data,source]);
     return <span className={clsx("col-value",className,props.className)}
                  onClick={onClick} style={style}>
-       {value}
+       {children}
     </span>
 }

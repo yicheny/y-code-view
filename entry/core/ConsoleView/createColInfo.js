@@ -9,7 +9,7 @@ export default function createColInfo(value,source){
     if(_.isNumber(value)) return createInfo('number');
 
     if(_.isPlainObject(value)) {
-        if(value.__type === 'error') return {value:data.value,className:'error'};
+        if(value.__type === 'error') return {children:value.info,className:'error'};
         return ObjectColInfo.create(value,source).info;
     }
 
@@ -17,7 +17,7 @@ export default function createColInfo(value,source){
     return createInfo();
 
     function createInfo(className){
-        return {className,value:fillEmpty(String(value))}
+        return {className,children:fillEmpty(String(value))}
 
         function fillEmpty(x){
             return ` ${x} `
