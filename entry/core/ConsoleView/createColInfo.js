@@ -4,9 +4,9 @@ import ObjectColInfo from "./ObjectColInfo";
 import ArrayColInfo from "./ArrayColInfo";
 
 export default function createColInfo(value,source){
-    if(_.isNil(value)) return {className: 'nil',value:fillEmpty(String(value))};
-    if(_.isBoolean(value)) return {className:'boolean',value:fillEmpty(String(value))};
-    if(_.isNumber(value)) return {className:'number', value:fillEmpty(String(value))};
+    if(_.isNil(value)) return createInfo('nil');
+    if(_.isBoolean(value)) return createInfo('boolean');
+    if(_.isNumber(value)) return createInfo('number');
 
     if(_.isPlainObject(value)) {
         if(value.__type === 'error') return {value:data.value,className:'error'};
@@ -14,9 +14,13 @@ export default function createColInfo(value,source){
     }
 
     if(_.isArray(value)) return ArrayColInfo.create(value,source).info;
-    return {value:fillEmpty(String(value))}
+    return createInfo();
 
-    function fillEmpty(x){
-        return ` ${x} `
+    function createInfo(className){
+        return {className,value:fillEmpty(String(value))}
+
+        function fillEmpty(x){
+            return ` ${x} `
+        }
     }
 }
