@@ -12,6 +12,8 @@ export default class ColInfo{
         this._canClick = this._getCanClick();
         this._currentData = this._createCurrentData();
 
+        this._extraInit();
+
         return this;
     }
 
@@ -73,5 +75,10 @@ export default class ColInfo{
             uniqKey:getUniqkey(),
             status
         }
+    }
+
+    //这部分需要由子类实现
+    _extraInit(){
+
     }
 }

@@ -8,6 +8,10 @@ export default class ArrayColInfo extends ColInfo{
         return new ArrayColInfo(...params);
     }
 
+    _extraInit() {
+        this._normalLines = this._getNormalLines();
+    }
+
     _getNormalLines(){
         return this._data.map((x,i,ary)=>{
             const isLast = i === ary.length-1;
@@ -22,8 +26,7 @@ export default class ArrayColInfo extends ColInfo{
     }
 
     get _content(){
-        return <ColValueContent key={1} currentData={this._currentData}
-                                getShrinkDisplay={this._getShrinkDisplay} normalLines={this._getNormalLines()} lines={this._lines}/>
+        return <ColValueContent key={1} data={this}/>
     }
 
     get _wrap() {
@@ -36,8 +39,9 @@ export default class ArrayColInfo extends ColInfo{
 }
 
 //组件
-function ColValueContent({currentData,normalLines,lines,getShrinkDisplay}){
-    const {status,uniqKey} = currentData;
+function ColValueContent({data}){
+    const {_currentData,_normalLines,_lines,_getShrinkDisplay} = data;
+    const {status,uniqKey} = _currentData;
     const [isWrap,setIsWrap] = useState(false);
     const containerRef = useRef();
     const shrinkRef = useRef();
@@ -50,9 +54,9 @@ function ColValueContent({currentData,normalLines,lines,getShrinkDisplay}){
     },[]);
 
     return <span className={clsx('content',uniqKey)} ref={containerRef}>
-        <span ref={shrinkRef} className="content-shrink" style={{display:getShrinkDisplay(status)}}>
-            {isWrap ? `...` : normalLines}
+        <span ref={shrinkRef} className="content-shrink" style={{display:_getShrinkDisplay(status)}}>
+            {isWrap ? `...` : _normalLines}
         </span>
-        <span className="content-unfold" style={{display:status}}>{lines}</span>
+        <span className="content-unfold" style={{display:status}}>{_lines}</span>
     </span>
 }
