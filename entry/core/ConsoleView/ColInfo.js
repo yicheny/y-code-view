@@ -1,7 +1,8 @@
 import _ from "lodash";
 import { ViewColValue } from "./ConsoleViewBox";
 import { getUniqkey } from "../../utils/utils";
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
+import clsx from "clsx";
 
 export default class ColInfo{
     constructor(data,source) {
@@ -11,23 +12,13 @@ export default class ColInfo{
         this._lines = this._getLines();
         this._canClick = this._getCanClick();
         this._currentData = this._createCurrentData();
-
-        this._extraInit();
+        this._normalLines = this._getNormalLines();
 
         return this;
     }
 
     _getLines(){
-        return _.entries(this._data).map((x,i,ary)=>{
-            const [key,value] = x;
-            const isLast = i === ary.length-1;
-
-            return  <span className="line" key={i}>
-                <ViewColValue data={key} className='object-key'/>
-                :
-                <ViewColValue data={value}/> { isLast ? null : ','}
-            </span>;
-        })
+       return this._curryGetLines("line");
     }
 
     _getCanClick(){
@@ -77,8 +68,42 @@ export default class ColInfo{
         }
     }
 
-    //这部分需要由子类实现
-    _extraInit(){
+    _curryGetLines(className){
+        return _.entries(this._data).map((x,i,ary)=>{
+            const [key,value] = x;
+            const isLast = i === ary.length-1;
 
+            return  <span className={className} key={i}>
+                <ViewColValue data={key} className='object-key'/>:<ViewColValue data={value}/> { isLast ? null : ','}
+            </span>;
+        })
     }
+
+    get _content(){
+        return <ColValueContent key='content' data={this}/>
+    }
+}
+
+//组件
+function ColValueContent({data}){
+    const {_currentData,_normalLines,_lines,_getShrinkDisplay} = data;
+    const {status,uniqKey} = _currentData;
+    const [isWrap,setIsWrap] = useState(false);
+    const containerRef = useRef();
+    const shrinkRef = useRef();
+
+    useEffect(()=>{
+        const containerY = containerRef.current.getBoundingClientRect().y;
+        const shrinkY = shrinkRef.current.getBoundingClientRect().y;
+        const offset = containerY - shrinkY;
+        if(offset >= 6) setIsWrap(true);
+    },[]);
+
+    //{isWrap ? `...` : _normalLines}
+    return <span className={clsx('content',uniqKey)} ref={containerRef}>
+        <span ref={shrinkRef} className="content-shrink" style={{display:_getShrinkDisplay(status)}}>
+            {isWrap ? `...` : _normalLines}
+        </span>
+        <span className="content-unfold" style={{display:status}}>{_lines}</span>
+    </span>
 }
