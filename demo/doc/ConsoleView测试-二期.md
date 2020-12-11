@@ -14,6 +14,7 @@ console.log({
     f:[1,2,3]
 })
 
+//当内容超过一行时，会折换成'...'
 console.log([
     1,
     'abc',
@@ -22,7 +23,14 @@ console.log([
     [],
     {},
     [2,3],
-    // {a:1}
+    {a:1}
+])
+
+console.log([
+    1,
+    'abc',
+    true,
+    null,
 ])
 ```
 

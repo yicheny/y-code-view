@@ -1,6 +1,6 @@
 import { ViewColValue } from "./ConsoleViewBox";
 import clsx from "clsx";
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ColInfo from "./ColInfo";
 
 export default class ArrayColInfo extends ColInfo{
@@ -22,11 +22,8 @@ export default class ArrayColInfo extends ColInfo{
     }
 
     get _content(){
-        const {status,uniqKey} = this._currentData;
-        return <span key={1}  className={clsx('content',uniqKey)}>
-        <span className="content-shrink" style={{display:this._getShrinkDisplay(status)}}>{this._getNormalLines()}</span>
-        <span className="content-unfold" style={{display:status}}>{this._lines}</span>
-    </span>
+        return <ColValueContent key={1} currentData={this._currentData}
+                                getShrinkDisplay={this._getShrinkDisplay} normalLines={this._getNormalLines()} lines={this._lines}/>
     }
 
     get _wrap() {
@@ -36,4 +33,26 @@ export default class ArrayColInfo extends ColInfo{
     get info(){
         return this._createInfo('array');
     }
+}
+
+//组件
+function ColValueContent({currentData,normalLines,lines,getShrinkDisplay}){
+    const {status,uniqKey} = currentData;
+    const [isWrap,setIsWrap] = useState(false);
+    const containerRef = useRef();
+    const shrinkRef = useRef();
+
+    useEffect(()=>{
+        const containerY = containerRef.current.getBoundingClientRect().y;
+        const shrinkY = shrinkRef.current.getBoundingClientRect().y;
+        const offset = containerY - shrinkY;
+        if(offset >= 12) setIsWrap(true);
+    },[]);
+
+    return <span className={clsx('content',uniqKey)} ref={containerRef}>
+        <span ref={shrinkRef} className="content-shrink" style={{display:getShrinkDisplay(status)}}>
+            {isWrap ? `...` : normalLines}
+        </span>
+        <span className="content-unfold" style={{display:status}}>{lines}</span>
+    </span>
 }
