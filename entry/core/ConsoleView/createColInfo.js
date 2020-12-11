@@ -17,10 +17,6 @@ export default function createColInfo(value,source){
     return createInfo();
 
     function createInfo(className){
-        return {className,children:fillEmpty(String(value))}
-
-        function fillEmpty(x){
-            return ` ${x} `
-        }
+        return {className,children:` ${String(value)} `}
     }
 }
