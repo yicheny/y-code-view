@@ -3,7 +3,7 @@ import clsx from "clsx";
 import Icon from "../../component/Icon";
 import _ from "lodash";
 import './ConsoleViewBox.scss';
-import getColInfo from "./getColInfo";
+import createColInfo from "./createColInfo";
 
 export default function ConsoleViewBox({ data }) {
     return <div className="cv-console-view-box">
@@ -27,7 +27,7 @@ function ViewCol(props){
 
 export function ViewColValue(props){
     const {data,source} = props;
-    const {value,className,onClick,style} = useMemo(()=>getColInfo(data,source),[data,source]);
+    const {value,className,onClick,style} = useMemo(()=>createColInfo(data,source),[data,source]);
     return <span className={clsx("col-value",className,props.className)}
                  onClick={onClick} style={style}>
        {value}

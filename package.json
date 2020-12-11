@@ -7,7 +7,7 @@
     "upload": "npm publish --registry http://registry.npmjs.org",
     "build": "babel entry --out-dir lib && npx node-sass -r entry -o lib --output-style compressed",
     "webpack": "webpack",
-    "dev": "webpack-dev-server"
+    "dev": "webpack-dev-server --env=development"
   },
   "keywords": [
     "react",
