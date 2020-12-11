@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React, { useState } from 'react'
 import {render} from 'react-dom'
 import CodeView from "../entry/core/CodeView";
 import ConsoleView from "../entry/core/ConsoleView/ConsoleView";
@@ -8,10 +8,9 @@ import toDate from './utils/toDate';
 import 'y-ui0/lib/style.css';
 import '../entry/index.scss';
 import './index.scss';
-import RLResize from "../entry/component/RLResize";
 
 const App = ()=>{
-    return <div>
+    return <CardBox current='ConsoleView测试-二期'>
         <Card title='ConsoleView测试-二期'>
             <ConsoleView source={require('./doc/ConsoleView测试-二期.md')} dependencies={{toDate}}/>
         </Card>
@@ -30,13 +29,17 @@ const App = ()=>{
         <Card title='错误捕捉踩坑记录-弹出框'>
             <CodeView source={require('../doc/错误捕捉踩坑记录.md')}/>
         </Card>
-    </div>
+    </CardBox>
 };
 
-function Demo(){
+render(<App/>, document.querySelector('#app'));
+
+function CardBox({children,current}){
+    const content = [];
+    React.Children.forEach(children,x=>{
+        if(x.props.title === current) content.push(x);
+    })
     return <div>
-        <RLResize/>
+        {content}
     </div>
 }
-
-render(<App/>, document.querySelector('#app'));
