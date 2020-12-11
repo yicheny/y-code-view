@@ -30,21 +30,6 @@ export default class ColInfo{
         return s === 'none' ? 'inline-block' : 'none'
     }
 
-    _getHandleClick(){
-        return (e)=>{
-            const {status,uniqKey} = this._currentData;
-            e.stopPropagation();
-            e.preventDefault();
-            if(!this._canClick) return null;
-            const item = document.querySelector(`.${uniqKey}`);
-            const nextStatus = status === 'none' ? 'block' : 'none';
-            const [shrink,unfold] = item.children;
-            unfold.style.display = nextStatus;
-            shrink.style.display = this._getShrinkDisplay(nextStatus);
-            this._currentData.status = nextStatus;
-        }
-    }
-
     _createWrap(prefixContent,suffixContent){
         const prefix = <span className="prefix" key='prefix'>{prefixContent}</span>
         const suffix = <span className="suffix" key="suffix">{suffixContent}</span>
@@ -56,7 +41,7 @@ export default class ColInfo{
         return {
             className,
             children:[prefix,this._content,suffix],
-            onClick:this._getHandleClick(),
+            onClick:this._onClick,
             style:{cursor:!this._canClick ? 'default' : 'pointer'}
         }
     }
@@ -74,9 +59,24 @@ export default class ColInfo{
             const isLast = i === ary.length-1;
 
             return  <span className={className} key={i}>
-                <ViewColValue data={key} className='object-key'/>:<ViewColValue data={value}/> { isLast ? null : ','}
+                <ViewColValue data={key} className='object-key'/>:<ViewColValue data={value}/>{ isLast ? null : ','}
             </span>;
         })
+    }
+
+    get _onClick(){
+        return (e)=>{
+            const {status,uniqKey} = this._currentData;
+            e.stopPropagation();
+            e.preventDefault();
+            if(!this._canClick) return null;
+            const item = document.querySelector(`.${uniqKey}`);
+            const nextStatus = status === 'none' ? 'block' : 'none';
+            const [shrink,unfold] = item.children;
+            unfold.style.display = nextStatus;
+            shrink.style.display = this._getShrinkDisplay(nextStatus);
+            this._currentData.status = nextStatus;
+        }
     }
 
     get _content(){
@@ -99,7 +99,6 @@ function ColValueContent({data}){
         if(offset >= 6) setIsWrap(true);
     },[]);
 
-    //{isWrap ? `...` : _normalLines}
     return <span className={clsx('content',uniqKey)} ref={containerRef}>
         <span ref={shrinkRef} className="content-shrink" style={{display:_getShrinkDisplay(status)}}>
             {isWrap ? `...` : _normalLines}
