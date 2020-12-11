@@ -9,13 +9,12 @@ export default class ArrayColInfo extends ColInfo{
     }
 
     _getNormalLines(){
-        return this._data.reduce((acc,x,i,ary)=>{
+        return this._data.map((x,i,ary)=>{
             const isLast = i === ary.length-1;
-            acc.push(<span className='item' key={i}>
-            <ViewColValue data={Array.isArray(x) ? `Array(${x.length})` : x} source={ary}/>{isLast ? null : ','}
-        </span>);
-            return acc;
-        },[]);
+            return <span className='item' key={i}>
+                <ViewColValue data={Array.isArray(x) ? `Array(${x.length})` : x} source={ary}/>{isLast ? null : ','}
+            </span>;
+        });
     }
 
     _createCurrentData(){

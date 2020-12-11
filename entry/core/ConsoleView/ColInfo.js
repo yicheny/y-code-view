@@ -8,30 +8,24 @@ export default class ColInfo{
         this._data = data;
         this._source = source;
 
-        this._init();
-        return this;
-    }
-
-    _init(){
         this._lines = this._getLines();
         this._canClick = this._getCanClick();
         this._currentData = this._createCurrentData();
+
+        return this;
     }
 
     _getLines(){
-        return _.entries(this._data).reduce((acc,x,i,ary)=>{
+        return _.entries(this._data).map((x,i,ary)=>{
             const [key,value] = x;
             const isLast = i === ary.length-1;
 
-            acc.push(
-                <span className="line" key={i}>
-                    <ViewColValue data={key} className='object-key'/>
-                    :
-                    <ViewColValue data={value}/> { isLast ? null : ','}
-                </span>
-            );
-            return acc;
-        },[])
+            return  <span className="line" key={i}>
+                <ViewColValue data={key} className='object-key'/>
+                :
+                <ViewColValue data={value}/> { isLast ? null : ','}
+            </span>;
+        })
     }
 
     _getCanClick(){
