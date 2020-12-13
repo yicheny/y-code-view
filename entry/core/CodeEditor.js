@@ -76,7 +76,7 @@ function CodeEditor(props) {
         if(!e) return ;
         e.on('keydown',handleHotKeyExe);
         function handleHotKeyExe(e,nativeE){
-            if(nativeE.ctrlKey && nativeE.keyCode===83){
+            if(nativeE.ctrlKey && nativeE.keyCode===83){ //Ctrl + S
                 nativeE.preventDefault();
                 nativeE.stopPropagation();
                 if(hotKeyExe) hotKeyExe(e.getValue());
