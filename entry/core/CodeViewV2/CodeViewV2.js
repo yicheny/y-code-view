@@ -4,7 +4,7 @@ import _ from "lodash";
 import { Markdown } from "y-markdown";
 import CodeEditor from "../CodeEditor";
 import ErrorBoundary from "../ErrorBoundary";
-import { replaceImport } from "../../utils/supportModule";
+import supportModule from "../../utils/supportModule";
 const vm = require('vm');
 
 function CodeViewV2(props) {
@@ -63,7 +63,7 @@ CodeBox.defaultProps = {
 
 //工具方法
 function createRunTime(code,options){
-    let runTimeStr = window.Babel.transform(replaceImport(code),options).code;
+    let runTimeStr = window.Babel.transform(supportModule(code),options).code;
     runTimeStr = `(function (React,module){\n${runTimeStr}\n});`
     return vm.runInThisContext(runTimeStr);
 }

@@ -15,7 +15,8 @@ function Demo(){
          <button onClick={()=>setNum(num+1)}>点击增加</button>
      </div>;
 }
-module.exports = Demo;
+
+export default Demo;
 ```
 
 <!--end-code-->
