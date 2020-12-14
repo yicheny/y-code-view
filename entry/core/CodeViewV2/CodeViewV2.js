@@ -1,36 +1,37 @@
-import React, {Fragment, useMemo} from 'react';
+import React, {Fragment, useMemo,useState} from 'react';
 import parseDoc from "./parseDoc";
 import _ from "lodash";
-import Markdown from "y-markdown/entry/component/Markdown";
-
-{/*{
-    _.map(htmls,(x,i)=>{
-        if(_.isString(x)) return <Markdown key={i}>{x}</Markdown>
-        const {value,key} = x;
-        const code = _.find(codes,x=>x.key === key);
-        return <Fragment>
-            <Markdown>{value}</Markdown>
-            <CodeBox code={code}/>
-        </Fragment>
-    })
-}*/}
+import { Markdown } from "y-markdown";
+import CodeEditor from "../CodeEditor";
 
 function CodeViewV2(props) {
     const source = useSource(props);
-    // const {htmls,codes} = useMemo(()=>parseDoc(source),[source]);
+    const {htmls,codes} = useMemo(()=>parseDoc(source),[source]);
 
     // console.log(htmls,codes);
-    // console.log(parseDoc(source))
-    return (<div> </div>);
+    return (<div>
+        {
+            _.map(htmls,(x,i)=>{
+                if(_.isString(x)) return <Markdown key={i}>{x}</Markdown>
+                const {value,key} = x;
+                const code = _.find(codes,x=>x.key === key);
+                return <Fragment key={i}>
+                    <Markdown>{value}</Markdown>
+                    <CodeBox code={code.value}/>
+                </Fragment>
+            })
+        }
+    </div>);
 }
 
 export default CodeViewV2;
 
 //组件
-function CodeBox({code}){
-    console.log(code);
+function CodeBox(props){
+    const [code,setCode] = useState(props.code);
+
     return <div>
-        codeBox
+        <CodeEditor code={code} onChange={setCode} expanded/>
     </div>
 }
 

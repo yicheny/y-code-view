@@ -102,7 +102,8 @@ CodeEditor.defaultProps = {
     matchBrackets: true,//匹配括号
     tabSize: 2,
     expanded:false,
-    lineNumbers:true
+    lineNumbers:true,
+    theme: 'panda-syntax'
 };
 
 export default CodeEditor;
