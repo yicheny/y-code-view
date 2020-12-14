@@ -8,6 +8,7 @@ console.log(1);
 <!--start-code-->
 
 ```jsx
+const {useState} = React;
 function Demo(){
     const [num,setNum] = useState(0); 
     return <div>
@@ -15,7 +16,7 @@ function Demo(){
          <button onClick={()=>setNum(num+1)}>点击增加</button>
      </div>;
 }
-ReactDOM.render(<Demo/>);
+module.exports = Demo;
 ```
 
 <!--end-code-->
@@ -30,6 +31,8 @@ console.log(2);
 <!--start-code-->
 
 ```jsx
+const {useState} = React;
+
 function Demo(){
     const [num,setNum] = useState(100); 
     return <div>
@@ -37,7 +40,7 @@ function Demo(){
          <button onClick={()=>setNum(num+10)}>点击增加</button>
      </div>;
 }
-ReactDOM.render(<Demo/>);
+module.exports = Demo;
 ```
 
 <!--end-code-->
