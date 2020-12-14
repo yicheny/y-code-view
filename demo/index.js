@@ -8,7 +8,7 @@ import './index.scss';
 import {CodeViewV2,CodeView,ConsoleView} from "../entry";
 
 const App = ()=>{
-    return <CardBox current='CodeViewV2测试'>
+    return <CardBox current='CodeViewV2测试-支持模块导入导出'>
         <Card title='ConsoleView测试-二期'>
             <ConsoleView source={require('./doc/ConsoleView测试-二期.md')} dependencies={{toDate}}/>
         </Card>
@@ -27,8 +27,11 @@ const App = ()=>{
         <Card title='错误捕捉踩坑记录-弹出框'>
             <CodeView source={require('../doc/错误捕捉踩坑记录.md')}/>
         </Card>
-        <Card title='CodeViewV2测试'>
-            <CodeViewV2>{require('./doc/CodeViewV2测试文档.md')}</CodeViewV2>
+        <Card title='CodeViewV2测试-运行多份代码'>
+            <CodeViewV2>{require('./doc/CodeViewV2测试-运行多份代码.md')}</CodeViewV2>
+        </Card>
+        <Card title='CodeViewV2测试-支持模块导入导出'>
+            <CodeViewV2>{require('./doc/CodeViewV2测试-支持模块导入导出.md')}</CodeViewV2>
         </Card>
     </CardBox>
 };
