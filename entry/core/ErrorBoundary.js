@@ -1,4 +1,4 @@
-import React,{PureComponent} from 'react';
+import React,{PureComponent,Fragment} from 'react';
 import './ErrorBoundary.scss';
 
 class ErrorBoundary extends PureComponent {
@@ -24,7 +24,7 @@ class ErrorBoundary extends PureComponent {
     render() {
         const {error,children} = this.props;
         if(error) return <pre className="code-view-error">{ error }</pre>;
-        return children;
+        return <Fragment>{children}</Fragment>;
     }
 }
 export default ErrorBoundary;
