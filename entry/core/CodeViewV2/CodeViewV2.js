@@ -78,8 +78,8 @@ CodeBox.defaultProps = {
 //工具方法
 function createRunTime(code,options){
     let runTimeStr = window.Babel.transform(supportModule(code),options).code;
-    runTimeStr = `module.exports = undefined;\n\r`.concat(runTimeStr);
-    runTimeStr = `(function (module,dependencies){\n${runTimeStr}\n});`
+    runTimeStr = `__module.exports = undefined;\n\r`.concat(runTimeStr);
+    runTimeStr = `(function (__module,__dependencies){\n${runTimeStr}\n});`
     return vm.runInThisContext(runTimeStr);
 }
 

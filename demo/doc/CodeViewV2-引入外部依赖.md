@@ -5,7 +5,7 @@
 import React,{useState} from 'React';
 import {Modal,Button} from 'y-ui0';
 
-// console.log('dependencies',dependencies['y-ui0']);
+// console.log('__dependencies',__dependencies['y-ui0']);
 
 function ModalView(props) {
     const [show,setShow] = useState(false);
