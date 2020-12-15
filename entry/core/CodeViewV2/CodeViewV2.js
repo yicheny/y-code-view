@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useMemo, useReducer, useRef, useState } from 'react';
+import React, { Fragment, useCallback, useEffect, useMemo, useReducer, useRef, useState } from 'react';
 import parseDoc from "./parseDoc";
 import _ from "lodash";
 import { Markdown } from "y-markdown";
@@ -8,7 +8,7 @@ import supportModule from "../../utils/supportModule";
 const vm = require('vm');
 
 function CodeViewV2(props) {
-    const {dependencies} = props;
+    const {dependencies,delay,babelTransformOptions} = props;
     const source = useSource(props);
     const {htmls,codes} = useMemo(()=>parseDoc(source),[source]);
 
@@ -20,7 +20,10 @@ function CodeViewV2(props) {
                 const code = _.find(codes,x=>x.key === key);
                 return <Fragment key={i}>
                     <Markdown>{value}</Markdown>
-                    <CodeBox code={code.value} dependencies={dependencies}/>
+                    <CodeBox code={code.value}
+                             dependencies={dependencies}
+                             delay={delay}
+                             babelTransformOptions={babelTransformOptions}/>
                 </Fragment>
             })
         }
@@ -31,21 +34,29 @@ export default CodeViewV2;
 
 //组件
 function CodeBox(props){
-    const {babelTransformOptions,dependencies} = props;
+    const {babelTransformOptions,dependencies,delay} = props;
     const [code,setCode] = useState(props.code);
     const forceUpdate = useForceUpdate();
     const moduleRef = useRef({exports: null});
     const [error,setError] = useState(null);
 
-    useEffect(()=>{
+    const execute = useCallback(()=>{
         try {
             createRunTime(code,babelTransformOptions)(moduleRef.current,_.assign({React},dependencies));
             setError(null);
             forceUpdate();
-       }catch ( e ){
-           setError(e);
-       }
+        }catch ( e ){
+            setError(e);
+        }
     },[code,babelTransformOptions,dependencies])
+
+    useEffect(()=>{
+        const timeId = setTimeout(()=>{
+            execute();
+            clearTimeout(timeId);
+        },delay);
+        return ()=>clearTimeout(timeId);
+    },[delay,execute])
 
     const Component = moduleRef.current.exports;
     return <div>
@@ -57,6 +68,8 @@ function CodeBox(props){
 }
 CodeBox.defaultProps = {
     code:null,
+    dependencies:null,
+    delay:600,
     babelTransformOptions: {
         presets: ['stage-0', 'react', 'es2015']
     },
@@ -64,7 +77,6 @@ CodeBox.defaultProps = {
 
 //工具方法
 function createRunTime(code,options){
-    console.log(supportModule(code));
     let runTimeStr = window.Babel.transform(supportModule(code),options).code;
     runTimeStr = `(function (module,dependencies){\n${runTimeStr}\n});`
     return vm.runInThisContext(runTimeStr);

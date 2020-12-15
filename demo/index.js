@@ -34,9 +34,7 @@ const App = ()=>{
             <CodeViewV2>{require('./doc/CodeViewV2-支持模块导入导出.md')}</CodeViewV2>
         </Card>
         <Card title='CodeViewV2测试-引入外部依赖'>
-            <CodeViewV2 dependencies={{
-                'y-ui0':{Card,Button,Modal}
-            }}>{require('./doc/CodeViewV2-引入外部依赖.md')}</CodeViewV2>
+            <CodeViewV2 dependencies={{ 'y-ui0':{Card,Button,Modal}}} delay={600}>{require('./doc/CodeViewV2-引入外部依赖.md')}</CodeViewV2>
         </Card>
     </CardBox>
 };
