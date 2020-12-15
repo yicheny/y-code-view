@@ -8,7 +8,8 @@ console.log(1);
 <!--start-code-->
 
 ```jsx
-const {useState} = React;
+import React,{useState} from 'React';
+
 function Demo(){
     const [num,setNum] = useState(0); 
     return <div>
@@ -16,7 +17,7 @@ function Demo(){
          <button onClick={()=>setNum(num+1)}>点击增加</button>
      </div>;
 }
-module.exports = Demo;
+export default Demo;
 ```
 
 <!--end-code-->
@@ -31,7 +32,7 @@ console.log(2);
 <!--start-code-->
 
 ```jsx
-const {useState} = React;
+import React,{useState} from 'React';
 
 function Demo(){
     const [num,setNum] = useState(100); 
@@ -40,7 +41,7 @@ function Demo(){
          <button onClick={()=>setNum(num+10)}>点击增加</button>
      </div>;
 }
-module.exports = Demo;
+export default Demo;
 ```
 
 <!--end-code-->

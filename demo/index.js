@@ -44,7 +44,8 @@ render(<App/>, document.querySelector('#app'));
 function CardBox({children,current}){
     const content = [];
     React.Children.forEach(children,x=>{
-        if(x.props.title === current) content.push(x);
+        if(current==='all') return content.push(x);
+        if(x.props.title === current) return content.push(x);
     })
     return <div>
         {content}

@@ -1,4 +1,4 @@
-import CodeView from "./core/CodeView";
+import CodeView from "./core/CodeView/CodeView";
 import {default as ConsoleView} from './core/ConsoleView/ConsoleView';
 import {default as CodeViewV2} from './core/CodeViewV2/CodeViewV2';
 

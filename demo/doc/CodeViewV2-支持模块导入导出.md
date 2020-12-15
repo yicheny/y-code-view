@@ -2,10 +2,9 @@
 <!--start-code-->
 
 ```jsx
-import {useState,useEffect} from 'React';
-import {exports} from 'module';
+import React,{useState,useEffect} from 'React';
 
-// console.log('exports',exports);
+// console.log('exports',__module.exports);
 // console.log('useEffect',useEffect);
 
 function Demo(){
