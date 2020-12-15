@@ -8,6 +8,7 @@ import supportModule from "../../utils/supportModule";
 const vm = require('vm');
 
 function CodeViewV2(props) {
+    const {dependencies} = props;
     const source = useSource(props);
     const {htmls,codes} = useMemo(()=>parseDoc(source),[source]);
 
@@ -19,7 +20,7 @@ function CodeViewV2(props) {
                 const code = _.find(codes,x=>x.key === key);
                 return <Fragment key={i}>
                     <Markdown>{value}</Markdown>
-                    <CodeBox code={code.value}/>
+                    <CodeBox code={code.value} dependencies={dependencies}/>
                 </Fragment>
             })
         }
@@ -30,7 +31,7 @@ export default CodeViewV2;
 
 //组件
 function CodeBox(props){
-    const {babelTransformOptions} = props;
+    const {babelTransformOptions,dependencies} = props;
     const [code,setCode] = useState(props.code);
     const forceUpdate = useForceUpdate();
     const moduleRef = useRef({exports: null});
@@ -38,13 +39,13 @@ function CodeBox(props){
 
     useEffect(()=>{
         try {
-            createRunTime(code,babelTransformOptions)(React,moduleRef.current);
+            createRunTime(code,babelTransformOptions)(moduleRef.current,_.assign({React},dependencies));
             setError(null);
             forceUpdate();
        }catch ( e ){
            setError(e);
        }
-    },[code,babelTransformOptions])
+    },[code,babelTransformOptions,dependencies])
 
     const Component = moduleRef.current.exports;
     return <div>
@@ -63,8 +64,9 @@ CodeBox.defaultProps = {
 
 //工具方法
 function createRunTime(code,options){
+    console.log(supportModule(code));
     let runTimeStr = window.Babel.transform(supportModule(code),options).code;
-    runTimeStr = `(function (React,module){\n${runTimeStr}\n});`
+    runTimeStr = `(function (module,dependencies){\n${runTimeStr}\n});`
     return vm.runInThisContext(runTimeStr);
 }
 
