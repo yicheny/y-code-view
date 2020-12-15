@@ -8,7 +8,7 @@ import './index.scss';
 import {CodeViewV2,CodeView,ConsoleView} from "../entry";
 
 const App = ()=>{
-    return <CardBox current='CodeViewV2测试-引入外部依赖'>
+    return <CardBox current='运行多份代码'>
         <Card title='ConsoleView测试-二期'>
             <ConsoleView source={require('./doc/ConsoleView测试-二期.md')} dependencies={{toDate}}/>
         </Card>
@@ -34,7 +34,9 @@ const App = ()=>{
             <CodeViewV2>{require('./doc/CodeViewV2-支持模块导入导出.md')}</CodeViewV2>
         </Card>
         <Card title='CodeViewV2测试-引入外部依赖'>
-            <CodeViewV2 dependencies={{ 'y-ui0':{Card,Button,Modal}}} delay={600}>{require('./doc/CodeViewV2-引入外部依赖.md')}</CodeViewV2>
+            <CodeViewV2 dependencies={{ 'y-ui0':{Card,Button,Modal}}}
+                        expanded={true}
+                        delay={600}>{require('./doc/CodeViewV2-引入外部依赖.md')}</CodeViewV2>
         </Card>
     </CardBox>
 };
@@ -45,7 +47,7 @@ function CardBox({children,current}){
     const content = [];
     React.Children.forEach(children,x=>{
         if(current==='all') return content.push(x);
-        if(x.props.title === current) return content.push(x);
+        if(x.props.title.includes(current)) return content.push(x);
     })
     return <div>
         {content}

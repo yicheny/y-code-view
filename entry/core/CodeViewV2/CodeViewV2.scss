@@ -1,0 +1,36 @@
+.y-code-view-v2{
+  display: flex;
+  flex-direction: column;
+
+  .y-code-view-v2-box{
+    &:hover{
+      background-color: #f5f9fa;
+    }
+    padding:12px;
+    border:1px solid #d6dee0;
+    border-radius: 4px;
+    transition: background-color .2s ease-out,border .2s ease-out;
+
+    .y-code-view-v2-toolbar{
+      display: flex;
+      flex-direction: row-reverse;
+      border-bottom:1px dashed #d6dee0;
+      padding:8px 0;
+      transition: background-color .2s ease-out,border .2s ease-out;
+    }
+  }
+
+  &-toolbar{
+    .cv-tooltip-wrapper{
+      margin: 0 8px;
+      color:rgba(0,0,0,0.64);
+      transition: all 350ms ease;
+      cursor: pointer;
+
+      &.disabled{
+        pointer-events: none;
+        color:rgba(0,0,0,0.24);
+      }
+    }
+  }
+}

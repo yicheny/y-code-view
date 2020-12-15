@@ -65,7 +65,7 @@ function CodeView(props) {
     useEffect(() => {
         const timeId = setTimeout(() => {
             if(!autoExe) return null;
-            executeCode(code)
+            executeCode(code);
         }, delay);
 
         return () => clearTimeout(timeId);
