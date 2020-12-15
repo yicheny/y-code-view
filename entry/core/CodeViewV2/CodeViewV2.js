@@ -5,7 +5,6 @@ import { Markdown } from "y-markdown";
 import CodeEditor from "../CodeEditor";
 import ErrorBoundary from "../ErrorBoundary";
 import supportModule from "../../utils/supportModule";
-import './CodeViewV2.scss';
 import Toolbar from "./Toolbar";
 const vm = require('vm');
 

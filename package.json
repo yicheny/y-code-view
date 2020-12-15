@@ -1,6 +1,6 @@
 {
   "name": "y-code-view",
-  "version": "0.0.25",
+  "version": "0.1.00",
   "description": "react code show",
   "main": "lib/index.js",
   "scripts": {

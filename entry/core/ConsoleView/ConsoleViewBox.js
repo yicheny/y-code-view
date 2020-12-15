@@ -2,7 +2,6 @@ import React, { useMemo } from 'react';
 import clsx from "clsx";
 import Icon from "../../component/Icon";
 import _ from "lodash";
-import './ConsoleViewBox.scss';
 import createColInfo from "./createColInfo";
 
 export default function ConsoleViewBox({ data }) {

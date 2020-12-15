@@ -8,7 +8,7 @@ import './index.scss';
 import {CodeViewV2,CodeView,ConsoleView} from "../entry";
 
 const App = ()=>{
-    return <CardBox current='运行多份代码'>
+    return <CardBox current='引入外部依赖'>
         <Card title='ConsoleView测试-二期'>
             <ConsoleView source={require('./doc/ConsoleView测试-二期.md')} dependencies={{toDate}}/>
         </Card>
