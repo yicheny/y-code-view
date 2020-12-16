@@ -6,6 +6,7 @@ import CodeEditor from "../CodeEditor";
 import ErrorBoundary from "../ErrorBoundary";
 import supportModule from "../../utils/supportModule";
 import Toolbar from "./Toolbar";
+import { useForceUpdate, useSource } from "../../utils/hooks";
 const vm = require('vm');
 
 function CodeViewV2(props) {
@@ -95,17 +96,4 @@ function createRunTime(code,options){
     runTimeStr = `__module.exports = undefined;\n\r`.concat(runTimeStr);
     runTimeStr = `(function (__module,__dependencies){\n${runTimeStr}\n});`
     return vm.runInThisContext(runTimeStr);
-}
-
-//hook
-function useSource(props){
-    return useMemo(() =>{
-        const res = props.source || props.children;
-        return _.get(res, 'default',res);
-    }, [props.source, props.children]);
-}
-
-function useForceUpdate(){
-    const [,forceUpdate] = useReducer(x=>x+1,0);
-    return forceUpdate;
 }
