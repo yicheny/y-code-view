@@ -1,5 +1,4 @@
 import React,{PureComponent,Fragment} from 'react';
-import './ErrorBoundary.scss';
 
 class ErrorBoundary extends PureComponent {
     constructor(props) {
