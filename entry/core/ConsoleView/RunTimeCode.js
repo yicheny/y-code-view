@@ -1,4 +1,4 @@
-import _ from "lodash";
+import supportModule from "../../utils/supportModule";
 const vm = require('vm');
 
 export default class RunTimeCode{
@@ -16,17 +16,14 @@ export default class RunTimeCode{
     }
 
     _init(){
+        this._supportModule();
         this._addPrintStr();
-        this._addDependencies();
         this._replacePrintFun();
         this._wrapperFunStr();
     }
 
-    _addDependencies(){
-        const dependencies = _.reduce(_.keys(this._dependencies),(acc,x)=>{
-            return acc.concat(`var ${x} = dependencies.${x};\n`);//注意这一行的写法
-        },'');
-        this._runTimeCode += dependencies;
+    _supportModule(){
+        this._code = supportModule(this._code);
     }
 
     _replacePrintFun(){
@@ -38,9 +35,9 @@ export default class RunTimeCode{
         const printStr = `
             let __count = 0;
             function __print(...params){
-                GlobData[__count] = params;
+                __module[__count] = params;
                 __count++;
-                if(openConsole) console.log(...params);
+                if(__openConsole) console.log(...params);
             }
             \n
         `
@@ -48,7 +45,7 @@ export default class RunTimeCode{
     }
 
     _wrapperFunStr(){
-        this._runTimeCode = `(function (GlobData,dependencies,openConsole){\n${this._runTimeCode}\n});`
+        this._runTimeCode = `(function ({__module,__dependencies,__openConsole}){\n${this._runTimeCode}\n});`
     }
 
     get runtime(){
