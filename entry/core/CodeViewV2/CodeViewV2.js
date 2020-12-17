@@ -6,7 +6,7 @@ import CodeEditor from "../CodeEditor";
 import ErrorBoundary from "../ErrorBoundary";
 import supportModule from "../../utils/supportModule";
 import Toolbar from "./Toolbar";
-import { useForceUpdate, useSource } from "../../utils/hooks";
+import {useSource } from "../../utils/hooks";
 const vm = require('vm');
 
 function CodeViewV2(props) {
@@ -41,17 +41,16 @@ function CodeBox(props){
     const {babelTransformOptions,dependencies,delay} = props;
     const [code,setCode] = useState(props.code);
     const [expanded,setExpanded] = useState(props.expanded);
-    const forceUpdate = useForceUpdate();
-    const moduleRef = useRef({exports: null});
+    const [module,setModule] = useState({exports:null});
     const [error,setError] = useState(null);
     const [editorKey, setEditorKey] = useState(0);
     const [autoExe,setAutoExe] = useState(props.autoExe);
 
     const execute = useCallback((code)=>{
         try {
-            createRunTime(code,babelTransformOptions)(moduleRef.current,_.assign({React},dependencies));
+            createRunTime(code,babelTransformOptions)(module,_.assign({React},dependencies));
             setError(null);
-            forceUpdate();
+            setModule(_.clone(module));
         }catch ( e ){
             setError(e);
         }
@@ -67,7 +66,7 @@ function CodeBox(props){
 
     const hotKeyExe = useCallback((c)=>(!autoExe && execute(c)),[autoExe,execute]);
 
-    const Component = moduleRef.current.exports;
+    const Component = module.exports;
     return <div className='y-code-view-v2-box'>
         <ErrorBoundary error={error} setError={setError}>
             {Component && <Component/>}
