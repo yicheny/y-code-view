@@ -8,7 +8,7 @@ import './index.scss';
 import {CodeViewV2,CodeView,ConsoleView} from "../entry";
 
 const App = ()=>{
-    return <CardBox current='all'>
+    return <CardBox current='CodeView测试-Modal弹出框'>
         <Card title='ConsoleView测试-二期'>
             <ConsoleView source={require('./doc/ConsoleView测试-二期.md')} dependencies={{toDate}}/>
         </Card>
@@ -25,7 +25,7 @@ const App = ()=>{
         <Card title='CodeView测试-原生代码演示'>
             <CodeView theme='neo' showCode={false} dependencies={{useState}}>{require('./doc/CodeView-原生测试.md')}</CodeView>
         </Card>
-        <Card title='CodeView测试-Modal-弹出框'>
+        <Card title='CodeView测试-Modal弹出框'>
             <CodeView showCode source={require('./doc/CodeView-引入依赖.md').default} dependencies={{Button,Modal,useState}}/>
         </Card>
         <Card title='错误捕捉踩坑记录-弹出框'>

@@ -13,9 +13,7 @@ function ModalView(props) {
     </div>);
 }
 
-const instance = <ModalView/>;
-
-ReactDOM.render(instance);
+ReactDOM.render(<ModalView/>);
  ```
  
  <!--end-code-->
