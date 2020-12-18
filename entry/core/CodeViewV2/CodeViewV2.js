@@ -6,7 +6,7 @@ import CodeEditor from "../CodeEditor";
 import ErrorBoundary from "../ErrorBoundary";
 import supportModule from "../../utils/supportModule";
 import Toolbar from "./Toolbar";
-import {useSource } from "../../utils/hooks";
+import { useSource } from "../../utils/hooks";
 const vm = require('vm');
 
 function CodeViewV2(props) {
@@ -56,13 +56,7 @@ function CodeBox(props){
         }
     },[babelTransformOptions,dependencies]);
 
-    useEffect(()=>{
-        const timeId = setTimeout(()=>{
-            autoExe && execute(code);
-            clearTimeout(timeId);
-        },delay);
-        return ()=>clearTimeout(timeId);
-    },[delay,execute,autoExe,code]);
+    useDelayExecute({delay,execute,autoExe,code});
 
     const hotKeyExe = useCallback((c)=>(!autoExe && execute(c)),[autoExe,execute]);
 
@@ -95,4 +89,15 @@ function createRunTime(code,options){
     runTimeStr = `__module.exports = undefined;\n\r`.concat(runTimeStr);
     runTimeStr = `(function (__module,__dependencies){\n${runTimeStr}\n});`
     return vm.runInThisContext(runTimeStr);
+}
+
+//hook
+function useDelayExecute({delay,execute,autoExe,code}){
+    useEffect(()=>{
+        const timeId = setTimeout(()=>{
+            autoExe && execute(code);
+            clearTimeout(timeId);
+        },delay);
+        return ()=>clearTimeout(timeId);
+    },[delay,execute,autoExe,code]);
 }
