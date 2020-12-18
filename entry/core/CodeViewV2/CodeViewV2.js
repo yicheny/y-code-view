@@ -1,10 +1,10 @@
 import React, { Fragment, useCallback, useEffect, useMemo, useReducer, useRef, useState } from 'react';
 import _ from "lodash";
 import { Markdown } from "y-markdown";
-import CodeEditor from "../CodeEditor";
-import ErrorBoundary from "../ErrorBoundary";
+import CodeEditor from "../../component/CodeEditor";
+import ErrorBoundary from "../../component/ErrorBoundary";
 import supportModule from "../../utils/supportModule";
-import Toolbar from "./Toolbar";
+import Toolbar from "../../component/Toolbar";
 import { useSource } from "../../utils/hooks";
 import parseDoc from "../../utils/parseDoc";
 const vm = require('vm');

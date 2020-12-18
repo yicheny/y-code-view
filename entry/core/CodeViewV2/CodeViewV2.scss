@@ -11,7 +11,7 @@
     border-radius: 4px;
     transition: background-color .2s ease-out,border .2s ease-out;
 
-    .y-code-view-v2-toolbar{
+    .y-code-view-toolbar{
       display: flex;
       flex-direction: row-reverse;
       border-bottom:1px dashed #d6dee0;
@@ -20,7 +20,7 @@
     }
   }
 
-  &-toolbar{
+  .y-code-view-toolbar{
     .cv-tooltip-wrapper{
       margin: 0 8px;
       color:rgba(0,0,0,0.64);

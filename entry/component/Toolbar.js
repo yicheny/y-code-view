@@ -1,20 +1,15 @@
 import React, { useCallback } from 'react';
-import Tooltip from "../../component/Tooltip";
-import Icon from "../../component/Icon";
-import Switch from "../../component/Switch";
+import Tooltip from "./Tooltip";
+import Icon from "./Icon";
+import Switch from "./Switch";
 import copy from "copy-to-clipboard";
-import message from "../../component/Message";
+import message from "./Message";
 
 function Toolbar({autoExe,setAutoExe,expanded,setExpanded,sourceCode,setCode,code,setEditorKey,execute}) {
     const handleCopy = useCopyCode(code);
+    const handleResetCode = useResetCode({sourceCode,setCode,setEditorKey})
 
-    const handleResetCode = useCallback(()=>{
-        setCode(x=>(x===sourceCode ? x.concat(' ') : sourceCode))
-        setEditorKey(x=>++x);
-        message.show({ info: `已将代码重置回初始状态`, icon: 'success' })
-    },[sourceCode,setCode,setEditorKey]);
-
-    return <div className="y-code-view-v2-toolbar">
+    return <div className="y-code-view-toolbar">
         <Tooltip onClick={()=>setExpanded(x=>!x)} title={ expanded ? '收起代码' : '显示代码' }>
             <Icon name='crossUnfold'/>
         </Tooltip>
@@ -50,4 +45,12 @@ function useCopyCode(code){
             console.error('useCopyCode执行失败', e);
         }
     },[code])
+}
+
+function useResetCode({sourceCode,setCode,setEditorKey}){
+    return useCallback(()=>{
+        setCode(x=>(x===sourceCode ? x.concat(' ') : sourceCode))
+        setEditorKey(x=>++x);
+        message.show({ info: `已将代码重置回初始状态`, icon: 'success' })
+    },[sourceCode,setCode,setEditorKey]);
 }

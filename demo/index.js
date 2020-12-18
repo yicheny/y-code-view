@@ -22,10 +22,10 @@ const App = ()=>{
             <ConsoleView dependencies={{'rootnet-core/dateFormat':{toDate}}} source={require('./doc/ConsoleView-引入外部依赖.md')}/>
         </Card>
 
-        <Card title='原生代码演示'>
+        <Card title='CodeView测试-原生代码演示'>
             <CodeView theme='neo' showCode={false} dependencies={{useState}}>{require('./doc/CodeView-原生测试.md')}</CodeView>
         </Card>
-        <Card title='Modal-弹出框'>
+        <Card title='CodeView测试-Modal-弹出框'>
             <CodeView showCode source={require('./doc/CodeView-引入依赖.md').default} dependencies={{Button,Modal,useState}}/>
         </Card>
         <Card title='错误捕捉踩坑记录-弹出框'>
