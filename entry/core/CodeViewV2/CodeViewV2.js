@@ -1,11 +1,11 @@
-import React, { Fragment, useCallback, useEffect, useMemo, useReducer, useRef, useState } from 'react';
+import React, { Fragment, useCallback, useMemo, useState } from 'react';
 import _ from "lodash";
 import { Markdown } from "y-markdown";
 import CodeEditor from "../../component/CodeEditor";
 import ErrorBoundary from "../../component/ErrorBoundary";
 import supportModule from "../../utils/supportModule";
 import Toolbar from "../../component/Toolbar";
-import { useSource } from "../../utils/hooks";
+import { useDelayExecute, useSource } from "../../utils/hooks";
 import parseDoc from "../../utils/parseDoc";
 const vm = require('vm');
 
@@ -92,12 +92,4 @@ function createRunTime(code,options){
 }
 
 //hook
-function useDelayExecute({delay,execute,autoExe,code}){
-    useEffect(()=>{
-        const timeId = setTimeout(()=>{
-            autoExe && execute(code);
-            clearTimeout(timeId);
-        },delay);
-        return ()=>clearTimeout(timeId);
-    },[delay,execute,autoExe,code]);
-}
+

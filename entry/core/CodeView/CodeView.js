@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useReducer, useRef, useState } from 'react';
+import { useCallback, useMemo, useReducer, useRef, useState } from 'react';
 import clsx from "clsx";
 import 'codemirror/mode/javascript/javascript';
 import 'codemirror/mode/jsx/jsx';
@@ -9,16 +9,14 @@ import parseHTML from "./parseHTML";
 import ErrorBoundary from "../../component/ErrorBoundary";
 import 'y-markdown/lib/index.css';
 import Toolbar from "../../component/Toolbar";
+import { useDelayExecute, useSource } from "../../utils/hooks";
 
 const React = require('react');
 const ReactDOM = require('react-dom');
 
 function CodeView(props) {
     const { className, theme, delay, babelTransformOptions,dependencies } = props;
-    const source = useMemo(() => {
-        const res = props.source || props.children;
-        return _.get(res, 'default', res);
-    }, [props.source, props.children]);
+    const source = useSource(props);
     const [code, setCode] = useState(parseHTML(source).code);
     const [showCode, setShowCode] = useState(props.showCode);
     const [error, setError] = useState(error);
@@ -106,14 +104,3 @@ CodeView.defaultProps = {
 };
 
 export default CodeView;
-
-//hook
-function useDelayExecute({delay,execute,autoExe,code}){
-    useEffect(()=>{
-        const timeId = setTimeout(()=>{
-            autoExe && execute(code);
-            clearTimeout(timeId);
-        },delay);
-        return ()=>clearTimeout(timeId);
-    },[delay,execute,autoExe,code]);
-}
