@@ -1,3 +1,4 @@
+运行代码1：
 
 <!--RunCode-->
 
@@ -36,3 +37,13 @@ console.log([
 ```
 
 <!--/RunCode-->
+
+运行代码2：
+
+<!--start-code-->
+
+```js
+console.log(111222333);
+```
+
+<!--end-code-->

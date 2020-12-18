@@ -29,7 +29,7 @@ export default Demo;
 console.log(2);
 ```
 
-<!--start-code-->
+<!--RunCode-->
 
 ```jsx
 import React,{useState} from 'React';
@@ -44,6 +44,6 @@ function Demo(){
 export default Demo;
 ```
 
-<!--end-code-->
+<!--/RunCode-->
 
 详细介绍：这里是详细介绍...

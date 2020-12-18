@@ -2,10 +2,9 @@ import supportModule from "../../utils/supportModule";
 const vm = require('vm');
 
 export default class RunTimeCode{
-    constructor(code,dependencies) {
+    constructor(code) {
         this._runTimeCode = '';
         this._code = code;
-        this._dependencies = dependencies;
 
         this._init();
         return this;

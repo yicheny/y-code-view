@@ -1,5 +1,4 @@
 import React, { Fragment, useCallback, useEffect, useMemo, useReducer, useRef, useState } from 'react';
-import parseDoc from "./parseDoc";
 import _ from "lodash";
 import { Markdown } from "y-markdown";
 import CodeEditor from "../CodeEditor";
@@ -7,6 +6,7 @@ import ErrorBoundary from "../ErrorBoundary";
 import supportModule from "../../utils/supportModule";
 import Toolbar from "./Toolbar";
 import { useSource } from "../../utils/hooks";
+import parseDoc from "../../utils/parseDoc";
 const vm = require('vm');
 
 function CodeViewV2(props) {

@@ -1,4 +1,4 @@
-import {getUniqkey} from "../../utils/utils";
+import {getUniqkey} from "./utils";
 
 export default function parseDoc(doc){
     const reg = DocReg.create(doc);
@@ -8,6 +8,12 @@ export default function parseDoc(doc){
 class DocReg{
     constructor(doc) {
         this._doc = doc;
+
+        this.replaceRunCodeFlag();
+    }
+
+    replaceRunCodeFlag(){
+        this._doc = _.replace(this._doc,/<!--RunCode-->/gi,'<!--start-code-->').replace(/<!--\/RunCode-->/gi,'<!--end-code-->')
     }
 
     static create(...params){
