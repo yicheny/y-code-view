@@ -34,6 +34,17 @@ function CodeViewV2(props) {
     </div>);
 }
 
+CodeViewV2.staticData = { };
+CodeViewV2.method = {
+    setStaticData(data){
+        if(!_.isPlainObject(data)) throw new Error("CodeViewV2.method.setStaticData要求参数必须是对象类型！")
+        CodeViewV2.staticData = data;
+    },
+    getStaticData(){
+        return CodeViewV2.staticData
+    }
+}
+
 export default CodeViewV2;
 
 //组件
@@ -48,7 +59,8 @@ function CodeBox(props){
 
     const execute = useCallback((code)=>{
         try {
-            createRunTime(code,babelTransformOptions)(module,_.assign({React},dependencies));
+            const dep = _.assign(CodeViewV2.method.getStaticData(),dependencies)
+            createRunTime(code,babelTransformOptions)(module,_.assign({react:React},dep));
             setError(null);
             setModule(_.clone(module));
         }catch ( e ){

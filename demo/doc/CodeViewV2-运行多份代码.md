@@ -8,7 +8,7 @@ console.log(1);
 <!--start-code-->
 
 ```jsx
-import React,{useState} from 'React';
+import React,{useState} from 'react';
 
 function Demo(){
     const [num,setNum] = useState(0); 
@@ -32,7 +32,7 @@ console.log(2);
 <!--RunCode-->
 
 ```jsx
-import React,{useState} from 'React';
+import React,{useState} from 'react';
 
 function Demo(){
     const [num,setNum] = useState(100); 

@@ -2,7 +2,7 @@
 <!--start-code-->
 
 ```jsx
-import React,{useState,useEffect} from 'React';
+import React,{useState,useEffect} from 'react';
 
 // console.log('exports',__module.exports);
 // console.log('useEffect',useEffect);
