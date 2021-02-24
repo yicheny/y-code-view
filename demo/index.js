@@ -36,6 +36,9 @@ const App = ()=>{
                 <CodeView source={require('../doc/错误捕捉踩坑记录.md')}/>
             </Card>
 
+            <Card title='CodeViewV2测试-单项整体引入'>
+                <CodeViewV2 expanded={true} delay={600}>{require('./doc/CodeViewV2-单项整体引入.md')}</CodeViewV2>
+            </Card>
             <Card title='CodeViewV2测试-运行多份代码'>
                 <CodeViewV2>{require('./doc/CodeViewV2-运行多份代码.md')}</CodeViewV2>
             </Card>
@@ -43,10 +46,7 @@ const App = ()=>{
                 <CodeViewV2>{require('./doc/CodeViewV2-支持模块导入导出.md')}</CodeViewV2>
             </Card>
             <Card title='CodeViewV2测试-引入外部依赖'>
-                <CodeViewV2
-                    // dependencies={{ 'y-ui0':{Card,Button,Modal}}}
-                    expanded={true}
-                    delay={600}>{require('./doc/CodeViewV2-引入外部依赖.md')}</CodeViewV2>
+                <CodeViewV2 expanded={true} delay={600}>{require('./doc/CodeViewV2-引入外部依赖.md')}</CodeViewV2>
             </Card>
         </CardBox>
     </Fragment>
