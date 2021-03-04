@@ -13,7 +13,7 @@ CodeViewV2.method.setStaticData({
 
 const App = ()=>{
     return <Fragment>
-        <CardBox current='ConsoleView-logError'>
+        <CardBox current='CodeViewV2'>
             <Card title='ConsoleView测试-二期'>
                 <ConsoleView source={require('./doc/ConsoleView测试-二期.md')} dependencies={{toDate}}/>
             </Card>

@@ -75,7 +75,7 @@ function CodeBox(props){
     const Component = module.exports;
     return <div className='y-code-view-v2-box'>
         <ErrorBoundary error={error} setError={setError}>
-            {Component && <Component/>}
+            {Component ? <Component/> :  "加载中……" }
         </ErrorBoundary>
         <Toolbar setCode={setCode} code={code} execute={execute}
                  autoExe={autoExe} setAutoExe={setAutoExe}
