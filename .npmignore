@@ -4,3 +4,5 @@
 /entry
 /node_modules
 /package-lock.json
+/版本更新日志
+/.babelrc

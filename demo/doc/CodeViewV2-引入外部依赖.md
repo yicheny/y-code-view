@@ -2,7 +2,7 @@
 
 ```jsx
 //import React from 'React;
-import React,{useState} from 'React';
+import React,{useState} from 'react';
 import {Modal,Button} from 'y-ui0';
 
 // console.log('__dependencies',__dependencies['y-ui0']);

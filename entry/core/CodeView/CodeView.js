@@ -14,6 +14,10 @@ import _ from "lodash";
 
 const vm = require('vm');
 
+/*
+* @deprecated
+* 请使用CodeViewV2，CodeView组件将逐渐放弃维护
+* */
 function CodeView(props) {
     const { className, theme, delay, babelTransformOptions,dependencies } = props;
     const source = useSource(props);

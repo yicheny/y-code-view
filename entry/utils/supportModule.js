@@ -3,7 +3,10 @@ export function replaceImport(txt){
         const reg = new RegExp(/import\s+([\w$]+)?([\s{}\[\]\w,$]+)from\s+['"]([\w,$/-]+)['"]\s*;/gi);
         const r = reg.exec(value);
         if(!r) return null;
-        if(r[1] === undefined) return `var ${r[2]} = __dependencies['${r[3]}'];\n\r`
+
+        const secondKey = r[2].trim();
+        if(secondKey === undefined || secondKey === null || secondKey === '') return `var ${ r[ 1 ] } = __dependencies['${ r[ 3 ] }'];`
+        if(r[1] === undefined)  return `var ${r[2]} = __dependencies['${r[3]}'];\n\r`;
         return `var ${ r[ 1 ] } = __dependencies['${ r[ 3 ] }'];var ${ _.trim(r[ 2 ]).slice(1,Infinity) } = __dependencies['${ r[ 3 ] }'];\r\n`;//注意：这里不可换行，否则会导致注释解析异常
     });
 }
