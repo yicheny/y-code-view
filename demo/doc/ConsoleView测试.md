@@ -31,7 +31,7 @@ console.log(1,2,3,4);
 console.log(1,'abc',true,[1,2]);
 
 //错误显示测试
-// console.log('aaa',a);
+console.log('aaa',a);
 
 //变量测试
 console.log(new Date());
